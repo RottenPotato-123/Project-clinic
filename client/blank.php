@@ -289,20 +289,88 @@ $conn->close();
                 </nav>
             </header>
 
-            <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            
-            <h1>Add Appointment</h1>
-  <form action="add_appointment.php" method="post">
-    <label for="appointment_date">Appointment Date:</label>
-    <input type="date" id="appointment_date" name="appointment_date"><br><br>
-    <input type="submit" name="add_appointment" value="Add Appointment">
-  </form>
-            </div>
+            <div class="bg-white md:py-8 px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
+    <p class="text-4xl font-bold text-gray-800 mb-8" id="month-year"></p>
+    <div class="inline-flex flex-col space-y-1 items-start justify-start h-full w-full">
+        <!-- days of the week -->
+        <div class="inline-flex space-x-28 items-start justify-start pr-24 h-full w-full">
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">M</p>
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">T</p>
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">W</p>
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">T</p>
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">F</p>
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">S</p>
+            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">S</p>
         </div>
+        <!-- calendar days -->
+        <div class="flex flex-wrap items-start justify-start" id="calendar-days">
+            <!-- generate calendar days here -->
+        </div>
+    </div>
+</div>
 
-       
+<!-- add a modal window for the appointment form -->
+<div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden" id="modal-overlay">
+  <div class="bg-white w-1/2 h-1/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">New Appointment</h2>
+    <form>
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title"><br><br>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description"></textarea><br><br>
+      <label for="service">Service:</label>
+      <select id="service" name="service">
+        <option value="Counselling">Counselling</option>
+        <option value="Family Planning">Family Planning</option>
+        <option value="Ear Piercing">Ear Piercing</option>
+        <option value="Immunization">Immunization</option>
+        <option value="Acid Wash">Acid Wash</option>
+      </select><br><br>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+    </form>
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
+  </div>
+</div>       
     <?php } ?>
 </body>
+<script>
+const currentDate = new Date();
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+document.getElementById("month-year").textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+// generate calendar days
+const calendarDays = [];
+for (let i = 1; i <= 31; i++) {
+    const day = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+    if (day.getMonth() === currentDate.getMonth()) {
+        calendarDays.push(day.getDate());
+    }
+}
+
+// update calendar days in HTML
+const calendarContainer = document.getElementById("calendar-days");
+calendarDays.forEach((day) => {
+    const dayElement = document.createElement("div");
+    dayElement.className = "w-40 h-20 pl-2 pr-32 pt-2.5 pb-24 border border-gray-200";
+    if (day === currentDate.getDate()) {
+        dayElement.className += " bg-red-100"; // add a highlighted class for the current date
+    }
+    dayElement.innerHTML = `<p class="text-sm font-medium text-gray-800">${day}</p>`;
+    dayElement.addEventListener("click", () => {
+        // show the modal window when a day is clicked
+        const modalOverlay = document.getElementById("modal-overlay");
+        modalOverlay.classList.remove("hidden");
+    });
+    calendarContainer.appendChild(dayElement);
+});
+
+// add an event listener to close the modal window
+document.getElementById("close-modal").addEventListener("click", () => {
+    const modalOverlay = document.getElementById("modal-overlay");
+    modalOverlay.classList.add("hidden");
+});
+</script>
  <!-- AlpineJS -->
  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
         <!-- Font Awesome -->
