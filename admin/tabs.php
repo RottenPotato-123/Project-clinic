@@ -56,7 +56,7 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
                     <i class="fas fa-calendar mr-3"></i> Calendar
                 </a>
             </nav>
-       a>
+    
     </aside>
 
     <div class="relative w-full flex flex-col h-screen overflow-y-hidden">
