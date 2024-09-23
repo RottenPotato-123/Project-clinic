@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Determine user type and redirect accordingly
                         if (strcasecmp($UserType, 'Admin') === 0) {
                             // Redirect to admin panel
-                            header("Location: client/blank.php");
+                            header("Location: admin/blank.php");
                             exit();
                         } elseif (strcasecmp($UserType, 'Client') === 0) {
                             // Redirect to client panel
