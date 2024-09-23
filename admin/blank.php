@@ -3,6 +3,12 @@ session_start();
 
 // Determine the user type
 $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
+if ($user_type !== 'Admin') {
+    // Redirect to an unauthorized access page or display an error message
+    header('Location: unauthorized_access.php');
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

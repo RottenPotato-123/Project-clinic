@@ -6,9 +6,12 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 
 // Function to check if user is client
 
-function isAdmin($user_type) {
-    return $user_type === 'Admin';
+if ($user_type !== 'Client') {
+    // Redirect to an unauthorized access page or display an error message
+    header('Location: unauthorized_access.php');
+    exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +35,7 @@ function isAdmin($user_type) {
     </style>
 </head>
 <body class="bg-gray-100 font-family-karla flex">
-    <?php if (isAdmin($user_type)) { ?>
+    
         <!-- Admin Sidebar -->
         <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
             <div class="p-6">
