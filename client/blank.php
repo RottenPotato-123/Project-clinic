@@ -136,8 +136,17 @@ if ($user_type !== 'Client') {
   <div class="bg-white w-1/2 h-1/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     <h2 class="text-2xl font-bold text-gray-800 mb-4">New Appointment</h2>
     <form>
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title"><br><br>
+      <label for="title">First Name:</label>
+      <input type="text" id="FirstName" name="FirstName"><br><br>
+      <label for="title">Middle Name :</label>
+      <input type="text" id="MiddleName" name="MiddleName"><br><br>
+      <label for="title">Last Name :</label>
+      <input type="text" id="LastName" name="LastName"><br><br>
+      <label for="title">Age :</label>
+      <input type="text" id="Age" name="Age"><br><br>
+      <label for="title">Address :</label>
+      <input type="text" id="Address" name="Address"><br><br>
+      
       <label for="description">Description:</label>
       <textarea id="description" name="description"></textarea><br><br>
       <label for="service">Service:</label>
