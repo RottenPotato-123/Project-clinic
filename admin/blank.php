@@ -170,38 +170,103 @@ $_SESSION['appointments'] = $appointments;
 $conn->close();
 ?>
 
-<div class="overflow-x-auto">
-    <table class="table-auto w-full">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="px-4 py-2">ID</th>
-                <th class="px-4 py-2">Client Name</th>
-                <th class="px-4 py-2">Appointment Date</th>
-                <th class="px-4 py-2">Queue Number</th>
-                <th class="px-4 py-2">Status</th>
-                <th class="px-4 py-2">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-    <?php
-    // Display the appointments from the session
-    foreach ($_SESSION['appointments'] as $appointment) {
-        echo "<tr>";
-        echo "<td>" . $appointment['id'] . "</td>";
-        echo "<td>" . $appointment['client_name'] . "</td>";
-        echo "<td>" . $appointment['appointment_date'] . "</td>";
-        echo "<td>" . $appointment['queue_number'] . "</td>";
-        echo "<td>" . $appointment['status'] . "</td>";
-        echo "<td>";
-        if ($appointment['status'] == 'pending') {
-                    echo "<a href='mark_as_done.php?id=" . $appointment['id'] . "' class='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>Mark as Done</a>";
-        } else {
-            echo "Already marked as done";
-        }
-        echo "</td>";
-        echo "</tr>";
-    }
-    ?>
+
+
+<div class="w-full flex justify-between items-center mb-3 mt-1 pl-3">
+    <div>
+        <h3 class="text-lg font-bold text-slate-800">Manage your Appointments</h3>
+        <p class="text-slate-500">Overview of the appointments.</p>
+    </div>
+    <div class="ml-3">
+      <div class="w-full max-w-sm min-w-[200px] relative">
+        <div class="relative">
+          <input
+            class="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
+            placeholder="Search for appointment..."
+            />
+            <button
+              class="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
+              type="button"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-8 h-8 text-slate-600">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+    <table class="w-full text-left table-auto min-w-max">
+      <thead>
+        <tr>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Appointment ID
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Client Name
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Appointment Date
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Queue Number
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+            <p class="block text-sm font-normal leading-none text-slate-500">
+              Status
+            </p>
+          </th>
+          <th class="p-4 border-b border-slate-300 bg-slate-50">
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
+        <tr class="hover:bg-slate-50 border-b border-slate-200">
+          <td class="p-4 py-5">
+            <p class="block font-semibold text-sm text-slate-800"><?= $appointment['id'] ?></p>
+          </td>
+          <td class="p-4 py-5">
+            <p class="block text-sm text-slate-800"><?= $appointment['client_name'] ?></p>
+          </td>
+          <td class="p-4 py-5">
+            <p class="block text-sm text-slate-800"><?= $appointment['appointment_date'] ?></p>
+          </td>
+          <td class="p-4 py-5">
+            <p class="block text-sm text-slate-800"><?= $appointment['queue_number'] ?></p>
+          </td>
+          <td class="p-4 py-5">
+            <p class="block text-sm text-slate-800"><?= $appointment['status'] ?></p>
+          </td>
+          <td class="p-4 py-5">
+            <?php if ($appointment['status'] == 'pending') { ?>
+              <a href='mark_as_done.php?id=<?= $appointment['id'] ?>' class='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>
+                Mark as Done
+              </a>
+            <?php } else { ?>
+              <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>
+                Mark as Done
+              </button>
+            <?php } ?>
+            <a href='delete_appointment.php?id=<?= $appointment['id'] ?>' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>
+              Delete
+            </a>
+          </td>
+        </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+  </div>
             </main>
     
            

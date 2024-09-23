@@ -58,9 +58,7 @@ if ($user_type !== 'Client') {
                     <i class="fas fa-calendar mr-3"></i> Calendar
                 </a>
             </nav>
-            <a href="#" class="absolute w-full upgrade-btn bottom-0 active-nav-link text-white flex items-center justify-center py-4">
-                <i class="fas fa-arrow-circle-up mr-3"></i> Upgrade to Pro!
-            </a>
+           
         </aside>
 
         <div class="relative w-full flex flex-col h-screen overflow-y-hidden">
