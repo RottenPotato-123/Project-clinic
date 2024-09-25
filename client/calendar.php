@@ -48,7 +48,7 @@ if ($user_type !== 'Client') {
                     <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                 </a>
                 <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i> Blank Page
+                    <i class="fas fa-sticky-note mr-3"></i>Appointments
                 </a>
                
                
@@ -57,7 +57,7 @@ if ($user_type !== 'Client') {
                     <i class="fas fa-calendar mr-3"></i> Calendar
                 </a>
             </nav>
-           >
+           
         </aside>
 
         <div class="relative w-full flex flex-col h-screen overflow-y-hidden">
@@ -91,7 +91,7 @@ if ($user_type !== 'Client') {
                         <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                     </a>
                     <a href="blank.php" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-                        <i class="fas fa-sticky-note mr-3"></i> Blank Page
+                        <i class="fas fa-sticky-note mr-3"></i> Appointments
                     </a>
                    
                     <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">

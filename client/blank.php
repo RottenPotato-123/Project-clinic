@@ -131,37 +131,52 @@ if ($user_type !== 'Client') {
     </div>
 </div>
 
-<!-- add a modal window for the appointment form -->
-<div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden" id="modal-overlay">
-  <div class="bg-white w-1/2 h-1/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">New Appointment</h2>
+<div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay">
+  <!-- Modal Content -->
+  <div class="bg-white rounded shadow-md w-1/2 h-1/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Header -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
+    <!-- Form -->
     <form>
-      <label for="title">First Name:</label>
-      <input type="text" id="FirstName" name="FirstName"><br><br>
-      <label for="title">Middle Name :</label>
-      <input type="text" id="MiddleName" name="MiddleName"><br><br>
-      <label for="title">Last Name :</label>
-      <input type="text" id="LastName" name="LastName"><br><br>
-      <label for="title">Age :</label>
-      <input type="text" id="Age" name="Age"><br><br>
-      <label for="title">Address :</label>
-      <input type="text" id="Address" name="Address"><br><br>
-      
-      <label for="description">Description:</label>
-      <textarea id="description" name="description"></textarea><br><br>
-      <label for="service">Service:</label>
-      <select id="service" name="service">
-        <option value="Counselling">Counselling</option>
-        <option value="Family Planning">Family Planning</option>
-        <option value="Ear Piercing">Ear Piercing</option>
-        <option value="Immunization">Immunization</option>
-        <option value="Acid Wash">Acid Wash</option>
-      </select><br><br>
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+      <!-- Input Fields -->
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">First Name:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
+        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Age:</label>
+        <input type="text" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Address:</label>
+        <input type="text" id="Address" name="Address" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <!-- Select Field -->
+      <div class="mb-4">
+        <label for="service" class="block mb-2 text-gray-700">Service:</label>
+        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+          <option value="Counselling">Counselling</option>
+          <option value="Family Planning">Family Planning</option>
+          <option value="Ear Piercing">Ear Piercing</option>
+          <option value="Immunization">Immunization</option>
+          <option value="Acid Wash">Acid Wash</option>
+        </select>
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
     </form>
+    <!-- Close Button -->
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
   </div>
-</div>       
+</div>   
 
 </body>
 <script>

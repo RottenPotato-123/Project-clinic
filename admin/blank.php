@@ -38,7 +38,7 @@ if ($user_type !== 'Admin') {
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
             <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-            <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+            <button class="w-full bg-white cta-tn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-plus mr-3"></i> New Report
             </button>
         </div>
@@ -47,7 +47,7 @@ if ($user_type !== 'Admin') {
                     <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                 </a>
                 <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i> Blank Page
+                    <i class="fas fa-sticky-note mr-3"></i> Appointments
                 </a>
                 <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-table mr-3"></i> Tables
@@ -98,7 +98,7 @@ if ($user_type !== 'Admin') {
                         <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                     </a>
                     <a href="blank.php" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-                        <i class="fas fa-sticky-note mr-3"></i> Blank Page
+                        <i class="fas fa-sticky-note mr-3"></i> Appointments
                     </a>
                     <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-table mr-3"></i> Tables
@@ -129,9 +129,17 @@ if ($user_type !== 'Admin') {
         </header>
     
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+          
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Blank Page</h1>
+            <div class="text-right">
+            <div class="text-right">
+  <button class="w-lg bg-gray cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-end justify-end" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">
+  <i class="fas fa-plus mr-3"></i> New Report
+</button>
 
+</div>
+
+</div>
                 <?php
 
 
@@ -173,6 +181,7 @@ $conn->close();
 
 
 <div class="w-full flex justify-between items-center mb-3 mt-1 pl-3">
+  
     <div>
         <h3 class="text-lg font-bold text-slate-800">Manage your Appointments</h3>
         <p class="text-slate-500">Overview of the appointments.</p>
@@ -269,13 +278,59 @@ $conn->close();
   </div>
             </main>
     
-           
+            <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay">
+  <!-- Modal Content -->
+  <div class="bg-white rounded shadow-md w-1/2 h-1/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Header -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
+    <!-- Form -->
+    <form>
+      <!-- Input Fields -->
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">First Name:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
+        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Age:</label>
+        <input type="text" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Address:</label>
+        <input type="text" id="Address" name="Address" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <!-- Select Field -->
+      <div class="mb-4">
+        <label for="service" class="block mb-2 text-gray-700">Service:</label>
+        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+          <option value="Counselling">Counselling</option>
+          <option value="Family Planning">Family Planning</option>
+          <option value="Ear Piercing">Ear Piercing</option>
+          <option value="Immunization">Immunization</option>
+          <option value="Acid Wash">Acid Wash</option>
+        </select>
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
+    </form>
+    <!-- Close Button -->
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
+  </div>
         </div>
         
     </div>
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+   
+
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </body>
