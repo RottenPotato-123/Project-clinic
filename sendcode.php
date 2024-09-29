@@ -48,8 +48,7 @@ if ($mysqli instanceof mysqli) {
             $mail->Subject = "Password Reset";
             $mail->Body = <<<END
             
-            Click <a href="http://localhost/code/reset-password.php?token=$token">here</a> 
-            to reset your password.
+            z
             
             END;
             
