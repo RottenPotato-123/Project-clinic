@@ -52,7 +52,7 @@ if ($user_type !== 'Client') {
                     <i class="fas fa-sticky-note mr-3"></i> Blank Page
                 </a>
                
-               
+              
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-calendar mr-3"></i> Calendar
@@ -110,7 +110,7 @@ if ($user_type !== 'Client') {
                    
                 </nav>
             </header>
-
+<main>
             <div class="bg-white md:py-8 px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
     <p class="text-4xl font-bold text-gray-800 mb-8" id="month-year"></p>
     <div class="inline-flex flex-col space-y-1 items-start justify-start h-full w-full">
@@ -137,8 +137,10 @@ if ($user_type !== 'Client') {
     <!-- Header -->
     <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
     <!-- Form -->
-    <form>
+    <form action="add_appointment.php" method="post">
       <!-- Input Fields -->
+      <input type="hidden" id="appointment_date" name="appointment_date" />
+
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
         <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
@@ -171,13 +173,13 @@ if ($user_type !== 'Client') {
         </select>
       </div>
       <!-- Submit Button -->
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
+      <button type="submit" name="add_appointment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
     </form>
-    <!-- Close Button -->
+    <!-- Close Button -->s
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
   </div>
 </div>   
-
+</main>
 </body>
 <script>
 const currentDate = new Date();
@@ -204,7 +206,22 @@ calendarDays.forEach((day) => {
     }
     dayElement.innerHTML = `<p class="text-sm font-medium text-gray-800">${day}</p>`;
     dayElement.addEventListener("click", () => {
-        // show the modal window when a day is clicked
+        const selectedDate = `${monthNames[currentDate.getMonth()]} ${day}, ${currentDate.getFullYear()}`;
+        console.log('Selected date:', selectedDate);
+        document.getElementById("appointment_date").value = selectedDate;
+
+        // Send the selected date to your PHP script using AJAX or form submission
+        // Example using AJAX (using the Fetch API)
+        fetch('date.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'date=' + encodeURIComponent(selectedDate)
+        })
+        .then(response => response.text())
+        .then(data => console.log('Response from PHP script:', data));
+
         const modalOverlay = document.getElementById("modal-overlay");
         modalOverlay.classList.remove("hidden");
     });

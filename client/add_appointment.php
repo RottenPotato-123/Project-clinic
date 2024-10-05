@@ -18,12 +18,23 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 
 // Add appointment
 if (isset($_POST['add_appointment'])) {
-  $appointment_date = $_POST['appointment_date'];
+ 
+  $today = time();
+  $first_name = $_POST['FirstName'];
+  $middle_name = $_POST['MiddleName'];
+  $last_name = $_POST['LastName'];
+  $age = $_POST['Age'];
+  $address = $_POST['Address'];
+  $service = $_POST['service'];
+  $appointment_date = date("Y-m-d",strtotime($_POST['appointment_date']));
   $current_date = date('Y-m-d'); // Get the current date
-
+  $tommorow = date('Y-m-d', $today + 86400 ); // Get tom
+  
   // Check if the appointment date is today
-  if ($appointment_date !== $current_date) {
-    echo "Error: You can only add appointments for today.";
+  if ($appointment_date === $current_date || $appointment_date === $tommorow) {
+    
+  }else{
+    echo "Error: You can only add appointments for today and tommorow";
     exit;
   }
 
@@ -34,9 +45,9 @@ if (isset($_POST['add_appointment'])) {
   $queue_number = $row['max_queue_number'] + 1;
 
   // Insert appointment
-  $sql = "INSERT INTO appointments (client_id, appointment_date, queue_number) VALUES ('$client_id', '$appointment_date', '$queue_number')";
+  $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$address', '$service', '$appointment_date', '$queue_number', 'pending')";
   if ($conn->query($sql) === TRUE) {
-    echo "Appointment added successfully!";
+    echo "Appointment added successfully for today!";
   } else {
     echo "Error adding appointment: " . $conn->error;
   }
