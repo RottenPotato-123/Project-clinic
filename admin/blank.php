@@ -230,8 +230,10 @@ $conn->close();
     <!-- Header -->
     <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
     <!-- Form -->
-    <form>
+    <form action="add_appointment.php" method="post">
       <!-- Input Fields -->
+      <input type="hidden" id="appointment_date" name="appointment_date" />
+
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
         <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
@@ -262,10 +264,14 @@ $conn->close();
           <option value="Immunization">Immunization</option>
           <option value="Acid Wash">Acid Wash</option>
         </select>
-     
-        </div>
-        
-    </div>
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" name="add_appointment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"onclick="addAppointment()">Book Appointment</button>
+    </form>
+    <!-- Close Button -->
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
+  </div>
+</div>   
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -297,6 +303,7 @@ $conn->close();
             ` }
         },
       ]
+      
     });
 
    // Handle row deletion
@@ -336,7 +343,23 @@ $conn->close();
 });
 
   });
-  
+  document.getElementById("close-modal").addEventListener("click", () => {
+    const modalOverlay = document.getElementById("modal-overlay");
+    modalOverlay.classList.add("hidden");
+});
+function addAppointment() {
+        $.ajax({
+            type: 'POST',
+            url: 'add_appointment.php',
+            data: { add_appointment: 1 },
+            success: function(response) {
+                alert('Appointment added successfully!');
+            },
+            error: function(xhr, status, error) {
+                alert('Error adding appointment: ' + error);
+            }
+        });
+    }
 </script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>

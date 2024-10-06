@@ -175,7 +175,7 @@ if ($user_type !== 'Client') {
       <!-- Submit Button -->
       <button type="submit" name="add_appointment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
     </form>
-    <!-- Close Button -->s
+    <!-- Close Button -->
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
   </div>
 </div>   

@@ -27,16 +27,10 @@ if (isset($_POST['add_appointment'])) {
   $address = $_POST['Address'];
   $service = $_POST['service'];
   $appointment_date = date("Y-m-d",strtotime($_POST['appointment_date']));
-  $current_date = date('Y-m-d'); // Get the current date
-  $tommorow = date('Y-m-d', $today + 86400 ); // Get tom
-  
-  // Check if the appointment date is today
-  if ($appointment_date === $current_date || $appointment_date === $tommorow) {
-    
-  }else{
-    echo "Error: You can only add appointments for today and tommorow";
-    exit;
-  }
+ 
+  $date = new DateTime();
+  $appointment_date = $date->format("Y-m-d");
+ 
 
   // Get the next queue number
   $sql = "SELECT MAX(queue_number) AS max_queue_number FROM appointments WHERE appointment_date = '$appointment_date'";
@@ -49,7 +43,7 @@ if (isset($_POST['add_appointment'])) {
   if ($conn->query($sql) === TRUE) {
     echo "<script>alert('Appointment added successfully for today!');</script>";
 } else {
-    echo "<scri pt>alert('Error adding appointment: " . $conn->error . "');</script>";
+    echo "<script>alert('Error adding appointment: " . $conn->error . "');</script>";
 }
 }
 
