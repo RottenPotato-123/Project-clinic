@@ -161,9 +161,10 @@ while ($row = $result->fetch_assoc()) {
     $client_row = $client_result->fetch_assoc();
 
     $appointment = array(
-        'id' => $row['id'],
+        'Id' => $row['id'],
         'FirstName' => $row['FirstName'],
         'LastName' => $row['LastName'],
+        'Service' => $row['Service'],
         'appointment_date' => $row['appointment_date'],
         'queue_number' => $row['queue_number'],
         'status' => $row['status']
@@ -187,81 +188,34 @@ $conn->close();
 <!-- Include the DataTables library -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
-<!-- Your existing table -->
-<table id="appointments-table" class="w-full text-left table-auto min-w-max">
+<table id="appointments-table" class="display nowrap w-full text-left table-auto min-w-max">
   <thead>
     <tr>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-        <p class="block text-sm font-normal leading-none text-slate-500">
-          Appointment ID
-        </p>
-      </th>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-        <p class="block text-sm font-normal leading-none text-slate-500">
-         First Name
-        </p>
-      </th>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-        <p class="block text-sm font-normal leading-none text-slate-500">
-         Last Name
-        </p>
-      </th>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-        <p class="block text-sm font-normal leading-none text-slate-500">
-          Appointment Date
-        </p>
-      </th>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-        <p class="block text-sm font-normal leading-none text-slate-500">
-          Queue Number
-        </p>
-      </th>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-        <p class="block text-sm font-normal leading-none text-slate-500">
-          Status
-        </p>
-      </th>
-      <th class="p-4 border-b border-slate-300 bg-slate-50">
-      </th>
+      <th>Appointment ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Service</th>
+      <th>Appointment Date</th>
+      <th>Queue Number</th>
+      <th>Status</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
-    <tr class="hover:bg-slate-50 border-b border-slate-200">
-      <td class="p-4 py-5">
-        <p class="block font-semibold text-sm text-slate-800"><?= $appointment['id'] ?></p>
-      </td>
-      <td class="p-4 py-5">
-        <p class="block text-sm text-slate-800"><?= $appointment['FirstName'] ?></p>
-      </td>
-      <td class="p-4 py-5">
-        <p class="block text-sm text-slate-800"><?= $appointment['LastName'] ?></p>
-      </td>
-      <td class="p-4 py-5">
-        <p class="block text-sm text-slate-800"><?= $appointment['appointment_date'] ?></p>
-      </td>
-      <td class="p-4 py-5">
-        <p class="block text-sm text-slate-800"><?= $appointment['queue_number'] ?></p>
-      </td>
-      <td class="p-4 py-5">
-        <p class="block text-sm text-slate-800"><?= $appointment['status'] ?></p>
-      </td>
-      <td class="p-4 py-5">
-        <?php if ($appointment['status'] == 'pending') { ?>
-          <a href='mark_as_done.php?id=<?= $appointment['id'] ?>' class='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>
-            Mark as Done
-          </a>
-        <?php } else { ?>
-          <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>
-            Mark as Done
-          </button>
-        <?php } ?>
-        <a href='#' class='delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' data-id='<?= $appointment['id'] ?>'>
-          Delete
-        </a>
-      </td>
-    </tr>
+    <tr>
+      <td><?= $appointment['Id'] ?></td>
+      <td><?= $appointment['FirstName'] ?></td>
+      <td><?= $appointment['LastName'] ?></td>
+       <td><?= ($appointment['Service'])  ?></td>
+      <td><?= $appointment['appointment_date'] ?></td>
+      <td><?= $appointment['queue_number'] ?></td>
+      <td><?= $appointment['status'] ?></td>
+      <td>
+        
     <?php } ?>
   </tbody>
 </table>
@@ -308,22 +262,18 @@ $conn->close();
           <option value="Immunization">Immunization</option>
           <option value="Acid Wash">Acid Wash</option>
         </select>
-      </div>
-      <!-- Submit Button -->
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
-    </form>
-    <!-- Close Button -->
-    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
-  </div>
+     
         </div>
         
     </div>
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    
    
     <script>
-  $(document).ready(function() {
+   $(document).ready(function() {
+    // Initialize DataTables with responsive support
     $('#appointments-table').DataTable({
       "paging": true,
       "lengthChange": true,
@@ -331,35 +281,62 @@ $conn->close();
       "ordering": true,
       "info": true,
       "autoWidth": false,
+      "responsive": true,  // Enable responsive behavior
       "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
-      }
+      },
+      "columnDefs": [
+        { "width": "20%", "targets": 6 },  // Adjust column width for action buttons
+        {
+       "targets": 7,
+          "render": function(data, type, row) {
+            return `
+           <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-dismiss="modal" id="Edit" type="button">Confirm</button>
+            &nbsp;
+           <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" data-id="<?= $appointment['Id'] ?>" type="button">Delete</button>
+            ` }
+        },
+      ]
     });
-    $('#appointments-table').on('click', '.delete-btn', function(e) {
-      e.preventDefault();
-      var id = $(this).data('id');
-      var row = $(this).closest('tr');
 
-      // Send AJAX request to delete record from database
-      $.ajax({
-        type: 'POST',
-        url: 'funtion.php',
-        data: {id: id},
-        success: function(response) {
-          if (response === 'success') {
-            // Remove row from DataTable
-            table.row(row).remove().draw();
-          } else {
-            alert('Error deleting record');
-          }
-        }
-      });
-    });
+   // Handle row deletion
+   $(document).on('click', '.delete-btn', function() {
+    var rowId = $(this).data('id');
+    console.log('Row ID:', rowId); // Debugging line
+    var row = $(this).closest('tr');
+    console.log('Row:', row); // Debugging line
+    var table = $('#appointments-table').DataTable();
+
+    if (!table) {
+        console.error('DataTable not initialized or does not exist.');
+        return; // Exit the function if the table is not found
+    }
+
+    if (confirm('Are you sure you want to delete this item?')) {
+        $.ajax({
+            url: 'funtion.php',
+            type: 'POST',
+            data: { id: rowId },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    table.row(row).remove().draw();
+                    alert('Data deleted successfully!');
+                } else {
+                    alert('Failed to delete data: ' + (response.message || 'Unknown error.'));
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX request failed:', textStatus, errorThrown);
+                console.error('Response Text:', jqXHR.responseText);
+                alert('Error occurred while deleting the data. Check console for details.');
+            }
+        });
+    }
+});
+
   });
-  var refreshedDataFromTheServer = getDataFromServer();
-
-var myTable = $('#appointments-table').DataTable();
-myTable.clear().rows.add(refreshedDataFromTheServer).draw();
+  
 </script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
