@@ -67,8 +67,7 @@ $mysqli->close();
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         .body-bg {
-            background-color: #e821bd;
-            background-image: linear-gradient(315deg, #e8218e 0%, #be5f87 74%);
+            background-color: #6495ED;
         }
         
     </style>
@@ -82,10 +81,10 @@ $mysqli->close();
                 <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
                     Create a new account
                 </h2>
-                <p class="mt-2 text-center text-sm leading-5 text-gray-500 max-w">
+                <p class="mt-4 text-lg text-center text-sm leading-5 text-white max-w ">
                     Or
                     <a href="#"
-                        class="login-button  font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150"onclick="redirectToLogin()" >
+                        class="login-button underline font-medium text-green-600 hover:text-green-500 focus:outline-none focus:underline transition ease-in-out duration-150"onclick="redirectToLogin() " >
                         login to your account
                     </a>
                 </p>

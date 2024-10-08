@@ -24,10 +24,10 @@
     <nav id="header" class="fixed w-full z-30 top-0 text-white">
       <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div class="pl-4 flex items-center">
-          <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+          <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-5xl" href="#">
             <!--Icon from: http://www.potlabicons.com/ -->
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes bounce{0%{transform:scale3d(1,1,1)}30%{transform:scale3d(1.25,.75,1)}40%{transform:scale3d(.75,1.25,1)}50%{transform:scale3d(1.15,.85,1)}65%{transform:scale3d(.95,1.05,1)}75%{transform:scale3d(1.05,.95,1)}}</style><path fill="#265BFF" fill-rule="evenodd" d="M12.75 8.744a.75.75 0 00-1.5 0v2.506H8.744a.75.75 0 000 1.5h2.506v2.506a.75.75 0 001.5 0V12.75h2.506a.75.75 0 000-1.5H12.75V8.744z" clip-rule="evenodd" style="animation:bounce 1s 1s infinite both;transform-origin:center center"/><rect width="16" height="16" x="4" y="4" stroke="#0A0A30" stroke-width="1.5" rx="2.075"/></svg>
-            Chit's Lyin-in Clinic
+            Chit's Lying-in Clinic
           </a>
         </div>
         <div class="block lg:hidden pr-4">
@@ -48,13 +48,13 @@
           </ul>
           <button
             id="navLogin"
-            class="login-button mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+            class="login-button mx-auto lg:mx-0 hover:underline bg-green-500 shadow-lg shadow-cyan-500/50 text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             onclick="redirectToLogin()">
             Login
           </button>
           <button
             id="navRegister"
-            class="Register-button mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+            class="Register-button mx-auto lg:mx-0 hover:underline bg-blue-500 shadow-lg shadow-blue-500/50 text-white-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
           onclick="redirectToRegister()">
             Register
           </button>
@@ -67,21 +67,15 @@
       <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <!--Left Col-->
         <div class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-          <p class="uppercase tracking-loose w-full">What business are you?</p>
-          <h1 class="my-4 text-5xl font-bold leading-tight">
+          <h1 class="my-4 text-4xl font-bold leading-tight">
             Phil-Health Covered
           </h1>
           <p class="leading-normal text-2xl mb-8">
-            Lyin-in You Can Trust!
+            Lying-in You Can Trust!
           </p>
-          <button clazss=" Register-button mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out" onclick="redirectToRegister()">
-            register
-          </button>
+          
         </div>
         <!--Right Col-->
-        <div class="w-full md:w-3/5 py-6 text-center">
-          <img class="w-full md:w-4/5 z-50" src="hero.png" />
-        </div>
       </div>
     </div>
     <div class="relative -mt-12 lg:-mt-24">
@@ -105,8 +99,8 @@
     </div>
     <section class="bg-white border-b py-8">
       <div class="container max-w-5xl mx-auto m-8">
-        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-          Activities
+        <h2 class="font-sans w-full my-2 text-6xl font-bold leading-tight text-center text-gray-800">
+          Home 
         </h2>
         <div class="w-full mb-4">
           <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -116,16 +110,19 @@
             <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
               Offer Services
             </h3>
-            <p class="text-gray-600 mb-8">
-              Fix later
-              Fix later
-              Fix later
+            <p class="text-gray-600 mb-8 text-2xl">
+              • Parental Care <br />
+              • Post Partum Care <br />
+              • New Born Care <br />
+              • Normal Spontaneous Delivery <br />
+              • New Born Screening <br />
+              • Counselling <br />
+              • Family Planning <br />
+              • Ear Piercing <br />
+              • Immunization <br />
+              • Acid Wash
               <br />
               <br />
-
-              Images from:
-
-              <a class="text-pink-500 underline" href="https://undraw.co/">Fix later Fix later Fix later</a>
             </p>
           </div>
          
@@ -283,15 +280,12 @@
           <div class="w-full sm:w-1/2 p-6 mt-6">
             <div class="align-middle">
               <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
-                Whats New
+                Location
               </h3>
-              <p class="text-gray-600 mb-8">
-                Fix later Fix later Fix later
+              <p class="text-gray-600 mb-8 text-2xl">
+                #120 Zone 2 Brgy. Kita-kita, San Jose, Philippines
                 <br />
                 <br />
-                Images from:
-
-                <a class="text-pink-500 underline" href="https://undraw.co/">undraw.co</a>
               </p>
             </div>
           </div>
@@ -348,18 +342,11 @@
             </a>
           </div>
           <div class="flex-1">
-            <p class="uppercase text-gray-500 md:mb-6">Links</p>
+            <p class="uppercase text-gray-500 md:mb-6">Contact</p>
             <ul class="list-reset mb-6">
-             
-              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                
-                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">
-                  <svg  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes chatMotion{0%,to{transform:translateY(0)}50%{transform:translateY(-1px)}}</style><path stroke="#0A0A30" stroke-width="1.5" d="M18.25 12v5c0 .69-.56 1.25-1.25 1.25h-5A6.25 6.25 0 1118.25 12z"/><circle cx="9" cy="12" r="1" fill="#265BFF" style="animation:chatMotion .8s ease-in-out infinite"/><circle cx="12" cy="12" r="1" fill="#265BFF" style="animation:chatMotion .8s ease-in-out infinite;animation-delay:.3s"/><circle cx="15" cy="12" r="1" fill="#265BFF" style="animation:chatMotion .8s ease-in-out infinite;animation-delay:.5s"/></svg>
-                </a>
-              </li>
-              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">                                          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><style>@keyframes phone{0%,to{transform:rotate(0deg);transform-origin:0 100%}10%,90%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}}</style><path fill="#0A0A30" d="M15.758 19a10.761 10.761 0 01-7.603-3.162A10.805 10.805 0 015 8.22c0-.854.339-1.673.941-2.277A3.21 3.21 0 018.214 5c.18-.001.36.015.537.05.172.024.34.067.503.125a.699.699 0 01.455.525l.957 4.2a.7.7 0 01-.182.644c-.09.098-.098.105-.957.553a6.93 6.93 0 003.402 3.423c.454-.868.461-.875.559-.966a.699.699 0 01.643-.182l4.191.959a.699.699 0 01.503.455A3.046 3.046 0 0119 15.829a3.223 3.223 0 01-.968 2.255 3.21 3.21 0 01-2.274.916zM8.215 6.4a1.822 1.822 0 00-1.817 1.82 9.396 9.396 0 002.744 6.63 9.36 9.36 0 006.617 2.75 1.821 1.821 0 001.817-1.82v-.231l-3.242-.75-.202.386c-.315.609-.545 1.05-1.132.812a8.276 8.276 0 01-5.016-5.047c-.251-.546.224-.798.824-1.113l.385-.189L8.444 6.4h-.23z" style="animation:phone 1.5s cubic-bezier(1,.01,.75,2.17) both infinite"/></svg>                                      </a>
-              </li>
+              <p class="text-gray-600 mb-8">
+                0905 153 6614 <br />
+                pacitadulay25@gmail.com <br />
             </ul>
           </div>
           
@@ -367,7 +354,7 @@
             <p class="uppercase text-gray-500 md:mb-6">Social</p>
             <ul class="list-reset mb-6">
               <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Facebook</a>
+                <a href="https://www.facebook.com/chitlyingin" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Facebook</a>
               </li>
             </ul>
           </div>
@@ -377,9 +364,6 @@
               
               <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                 <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">About Us</a>
-              </li>
-              <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contact</a>
               </li>
             </ul>
           </div>
