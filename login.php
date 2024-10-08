@@ -83,16 +83,14 @@ $mysqli->close();
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         .body-bg {
-            background-color: #d721e8;
-            background-image: linear-gradient(315deg, #e121e8 0%, #ab5fbe 74%);
+            background-color: #9FE2BF ;
+            
         }
     </style>
 </head>
 <body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family: 'Lato', sans-serif;">
     <header class="max-w-lg mx-auto">
-        <a href="#">
-            <h1 class="text-4xl font-bold text-white text-center">Startup</h1>
-        </a>
+
     </header>
 
     <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
@@ -114,7 +112,7 @@ $mysqli->close();
                 <div class="flex justify-end">
                     <a href="forgotpass.php" class="text-sm text-purple-600 hover:text-purple-700 hover:underline mb-6">Forgot your password?</a>
                 </div>
-                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Sign In</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Log In</button>
                 <?php if (!empty($loginError)) : ?>
                     <p class="text-red-500 mt-4"><?php echo $loginError; ?></p>
                 <?php endif; ?>
@@ -123,13 +121,11 @@ $mysqli->close();
     </main>
 
     <div class="max-w-lg mx-auto text-center mt-12 mb-6">
-        <p class="text-white">Don't have an account? <a href="#" class="font-bold hover:underline" onclick="redirectToRegister()">Sign up</a>.</p>
+        <p class="text-black">Don't have an account? <a href="#" class="font-bold hover:underline" onclick="redirectToRegister()">Sign up</a>.</p>
     </div>
 
     <footer class="max-w-lg mx-auto flex justify-center text-white">
-        <a href="#" class="hover:underline">Contact</a>
-        <span class="mx-3">•</span>
-        <a href="#" class="hover:underline">Privacy</a>
+    
     </footer>
 
     <script>

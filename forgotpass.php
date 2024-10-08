@@ -11,9 +11,9 @@
 
     <form method="post" action="sendcode.php">
 
-        <label for="email">email</label>
+        <label for="email">Email</label>
         <input type="email" name="email" id="email">
-s
+
         <button>Send</button>
 
     </form>
