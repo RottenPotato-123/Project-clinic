@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'C:/xampp/htdocs/code/GlobalVariables.php'; // Adjust the path as needed
+
 require_once 'Connection.php';
 $loginError = '';
 
@@ -35,14 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['name'] = $FName;
                         $_SESSION['userType'] = $UserType;
                     
-                        // Set global variables (if necessary)
-                        GlobalVariables::$userId = $Id;
-                        GlobalVariables::$name = $FName;
-                        GlobalVariables::$location = $Address;
-                        GlobalVariables::$phone = $Phone;
-                        GlobalVariables::$email = $Email;
-                        GlobalVariables::$userType = $UserType;
-                    
+                       
                         // Determine user type and redirect accordingly
                         if (strcasecmp($UserType, 'Admin') === 0) {
                             // Redirect to admin panel

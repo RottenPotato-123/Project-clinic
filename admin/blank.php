@@ -226,9 +226,9 @@ $conn->close();
     
             <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay">
   <!-- Modal Content -->
-  <div class="bg-white rounded shadow-md w-1/2 h-1/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+  <div class="bg-white rounded shadow-md w-1/2 h-2/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     <!-- Header -->
-    <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
+    <h2 class="text-3xl font-bold text-gray-800   mb-4">New Appointment</h2>
     <!-- Form -->
     <form action="add_appointment.php" method="post">
       <!-- Input Fields -->
@@ -273,11 +273,94 @@ $conn->close();
   </div>
 </div>   
 
+<div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2">
+  <!-- Modal Content -->
+  <div class="bg-white rounded shadow-md w-2/2 h-2/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <!-- Header -->
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">Records</h2>
+    <!-- Form -->
+    <form action="" method="post">
+      <!-- Input Fields -->
+      <input type="hidden" id="" name="" />
+      <div class="grid grid-cols-4 gap-4">
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">BP:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">PR:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">RR:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">TEMP:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">FH:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">FHT:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">IE:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">AOG:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">LMP:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">EDC:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">OB HX:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">OB SCORE:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">ADMITTING DIAGNOSE:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">ADDRESS:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">REMARKS:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+      </div>
+</div>
+      
+      <!-- Submit Button -->
+      <button type="submit" name="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"onclick="addAppointment()">Submit</button>
+    </form>
+    <!-- Close Button -->
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')">Close</button>
+  </div>
+</div>   
+
+
+
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     
    
     <script>
+    
    $(document).ready(function() {
     // Initialize DataTables with responsive support
     $('#appointments-table').DataTable({
@@ -291,18 +374,19 @@ $conn->close();
       "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
       },
-      "columnDefs": [
-        { "width": "20%", "targets": 6 },  // Adjust column width for action buttons
-        {
-       "targets": 7,
-          "render": function(data, type, row) {
-            return `
-           <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-dismiss="modal" id="Edit" type="button">Confirm</button>
-            &nbsp;
-           <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" data-id="<?= $appointment['Id'] ?>" type="button">Delete</button>
-            ` }
-        },
-      ]
+    "columnDefs": [
+  { "width": "20%", "targets": 6 },  // Adjust column width for action buttons
+  {
+    "targets": 7,
+    "render": function(data, type, row) {
+      return `
+        <button class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-toggle="modal" data-target="#myModal" id="Edit" type="button" onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')">Confirm</button>
+        &nbsp;
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" data-id="<?= $appointment['Id'] ?>" type="button">Delete</button>
+      `
+    }
+  },
+]
       
     });
 
@@ -347,6 +431,11 @@ $conn->close();
     const modalOverlay = document.getElementById("modal-overlay");
     modalOverlay.classList.add("hidden");
 });
+document.getElementById("close-modal").addEventListener("click", () => {
+    const modalOverlay = document.getElementById("modal-overlay2");
+    modalOverlay.classList.add("hidden");
+});
+
 function addAppointment() {
         $.ajax({
             type: 'POST',
@@ -360,6 +449,7 @@ function addAppointment() {
             }
         });
     }
+    
 </script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
