@@ -71,7 +71,7 @@ $mysqli->close();
         }
         
     </style>
-    <title>Document</title>
+    <title>Clinic</title>
 </head>
 <body>
     <div>

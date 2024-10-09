@@ -75,8 +75,8 @@ $mysqli->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tailwind Login Template by David Grzyb</title>
-    <meta name="author" content="David Grzyb">
+    <title>login</title>
+    <meta name="author" content="mike">
     <meta name="description" content="">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -95,7 +95,7 @@ $mysqli->close();
 
     <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
         <section>
-            <h3 class="font-bold text-2xl">Welcome to Startup</h3>
+            <h3 class="font-bold text-2xl">Welcome</h3>
             <p class="text-gray-600 pt-2">Sign in to your account.</p>
         </section>
 

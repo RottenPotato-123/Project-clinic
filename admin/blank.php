@@ -236,28 +236,28 @@ $conn->close();
 
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
-        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Age:</label>
-        <input type="text" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="Age" name="Age" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Address:</label>
-        <input type="text" id="Address" name="Address" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="Address" name="Address" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <!-- Select Field -->
       <div class="mb-4">
         <label for="service" class="block mb-2 text-gray-700">Service:</label>
-        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <select id="service" name="service" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
           <option value="Counselling">Counselling</option>
           <option value="Family Planning">Family Planning</option>
           <option value="Ear Piercing">Ear Piercing</option>
@@ -279,74 +279,74 @@ $conn->close();
     <!-- Header -->
     <h2 class="text-3xl font-bold text-gray-800 mb-4">Records</h2>
     <!-- Form -->
-    <form action="" method="post">
+    <form action="result.php" method="post">
       <!-- Input Fields -->
       <input type="hidden" id="" name="" />
       <div class="grid grid-cols-4 gap-4">
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">BP:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="BP" name="BP" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">PR:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="PR" name="PR" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">RR:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="RR" name="RR" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">TEMP:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="TEMP" name="TEMP" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">FH:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="FH" name="FH" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">FHT:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="FHT" name="FHT" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">IE:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="IE" name="IE" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">AOG:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="AOG" name="AOG" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">LMP:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="LMP" name="LMP" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">EDC:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="EDC" name="EDC" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">OB HX:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="OB_HX" name="OB_HX" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">OB SCORE:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="OB_SCORE" name="OB_SCORE" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">ADMITTING DIAGNOSE:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="ADMITTING" name="ADMITTING" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">ADDRESS:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="ADDRESS" name="ADDRESS" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">REMARKS:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="REMARKS" name="REMARKS" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
 </div>
       
       <!-- Submit Button -->
-      <button type="submit" name="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"onclick="addAppointment()">Submit</button>
+      <button type="" name="result" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"onclick="(result)">Submit</button>
     </form>
     <!-- Close Button -->
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')">Close</button>
@@ -449,7 +449,19 @@ function addAppointment() {
             }
         });
     }
-    
+    function result() {
+        $.ajax({
+            type: 'POST',
+            url: 'result.php',
+            data: { result: 1 },
+            success: function(response) {
+                alert('Appointment added successfully!');
+            },
+            error: function(xhr, status, error) {
+                alert('Error adding appointment: ' + error);
+            }
+        });
+    }
 </script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
