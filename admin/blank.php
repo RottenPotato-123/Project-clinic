@@ -206,7 +206,7 @@ $conn->close();
   </thead>
   <tbody>
     <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
-    <tr>
+      <tr data-id="<?= $appointment['Id'] ?>">
       <td><?= $appointment['Id'] ?></td>
       <td><?= $appointment['FirstName'] ?></td>
       <td><?= $appointment['LastName'] ?></td>
@@ -215,7 +215,7 @@ $conn->close();
       <td><?= $appointment['queue_number'] ?></td>
       <td><?= $appointment['status'] ?></td>
       <td>
-        
+      </tr>
     <?php } ?>
   </tbody>
 </table>
@@ -281,6 +281,9 @@ $conn->close();
     <!-- Form -->
     <form action="result.php" method="post">
       <!-- Input Fields -->
+      <input type="text" name="appointment_id" value="" readonly> <!-- Updated input field -->
+
+      
       <input type="hidden" id="" name="" />
       <div class="grid grid-cols-4 gap-4">
       <div class="mb-4">
@@ -352,6 +355,15 @@ $conn->close();
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')">Close</button>
   </div>
 </div>   
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete this item?</p>
+        <button id="confirmDelete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Confirm</button>
+        <button class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded cancel">Cancel</button>
+    </div>
+</div>
 
 
 
@@ -362,6 +374,7 @@ $conn->close();
     <script>
     
    $(document).ready(function() {
+    
     // Initialize DataTables with responsive support
     $('#appointments-table').DataTable({
       "paging": true,
@@ -374,57 +387,108 @@ $conn->close();
       "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
       },
+      "createdRow": function(row, data, dataIndex) {
+    $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
+  },
     "columnDefs": [
   { "width": "20%", "targets": 6 },  // Adjust column width for action buttons
   {
     "targets": 7,
-    "render": function(data, type, row) {
-      return `
-        <button class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-toggle="modal" data-target="#myModal" id="Edit" type="button" onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')">Confirm</button>
-        &nbsp;
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" data-id="<?= $appointment['Id'] ?>" type="button">Delete</button>
-      `
-    }
+  "render": function(data, type, row) {
+    console.log('Row:', row); // Log the row for debugging
+    console.log('Row ID:', row[0]); // Log the ID (first element of the row)
+    return `
+      <button 
+          class="confirm-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" 
+        data-toggle="modal" 
+        data-target="modal-overlay2" 
+         data-id="${row[0]}"
+         onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')" 
+        type="button">
+        Confirm
+      </button>&nbsp;
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" 
+      data-id="${row[0]}" 
+      type="button">
+      Delete
+  </button>
+ `;
+}
+
   },
 ]
       
     });
+    var table = $('#appointments-table').DataTable();
+  // Add an event listener to the confirm button
+  $('#appointments-table').on('click', '.confirm-button', function() {
+    var id = $(this).attr('data-id'); // Retrieve the appointment ID
+    console.log('Button data-id:', id); // Log the ID to confirm it's correct
+
+    // Update the input field in the modal with the appointment ID
+    $('#modal-overlay2 input[name="appointment_id"]').val(id);
+
+    // Show the modal
+    $('#modal-overlay2').removeClass('hidden');
+});
+
+
+function confirmClick(id) {
+    alert('Confirming appointment with ID: ' + id);
+    // Additional confirmation logic
+}
+$.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            const status = data[6]; // Assuming the status is in the 7th column (index 6)
+            console.log('Row data:', data); // Log the entire row data for debugging
+            console.log('Status:', status); // Log the status to see its value
+            return status && status.trim().toLowerCase() === "pending"; // Filter condition
+        }
+    );
+
+    // Draw the table to apply the filter
+    table.draw();
+
 
    // Handle row deletion
    $(document).on('click', '.delete-btn', function() {
-    var rowId = $(this).data('id');
-    console.log('Row ID:', rowId); // Debugging line
-    var row = $(this).closest('tr');
-    console.log('Row:', row); // Debugging line
-    var table = $('#appointments-table').DataTable();
+            const appointmentId = $(this).data('id');
 
-    if (!table) {
-        console.error('DataTable not initialized or does not exist.');
-        return; // Exit the function if the table is not found
-    }
+        var rowId = $(this).data('id'); // Get the ID from the button
+        var row = $(this).closest('tr'); // Get the closest row
+        $('#confirmDelete').data('id', rowId); // Set the ID in the confirm button
+        $('#confirmModal').removeClass('hidden'); // Show the confirmation modal
 
-    if (confirm('Are you sure you want to delete this item?')) {
-        $.ajax({
-            url: 'funtion.php',
-            type: 'POST',
-            data: { id: rowId },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    table.row(row).remove().draw();
-                    alert('Data deleted successfully!');
-                } else {
-                    alert('Failed to delete data: ' + (response.message || 'Unknown error.'));
+        // Confirm deletion on confirm button click
+        $('#confirmDelete').off('click').on('click', function() {
+            $.ajax({
+                url: 'funtion.php', // Update with your actual PHP file
+                type: 'POST',
+                data: { id: rowId },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        table.row(row).remove().draw(); // Remove the row from DataTable
+                        alert('Data deleted successfully!'); // Notify the user
+                    } else {
+                        alert('Failed to delete data: ' + (response.message || 'Unknown error.'));
+                    }
+                    $('#confirmModal').addClass('hidden'); // Hide the modal
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX request failed:', textStatus, errorThrown);
+                    console.error('Response Text:', jqXHR.responseText);
+                    alert('Error occurred while deleting the data. Check console for details.');
+                    $('#confirmModal').addClass('hidden'); // Hide the modal on error
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error('AJAX request failed:', textStatus, errorThrown);
-                console.error('Response Text:', jqXHR.responseText);
-                alert('Error occurred while deleting the data. Check console for details.');
-            }
+            });
         });
-    }
-});
+    });
+
+    // Close modal when cancel button is clicked
+    $('.cancel, .close').on('click', function() {
+        $('#confirmModal').addClass('hidden'); // Hide the modal
+    });
 
   });
   document.getElementById("close-modal").addEventListener("click", () => {
@@ -449,20 +513,46 @@ function addAppointment() {
             }
         });
     }
-    function result() {
-        $.ajax({
-            type: 'POST',
-            url: 'result.php',
-            data: { result: 1 },
-            success: function(response) {
-                alert('Appointment added successfully!');
-            },
-            error: function(xhr, status, error) {
-                alert('Error adding appointment: ' + error);
-            }
-        });
-    }
-</script>
+    fetch('/result.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    BP: $('#BP').val(),
+    PR: $('#PR').val(),
+    RR: $('#RR').val(),
+    TEMP: $('#TEMP').val(),
+    FH: $('#FH').val(),
+    FHT: $('#FHT').val(),
+    IE: $('#IE').val(),
+    AOG: $('#AOG').val(),
+    LMP: $('#LMP').val(),
+    EDC: $('#EDC').val(),
+    OB_HX: $('# OB_HX').val(),
+    OB_SCORE: $('#OB_SCORE').val(),
+    ADMITTING: $('#ADMITTING').val(),
+    ADDRESS: $('#ADDRESS').val(),
+    REMARKS: $('#REMARKS').val(),
+    appointment_id: rowId
+  })
+})
+.then(response => response.json())
+.then(data => console.log('Retrieved data:', data))
+.catch(error => console.log('Error:', error));
+$.ajax({
+  type: 'POST',
+  url: '/result.php',
+  data: { appointment_id: rowId },
+  success: function(data) {
+    console.log('Retrieved data:', data);
+  },
+  error: function(xhr, status, error) {
+    console.log('Error:', error);
+  }
+});
+
+ </script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </body>

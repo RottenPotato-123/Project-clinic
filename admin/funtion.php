@@ -2,26 +2,29 @@
 session_start();
 include 'db.php'; // Include your database connection file
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-  $id = intval($_POST['id']); // Ensure the ID is an integer
+// Database connection already established in db.php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $response = ['success' => false];
 
-  // Prepare the DELETE statement
-  $stmt = $conn->prepare("DELETE FROM appointments WHERE id = ?");
-  $stmt->bind_param("i", $id); // 'i' denotes the type (integer)
+    // Prepare and execute the deletion query
+    $stmt = $conn->prepare("DELETE FROM appointments WHERE Id = ?");
+    $stmt->bind_param('i', $id); // 'i' indicates the type is integer
 
-  // Execute the statement and check if the deletion was successful
-  if ($stmt->execute()) {
-      echo json_encode(['success' => true, 'message' => 'Deleted successfully.']);
-  } else {
-      echo json_encode(['success' => false, 'message' => 'Failed to delete record.']);
-  }
+    if ($stmt->execute()) {
+        $response['success'] = true; // Deletion successful
+    } else {
+        $response['message'] = 'Failed to delete appointment. Error: ' . $stmt->error; // Error message
+    }
 
-  // Close the statement
-  $stmt->close();
+    // Close the statement
+    $stmt->close();
+
+    // Return JSON response
+    echo json_encode($response);
 } else {
-  echo json_encode(['success' => false, 'message' => 'ID not provided.']);
+    // Handle non-POST requests
+    http_response_code(405); // Method Not Allowed
+    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
 }
-
-// Close the database connection
-$conn->close();
 ?>
