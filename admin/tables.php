@@ -21,7 +21,9 @@ if ($user_type !== 'Admin') {
      
       <!-- Include jQuery library -->
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-    
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- Include DataTables library -->
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
@@ -229,59 +231,41 @@ if ($user_type !== 'Admin') {
                 Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
             </footer>
 
-            <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-<!-- Button to trigger the modal -->
-<button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded" onclick="viewAppointment(1)">View Appointment</button>
+ <div id="appointmentModal" class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2" >
+  <div class="bg-white rounded shadow-md w-2/2 h-2/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div class="flex justify-between items-center p-4 border-b">
+      <h5 class="text-lg font-semibold" id="appointmentModalLabel">Appointment Details</h5>
+      <button type="button" id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+    </div>
+    <div class="modal-body p-4">
+      <h4 class="font-semibold">Appointment Information:</h4>
+      <table id="appointment-details" class="min-w-full border-collapse border border-gray-300 mb-4">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 p-2">Field</th>
+            <th class="border border-gray-300 p-2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Appointment data will be inserted here -->
+        </tbody>
+      </table>
 
-<!-- Modal -->
-<!-- Modal -->
-<!-- Modal -->
-<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="appointmentModalLabel">Appointment Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body max-h-96 overflow-y-auto"> <!-- Add max height and overflow -->
-        <h4>Appointment Information:</h4>
-        <table id="appointment-details" class="min-w-full border-collapse border border-gray-300">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="border border-gray-300 p-2">Field</th>
-              <th class="border border-gray-300 p-2">Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Appointment data will be inserted here -->
-          </tbody>
-        </table>
-
-        <h4 class="font-semibold mt-4">Result:</h4>
-        <table id="result-details" class="min-w-full border-collapse border border-gray-300">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="border border-gray-300 p-2">Field</th>
-              <th class="border border-gray-300 p-2">Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Result data will be inserted here -->
-          </tbody>
-        </table>
-      </div>
+      <h4 class="font-semibold mt-4">Result:</h4>
+      <table id="result-details" class="min-w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 p-2">Field</th>
+            <th class="border border-gray-300 p-2">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Result data will be inserted here -->
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
-
-
-        </div>
-        
-    </div>
-    <!-- Add this modal window HTML element to your page -->
-<!-- Add this modal window HTML element to your page -->
 
     <script>
 $(document).ready(function() {
@@ -305,62 +289,31 @@ $(document).ready(function() {
       {
         "title": "View",
         "data": null,
-        "defaultContent": "<button class='btn btn-primary'>View</button>"
-      }
-    ],
-    "columnDefs": [
-      {
-        "targets": 9, // assuming the "View" column is the 9th column (0-indexed)
         "render": function(data, type, row) {
           return `<button class='btn btn-primary' onclick='viewAppointment(${row.id})'>View</button>`;
         }
       }
     ],
-    "responsive": {
-      "details": {
-        "display": $.fn.dataTable.Responsive.display.modal({
-          "header": function(row) {
-            var data = row.data();
-            return `Appointment Details for ${data.FullName}`;
-          }
-        }),
-        "renderer": function(api, rowIdx, columns) {
-          var data = api.row(rowIdx).data();
-          var html = "<table class='min-w-full border-collapse border border-gray-300'>";
-          html += "<tr class='bg-gray-100'><th class='border border-gray-300 p-2'>Full Name:</th><td class='border border-gray-300 p-2'>" + data.FullName + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Age:</th><td class='border border-gray-300 p-2'>" + data.Age + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Civil Status:</th><td class='border border-gray-300 p-2'>" + data.civil_status + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Birth Date:</th><td class='border border-gray-300 p-2'>" + data.birth_date + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Birth Place:</th><td class='border border-gray-300 p-2'>" + data.birth_place + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Appointment Date:</th><td class='border border-gray-300 p-2'>" + data.appointment_date + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Status:</th><td class='border border-gray-300 p-2'>" + data.status + "</td></tr>";
-          html += "<tr><th class='border border-gray-300 p-2'>Services:</th><td class='border border-gray-300 p-2'>" + data.Service + "</td></tr>";
-          html += "</table>";
-          return html;
-        }
-      }
-    },
     "processing": true,
     "serverSide": false
   });
 });
 
 function viewAppointment(id) {
-  console.log("View appointment with ID:", id);
+  console.log("View appointment with ID:", id); // Debugging line
   
-  // Get the appointment details from the database result table and appointment table
   $.ajax({
     type: "POST",
-    url: "function/viewdata.php", // Path to your PHP file that retrieves appointment details
+    url: "function/viewdata.php", // Update with your PHP file path
     data: { id: id },
     dataType: "json",
     success: function(data) {
-      // Populate the modal window with appointment details
+      // Populate the modal with appointment details
       var appointmentTable = $("#appointment-details tbody");
-      var resultTable = $("#result-details tbody"); // Add a new table for result data
+      var resultTable = $("#result-details tbody");
       
-      appointmentTable.html(""); // Clear the appointment table
-      resultTable.html(""); // Clear the result table
+      appointmentTable.empty(); // Clear previous data
+      resultTable.empty();
       
       $.each(data.appointment, function(key, value) {
         appointmentTable.append(`<tr><th class="border border-gray-300 p-2">${key}:</th><td class="border border-gray-300 p-2">${value}</td></tr>`);
@@ -371,21 +324,28 @@ function viewAppointment(id) {
       });
       
       // Show the modal window
-      $("#appointmentModal").modal("show");
+      $("#appointmentModal").removeClass("hidden").fadeIn(); // Show modal
     },
     error: function(xhr, status, error) {
       console.error("AJAX Error:", error);
-      // Handle errors (optional)
     }
   });
 }
 
-function closeModal() {
-  $("#appointmentModal").modal("hide");
-}
+// Close modal functionality
+$("#closeModal").click(function() {
+  $("#appointmentModal").addClass("hidden");
+});
+
+
+
 
     </script>
 
+<!-- jQuery -->
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
