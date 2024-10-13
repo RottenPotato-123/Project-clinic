@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2024 at 01:43 PM
+-- Generation Time: Oct 13, 2024 at 08:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,7 +34,9 @@ CREATE TABLE `appointments` (
   `MiddleName` varchar(24) NOT NULL,
   `LastName` varchar(24) NOT NULL,
   `Age` int(3) NOT NULL,
-  `Address` varchar(30) NOT NULL,
+  `civil_status` varchar(30) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `birth_place` varchar(30) NOT NULL,
   `Service` varchar(24) NOT NULL,
   `appointment_date` date DEFAULT NULL,
   `queue_number` int(11) DEFAULT NULL,
@@ -45,15 +47,9 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`id`, `client_id`, `FirstName`, `MiddleName`, `LastName`, `Age`, `Address`, `Service`, `appointment_date`, `queue_number`, `status`) VALUES
-(4, 32, '', '', '', 0, '', '', '2024-09-04', 1, 'done'),
-(5, 32, '', '', '', 0, '', '', '2024-09-04', 2, 'done'),
-(6, 32, '', '', '', 0, '', '', '2024-09-05', 1, 'done'),
-(7, 32, '', '', '', 0, '', '', '2024-09-01', 1, 'pending'),
-(8, 32, '', '', '', 0, '', '', '2024-09-01', 2, 'pending'),
-(9, 32, '', '', '', 0, '', '', '2024-09-01', 3, 'pending'),
-(10, 32, '', '', '', 0, '', '', '2024-09-01', 4, 'pending'),
-(11, 32, '', '', '', 0, '', '', '2024-09-01', 5, 'pending');
+INSERT INTO `appointments` (`id`, `client_id`, `FirstName`, `MiddleName`, `LastName`, `Age`, `civil_status`, `birth_date`, `birth_place`, `Service`, `appointment_date`, `queue_number`, `status`) VALUES
+(40, 32, 'MIKE JERALD', 'biasbas', 'marzan', 21, 'single', '1998-10-10', 'tayabo', 'Counselling', '2024-10-13', 11, 'confirmed'),
+(41, 32, 'MIKE ', 'haha', 'marzan', 21, 'single', '2024-10-01', 'tayabo', 'Counselling', '2024-10-13', 12, 'confirmed');
 
 -- --------------------------------------------------------
 
@@ -67,6 +63,40 @@ CREATE TABLE `appointment_history` (
   `status` varchar(255) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `result`
+--
+
+CREATE TABLE `result` (
+  `result_id` int(11) NOT NULL,
+  `id` int(11) DEFAULT NULL,
+  `bp` varchar(255) DEFAULT NULL,
+  `pr` int(11) DEFAULT NULL,
+  `rr` int(11) DEFAULT NULL,
+  `temp` decimal(2,2) DEFAULT NULL,
+  `fh` int(11) DEFAULT NULL,
+  `fht` int(11) NOT NULL,
+  `ie` varchar(255) DEFAULT NULL,
+  `aog` varchar(255) DEFAULT NULL,
+  `lmp` varchar(40) DEFAULT NULL,
+  `edc` varchar(40) DEFAULT NULL,
+  `ob_hx` varchar(255) DEFAULT NULL,
+  `ob_score` varchar(255) DEFAULT NULL,
+  `ad` varchar(255) DEFAULT NULL,
+  `address` varchar(40) NOT NULL,
+  `remarks` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `result`
+--
+
+INSERT INTO `result` (`result_id`, `id`, `bp`, `pr`, `rr`, `temp`, `fh`, `fht`, `ie`, `aog`, `lmp`, `edc`, `ob_hx`, `ob_score`, `ad`, `address`, `remarks`) VALUES
+(25, 40, '100/80', 833, 20, 0.99, 28, 140, '10 cm', '39 3/9', '10 20 22', '7-27-23', 'G2P1', '1.0.0.1', 'PUFF CIL ACTIVE LABOR PAIN', 'ZONE2 TAYABO', 'DELIVERED'),
+(26, 41, '100/80', 833, 20, 0.99, 28, 140, '10 cm', '39 3/9', '10 20 22', '7-27-23', 'G2P1', '1.0.0.1', 'PUFF CIL ACTIVE LABOR PAIN', 'ZONE2 TAYABO', 'DELIVERED');
 
 -- --------------------------------------------------------
 
@@ -117,6 +147,13 @@ ALTER TABLE `appointment_history`
   ADD KEY `appointment_id` (`appointment_id`);
 
 --
+-- Indexes for table `result`
+--
+ALTER TABLE `result`
+  ADD PRIMARY KEY (`result_id`),
+  ADD KEY `id` (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -131,13 +168,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `appointment_history`
 --
 ALTER TABLE `appointment_history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `result`
+--
+ALTER TABLE `result`
+  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -160,6 +203,12 @@ ALTER TABLE `appointments`
 --
 ALTER TABLE `appointment_history`
   ADD CONSTRAINT `appointment_history_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`);
+
+--
+-- Constraints for table `result`
+--
+ALTER TABLE `result`
+  ADD CONSTRAINT `result_ibfk_1` FOREIGN KEY (`id`) REFERENCES `appointments` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
