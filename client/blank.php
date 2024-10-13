@@ -143,7 +143,7 @@ if ($user_type !== 'Client') {
 
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
@@ -151,20 +151,29 @@ if ($user_type !== 'Client') {
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Age:</label>
-        <input type="text" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Address:</label>
-        <input type="text" id="Address" name="Address" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <label for="title" class="block mb-2 text-gray-700">Civil status:</label>
+        <input type="text" id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+      </div>
+      <div class="mb-4" >
+        <label for="title" class="block mb-2 text-gray-700">Birthdate:</label>
+        
+        <input type="date" id="date" name="date" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Birthplace:</label>
+        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <!-- Select Field -->
       <div class="mb-4">
         <label for="service" class="block mb-2 text-gray-700">Service:</label>
-        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
           <option value="Counselling">Counselling</option>
           <option value="Family Planning">Family Planning</option>
           <option value="Ear Piercing">Ear Piercing</option>
