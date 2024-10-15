@@ -27,7 +27,7 @@ if ($user_type !== 'Admin') {
         .bg-sidebar { background: #2AAA8A; }
         .cta-btn { color: #2AAA8A; }
         .upgrade-btn { background: #50C878; }
-        .upgrade-btn:hover { background: #fcfcfc; }
+        .upgrade-btn:hover { background: #ffffff; }
         .active-nav-link { background: #50C878; }
         .nav-item:hover { background: #50C878; }
         .account-link:hover { background: #2AAA8A; }
