@@ -67,7 +67,7 @@ $mysqli->close();
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         .body-bg {
-            background-color: #6495ED;
+            background-color: #2AAA8A;
         }
         
     </style>
