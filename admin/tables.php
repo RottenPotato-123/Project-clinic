@@ -227,13 +227,11 @@ if ($user_type !== 'Admin') {
                 </div>
             </main>
     
-            <footer class="w-full bg-white text-right p-4">
-                Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
-            </footer>
+            
 
- <div id="appointmentModal" class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2" >
-  <div class="bg-white rounded shadow-md w-2/2 h-2/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-    <div class="flex justify-between items-center p-4 border-b">
+ <div id="appointmentModal" class="flex items-center justify-center min-h-screen absolute inset-0 bg-gray-800/30 backdrop-blur-md w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50  hidden" id="modal-overlay2" >
+ <div class="bg-white rounded shadow-md w-4/5 h-4/5 max-w-2xl max-h-screen overflow-hidden flex  center flex-col overflow-y-auto">
+         <div class="flex justify-between items-center p-4 border-b">
       <h5 class="text-lg font-semibold" id="appointmentModalLabel">Appointment Details</h5>
       <button type="button" id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
     </div>
@@ -270,7 +268,7 @@ if ($user_type !== 'Admin') {
     <script>
 $(document).ready(function() {
   $('#appointments').DataTable({
-    "ajax": {
+    "ajax": {   
       "url": "function/data.php",
       "dataSrc": function(json) {
         return json.filter(item => item.status.toLowerCase() === 'confirmed' && item.Service.toLowerCase() === 'counselling');
@@ -300,44 +298,72 @@ $(document).ready(function() {
 });
 
 function viewAppointment(id) {
-  console.log("View appointment with ID:", id); // Debugging line
-  
-  $.ajax({
-    type: "POST",
-    url: "function/viewdata.php", // Update with your PHP file path
-    data: { id: id },
-    dataType: "json",
-    success: function(data) {
-      // Populate the modal with appointment details
-      var appointmentTable = $("#appointment-details tbody");
-      var resultTable = $("#result-details tbody");
-      
-      appointmentTable.empty(); // Clear previous data
-      resultTable.empty();
-      
-      $.each(data.appointment, function(key, value) {
-        appointmentTable.append(`<tr><th class="border border-gray-300 p-2">${key}:</th><td class="border border-gray-300 p-2">${value}</td></tr>`);
-      });
-      
-      $.each(data.result, function(key, value) {
-        resultTable.append(`<tr><th class="border border-gray-300 p-2">${key}:</th><td class="border border-gray-300 p-2">${value}</td></tr>`);
-      });
-      
-      // Show the modal window
-      $("#appointmentModal").removeClass("hidden").fadeIn(); // Show modal
-    },
-    error: function(xhr, status, error) {
-      console.error("AJAX Error:", error);
-    }
+    $.ajax({
+      type: 'POST',
+      url: 'function/viewdata.php',
+      data: { id: id, display: 'both' }, // Fetch both appointment and result
+      dataType: 'json',
+      success: function (response) {
+        // Clear existing data
+        $('#appointment-details tbody').empty();
+        $('#result-details tbody').empty();
+
+        // Check if appointment data exists
+        if (response.appointment) {
+          $.each(response.appointment, function (key, value) {
+            $('#appointment-details tbody').append(`
+              <tr>
+                <td class="border border-gray-300 p-2">${key}</td>
+                <td class="border border-gray-300 p-2">${value}</td>
+              </tr>
+            `);
+          });
+        } else {
+          $('#appointment-details tbody').append(`
+            <tr>
+              <td colspan="2" class="border border-gray-300 p-2 text-center">No appointment data found</td>
+            </tr>
+          `);
+        }
+
+        // Check if result data exists
+        if (response.result) {
+          $.each(response.result, function (key, value) {
+            $('#result-details tbody').append(`
+              <tr>
+                <td class="border border-gray-300 p-2">${key}</td>
+                <td class="border border-gray-300 p-2">${value}</td>
+              </tr>
+            `);
+          });
+        } else {
+          $('#result-details tbody').append(`
+            <tr>
+              <td colspan="2" class="border border-gray-300 p-2 text-center">No result data found</td>
+            </tr>
+          `);
+        }
+
+        // Show the modal
+        $('#appointmentModal').removeClass('hidden');
+      },
+      error: function () {
+        alert('Error fetching data.');
+      }
+    });
+  }
+
+  // Close modal event
+  $('#closeModal').click(function () {
+    $('#appointmentModal').addClass('hidden');
   });
-}
 
-// Close modal functionality
-$("#closeModal").click(function() {
-  $("#appointmentModal").addClass("hidden");
-});
-
-
+  // Example trigger to open the modal (replace this with your own logic)
+  // Assuming you have a button with class 'open-modal' and data-id attribute
+  $('.open-modal').click(function () {
+    const id = $(this).data('id'); // Get the ID from button attribute
+    openAppointmentModal(id); // Open modal with appointment ID
+  });   
 
 
     </script>

@@ -114,7 +114,7 @@ $mysqli->close();
                   </label>
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <input id="email" name="email" placeholder="user@example.com" type="email" required="" value="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5
-                        ">
+                        "required>
                                 <div class="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
@@ -129,7 +129,7 @@ $mysqli->close();
                                 Address
                             </label>
                             <div class="mt-1 relative rounded-md shadow-sm">
-                                <input id="address" name="address" placeholder="123 Main St, Anytown, USA" type="text" required="" value="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <input id="address" name="address" placeholder="123 Main St, Anytown, USA" type="text" required="" value="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"required>
                             </div>
                         </div>
                         
@@ -138,7 +138,7 @@ $mysqli->close();
         Phone Number
     </label>
     <div class="mt-1 relative rounded-md shadow-sm">
-        <input id="phone_number" name="phone_number" placeholder="09xxxxxxxxx" type="tel" required="" value=""  maxlength="11" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <input id="phone_number" name="phone_number" placeholder="09xxxxxxxxx" type="tel" required="" value=""  maxlength="11" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" oninput="this.value = this.value.replace(/[^0-9]/g, '')"required>
     </div>
 </div>
                         <div class="mt-6">
@@ -146,7 +146,7 @@ $mysqli->close();
                         Password
                     </label>
                             <div class="mt-1 rounded-md shadow-sm">
-                                <input id="password" name="password" type="password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <input id="password" name="password" type="password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" required>
                             </div>
                         </div>
         
@@ -155,7 +155,7 @@ $mysqli->close();
                         Confirm Password
                     </label>
                             <div class="mt-1 rounded-md shadow-sm">
-                                <input id="password_confirmation" name="password_confirmation" type="password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <input id="password_confirmation" name="password_confirmation" type="password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"required>
                             </div>
                         </div>
         
@@ -173,10 +173,33 @@ $mysqli->close();
         </div>
     </div>
     <script>
+        
          function redirectToLogin() {
             window.location.href = "login.php";
         }
         const phoneNumberInput = document.getElementById('phone_number');
+const password =document.querySelector('#password');
+
+        
+password.addEventListener('input', (e) => {
+    const inputValue = password.value;
+    if (inputValue.length < 6 || inputValue.length > 8) {
+        password.setCustomValidity('Please enter a password that is 6-8 characters long.');
+    } else if (!/^[a-zA-Z0-9]+$/.test(inputValue)) {
+        password.setCustomValidity('Please enter a password that only contains letters and numbers.');
+    } else {
+        password.setCustomValidity('');
+    }
+});
+
+
+
+
+
+
+
+
+
 
 phoneNumberInput.addEventListener('input', (e) => {
     const inputValue = phoneNumberInput.value;

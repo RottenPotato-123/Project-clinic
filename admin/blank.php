@@ -191,8 +191,16 @@ $conn->close();
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="text-3xl text-black pb-6">Tables</h1>
+
+                <div class="w-full mt-6">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i>Counselling
+                    </p>
 <table id="appointments-table" class="display nowrap w-full text-left table-auto min-w-max">
-  <thead>
+  <thead> On going Appointments
     <tr>
       <th>Appointment ID</th>
       <th>First Name</th>
@@ -200,6 +208,46 @@ $conn->close();
       <th>Service</th>
       <th>Appointment Date</th>
       <th>Queue Number</th>
+      <th>Status</th> 
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
+      <tr data-id="<?= $appointment['Id'] ?>">
+        <td><?= $appointment['Id'] ?></td>
+        <td><?= $appointment['FirstName'] ?></td>
+        <td><?= $appointment['LastName'] ?></td>
+        <td><?= $appointment['Service'] ?></td>
+        <td><?= $appointment['appointment_date'] ?></td>
+        <td><?= $appointment['queue_number'] ?></td>
+        <td><?= $appointment['status'] ?></td>
+        <td>
+          <!-- Actions can be added here -->
+        </td>
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+</main>
+</div>
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="text-3xl text-black pb-6">Tables</h1>
+
+                <div class="w-full mt-6">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i>Counselling
+                    </p>
+<!-- Second DataTable: Completed Appointments -->
+<table id="pending-table" class="display nowrap w-full text-left table-auto min-w-max mt-4">New Appointments
+  <thead>
+    <tr>
+      <th>Appointment ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Service</th>
+      <th>Appointment Date</th>
       <th>Status</th>
       <th>Actions</th>
     </tr>
@@ -207,19 +255,22 @@ $conn->close();
   <tbody>
     <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
       <tr data-id="<?= $appointment['Id'] ?>">
-      <td><?= $appointment['Id'] ?></td>
-      <td><?= $appointment['FirstName'] ?></td>
-      <td><?= $appointment['LastName'] ?></td>
-       <td><?= ($appointment['Service'])  ?></td>
-      <td><?= $appointment['appointment_date'] ?></td>
-      <td><?= $appointment['queue_number'] ?></td>
-      <td><?= $appointment['status'] ?></td>
-      <td>
+        <td><?= $appointment['Id'] ?></td>
+        <td><?= $appointment['FirstName'] ?></td>
+        <td><?= $appointment['LastName'] ?></td>
+        <td><?= $appointment['Service'] ?></td>
+        <td><?= $appointment['appointment_date'] ?></td>
+        <td><?= $appointment['status'] ?></td>
+        <td>
+          <!-- Actions can be added here -->
+        </td>
       </tr>
     <?php } ?>
   </tbody>
 </table>
 
+</main>
+</div>
 <!-- Initialize the DataTable using jQuery -->
 
             </main>
@@ -372,91 +423,80 @@ $conn->close();
     
    
     <script>
-    
-   $(document).ready(function() {
-    
+    $(document).ready(function() {
     // Initialize DataTables with responsive support
-    $('#appointments-table').DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,  // Enable responsive behavior
-      "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
-      },
-      "createdRow": function(row, data, dataIndex) {
-    $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
-  },
-    "columnDefs": [
-  { "width": "20%", "targets": 6 },  // Adjust column width for action buttons
-  {
-    "targets": 7,
-  "render": function(data, type, row) {
-    console.log('Row:', row); // Log the row for debugging
-    console.log('Row ID:', row[0]); // Log the ID (first element of the row)
-    return `
-      <button 
-          class="confirm-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" 
-        data-toggle="modal" 
-        data-target="modal-overlay2" 
-         data-id="${row[0]}"
-         onclick="document.getElementById('modal-overlay2').classList.toggle('hidden')" 
-        type="button">
-        Confirm
-      </button>&nbsp;
-    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" 
-      data-id="${row[0]}" 
-      type="button">
-      Delete
-  </button>
- `;
-}
-
-  },
-]
-      
+    const appointmentsTable = $('#appointments-table').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
+        },
+        "createdRow": function(row, data) {
+            $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
+        },
+        "columnDefs": [
+            { "width": "20%", "targets": 6 }, // Adjust column width for action buttons
+            {
+                "targets": 7,
+                "render": function(data, type, row) {
+                    console.log('Row:', row); // Log the row for debugging
+                    console.log('Row ID:', row[0]); // Log the ID (first element of the row)
+                    return `
+                        <button 
+                            class="confirm-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" 
+                            data-id="${row[0]}" 
+                            type="button">
+                            Confirm
+                        </button>&nbsp;
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" 
+                            data-id="${row[0]}" 
+                            type="button">
+                            Delete
+                        </button>
+                    `;
+                }
+            }
+        ]
     });
-    var table = $('#appointments-table').DataTable();
-  // Add an event listener to the confirm button
-  $('#appointments-table').on('click', '.confirm-button', function() {
-    var id = $(this).attr('data-id'); // Retrieve the appointment ID
-    console.log('Button data-id:', id); // Log the ID to confirm it's correct
 
-    // Update the input field in the modal with the appointment ID
-    $('#modal-overlay2 input[name="appointment_id"]').val(id);
+    // Event listener for the confirm button
+    $('#appointments-table').on('click', '.confirm-button', function() {
+        var id = $(this).data('id'); // Retrieve the appointment ID
+        console.log('Button data-id:', id); // Log the ID to confirm it's correct
 
-    // Show the modal
-    $('#modal-overlay2').removeClass('hidden');
-});
+        // Update the input field in the modal with the appointment ID
+        $('#modal-overlay2 input[name="appointment_id"]').val(id);
 
+        // Show the modal
+        $('#modal-overlay2').removeClass('hidden');
+    });
 
-function confirmClick(id) {
-    alert('Confirming appointment with ID: ' + id);
-    // Additional confirmation logic
-}
-$.fn.dataTable.ext.search.push(
+    // Filter function for ongoing appointments in the appointments table
+    $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
-            const status = data[6]; // Assuming the status is in the 7th column (index 6)
-            console.log('Row data:', data); // Log the entire row data for debugging
-            console.log('Status:', status); // Log the status to see its value
-            return status && status.trim().toLowerCase() === "pending"; // Filter condition
+            if (settings.nTable.id === 'appointments-table') {
+                const status = data[6]; // Assuming status is in the 7th column (index 6)
+                console.log('Appointments Row data:', data);
+                console.log('Appointments Status:', status);
+                return status && status.trim().toLowerCase() === "ongoing"; // Filter condition
+            }
+            return true; // Don't filter for other tables
         }
     );
 
-    // Draw the table to apply the filter
-    table.draw();
+    // Draw the appointments table to apply the filter
+    
 
-
-   // Handle row deletion
-   $(document).on('click', '.delete-btn', function() {
-            const appointmentId = $(this).data('id');
-
-        var rowId = $(this).data('id'); // Get the ID from the button
-        var row = $(this).closest('tr'); // Get the closest row
-        $('#confirmDelete').data('id', rowId); // Set the ID in the confirm button
+    // Handle row deletion
+    $(document).on('click', '.delete-btn', function() {
+        const appointmentId = $(this).data('id');
+        const row = $(this).closest('tr'); // Get the closest row
+        $('#confirmDelete').data('id', appointmentId); // Set the ID in the confirm button
         $('#confirmModal').removeClass('hidden'); // Show the confirmation modal
 
         // Confirm deletion on confirm button click
@@ -464,11 +504,11 @@ $.fn.dataTable.ext.search.push(
             $.ajax({
                 url: 'funtion.php', // Update with your actual PHP file
                 type: 'POST',
-                data: { id: rowId },
+                data: { id: appointmentId },
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        table.row(row).remove().draw(); // Remove the row from DataTable
+                        appointmentsTable.row(row).remove().draw(); // Remove the row from DataTable
                         alert('Data deleted successfully!'); // Notify the user
                     } else {
                         alert('Failed to delete data: ' + (response.message || 'Unknown error.'));
@@ -477,7 +517,6 @@ $.fn.dataTable.ext.search.push(
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error('AJAX request failed:', textStatus, errorThrown);
-                    console.error('Response Text:', jqXHR.responseText);
                     alert('Error occurred while deleting the data. Check console for details.');
                     $('#confirmModal').addClass('hidden'); // Hide the modal on error
                 }
@@ -490,7 +529,81 @@ $.fn.dataTable.ext.search.push(
         $('#confirmModal').addClass('hidden'); // Hide the modal
     });
 
-  });
+    // Initialize DataTable for pending appointments
+    const pendingTable = $('#pending-table').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "createdRow": function(row, data) {
+            $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
+        },
+        "columnDefs": [
+            { "width": "20%", "targets": 6 }, // Adjust column width for action buttons
+            {
+                "targets": 6,
+                "render": function(data, type, row) {
+                    console.log('Row:', row); // Log the row for debugging
+                    return `
+                        <button 
+                            class="confirm-btn1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" 
+                            data-id="${row[0]}"
+                            type="button"
+                            onclick="updateStatus(${row[0]})">
+                            Confirm
+                        </button>&nbsp;
+                        <button class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn1" 
+                            data-id="${row[0]}" 
+                            type="button">
+                            Delete
+                        </button>
+                    `;
+                }
+            }
+        ]
+        
+    });
+   
+
+
+    // Filter function for pending appointments
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            if (settings.nTable.id === 'pending-table') {
+                const status = data[5]; // Assuming status is in the 6th column (index 5)
+                console.log('Pending Row data:', data); // Log the entire row for debugging
+                console.log('Pending Status:', status); // Log the status to see its value
+                return status && status.trim().toLowerCase() === "pending"; // Filter condition for pending appointments
+            }
+            return true; // Don't filter for other tables
+        }
+    );
+appointmentsTable.draw();
+    pendingTable.draw();
+
+    
+});
+function updateStatus(id) {
+    // Make an AJAX request to your server-side script
+    $.ajax({
+        type: "POST",
+        url: "function/update_status.php", // Replace with your server-side script URL
+        data: { id: id, status: "ongoing" },
+        success: function(response) {
+            console.log("Status updated successfully!");
+        },
+        error: function(xhr, status, error) {
+            console.log("Error updating status:", error);
+        }
+    });
+}
+
+
+
+    
   document.getElementById("close-modal").addEventListener("click", () => {
     const modalOverlay = document.getElementById("modal-overlay");
     modalOverlay.classList.add("hidden");

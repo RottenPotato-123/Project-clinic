@@ -1,18 +1,17 @@
 <?php
 
-$token = $_POST["token"];
-
-$token_hash = hash("sha256", $token);
-
 $mysqli = require __DIR__ . "/Connection.php";
 
 if ($mysqli->connect_errno) {
     die("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 }
 
-$sql = "SELECT * FROM user
-        WHERE reset_token_hash = ?";
+// Retrieve and sanitize the token
+$token = $_POST["token"] ?? "";
+$token_hash = hash("sha256", $token);
 
+// SQL query to find the user by token hash
+$sql = "SELECT * FROM user WHERE reset_token_hash = ?";
 $stmt = $mysqli->prepare($sql);
 
 if (!$stmt) {
@@ -26,49 +25,49 @@ if (!$stmt->execute()) {
 }
 
 $result = $stmt->get_result();
-
-if (!$result) {
-    die("Failed to retrieve result: (" . $stmt->errno . ") " . $stmt->error);
-}
-
 $user = $result->fetch_assoc();
 
 if ($user === null) {
-    die("token not found");
+    die("Token not found.");
 }
 
 if (strtotime($user["reset_token_expires_at"]) <= time()) {
-    die("token has expired");
+    die("Token has expired.");
 }
 
-if (strlen($_POST["password"]) < 8) {
-    die("Password must be at least 8 characters");
+// Validate password requirements
+$password = $_POST["password"] ?? "";
+$password_confirmation = $_POST["confirm_password"] ?? "";
+
+if (strlen($password) < 8) {
+    die("Password must be at least 8 characters.");
 }
 
-if ( ! preg_match("/[a-z]/i", $_POST["password"])) {
-    die("Password must contain at least one letter");
+if (!preg_match("/[a-z]/i", $password)) {
+    die("Password must contain at least one letter.");
 }
 
-if ( ! preg_match("/[0-9]/", $_POST["password"])) {
-    die("Password must contain at least one number");
+if (!preg_match("/[0-9]/", $password)) {
+    die("Password must contain at least one number.");
 }
 
-if ($_POST["password"] !== $_POST["password_confirmation"]) {
-    die("Passwords must match");
+if ($password !== $password_confirmation) {
+    die("Passwords do not match.");
 }
 
-$password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+// Hash the new password
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 if (!$password_hash) {
-    die("Failed to hash password");
+    die("Failed to hash password.");
 }
 
-echo "Password hash: $password_hash\n"; // Debug logging
+// Debug log for the password hash (optional, remove in production)
+echo "Password hash: $password_hash\n";
 
+// SQL query to update the user's password and clear the reset token
 $sql = "UPDATE user
-        SET Password = ?,
-            reset_token_hash = NULL,
-            reset_token_expires_at = NULL
+        SET Password = ?, reset_token_hash = NULL, reset_token_expires_at = NULL
         WHERE Id = ?";
 
 $stmt = $mysqli->prepare($sql);
@@ -77,7 +76,7 @@ if (!$stmt) {
     die("Failed to prepare SQL statement: (" . $mysqli->errno . ") " . $mysqli->error);
 }
 
-$stmt->bind_param("ss", $password_hash, $user["Id"]);
+$stmt->bind_param("si", $password_hash, $user["Id"]);
 
 if (!$stmt->execute()) {
     die("Failed to execute SQL statement: (" . $stmt->errno . ") " . $stmt->error);
@@ -87,4 +86,9 @@ if ($stmt->affected_rows === 0) {
     die("Failed to update password: (" . $mysqli->errno . ") " . $mysqli->error);
 }
 
-echo "Password updated. You can now login.";
+echo "<script>
+        alert('Password updated successfully. You can now login.');
+        window.location.href = 'landingPage.html';
+      </script>";
+
+?>

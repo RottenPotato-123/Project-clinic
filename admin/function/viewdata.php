@@ -1,32 +1,41 @@
 <?php
-// get_appointment_details.php
-
-// Connect to database
 include '../db.php'; 
 
-// Retrieve appointment details
-$id = $_POST['id'];
-$query = "SELECT * FROM appointments WHERE id = '$id'";
-$result = mysqli_query($conn, $query);
+header('Content-Type: application/json'); // Set header to JSON
 
-if (mysqli_num_rows($result) > 0) {
-  $appointmentData = mysqli_fetch_assoc($result);
-  
-  // Retrieve result data
-  $query = "SELECT * FROM result WHERE id = '$id'";
-  $result = mysqli_query($conn, $query);
-  $resultData = mysqli_fetch_assoc($result);
-  
-  // Combine appointment data and result data
-  $data = array(
-    "appointment" => $appointmentData,
-    "result" => $resultData
-  );
-  
-  echo json_encode($data);
-} else {
-  echo json_encode(array("error" => "Appointment not found"));
+$id = mysqli_real_escape_string($conn, $_POST['id']); // Prevent SQL Injection
+
+// Fetch appointment details
+$appointmentQuery = "SELECT id, FirstName, MiddleName, LastName, Age, civil_status, birth_date, 
+                     birth_place, Service, appointment_date 
+                     FROM appointments WHERE id = '$id'";
+$appointmentResult = mysqli_query($conn, $appointmentQuery);
+
+if (!$appointmentResult) {
+    echo json_encode(array("error" => "Appointment query failed: " . mysqli_error($conn)));
+    exit;
 }
 
+$appointmentData = mysqli_fetch_assoc($appointmentResult);
+
+// Fetch result details
+$resultQuery = "SELECT id, bp, pr, rr, temp, fh, fht, ie, aog, lmp, edc, ob_hx, ob_score, ad, 
+                address, remarks FROM result WHERE id = '$id'";
+$resultResult = mysqli_query($conn, $resultQuery);
+
+if (!$resultResult) {
+    echo json_encode(array("error" => "Result query failed: " . mysqli_error($conn)));
+    exit;
+}
+
+$resultData = mysqli_fetch_assoc($resultResult);
+
+// Combine appointment and result data
+$response = array(
+    "appointment" => $appointmentData,
+    "result" => $resultData
+);
+
+echo json_encode($response);
 mysqli_close($conn);
 ?>

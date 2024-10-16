@@ -1,63 +1,55 @@
 <?php
-
 if (!isset($_GET["token"])) {
-    die("Token is required");
+    die("Token is required.");
 }
 
 $token = $_GET["token"];
-
 $token_hash = hash("sha256", $token);
 
 $mysqli = require __DIR__ . "/Connection.php";
 
-$sql = "SELECT * FROM user
-        WHERE reset_token_hash = ?";
-
+// Query to find the user by token hash
+$sql = "SELECT * FROM user WHERE reset_token_hash = ?";
 $stmt = $mysqli->prepare($sql);
 
+if (!$stmt) {
+    die("Failed to prepare statement: " . $mysqli->error);
+}
+
 $stmt->bind_param("s", $token_hash);
-
 $stmt->execute();
-
 $result = $stmt->get_result();
-
 $user = $result->fetch_assoc();
 
 if ($user === null) {
-    die("token not found");
+    die("Token not found.");
 }
 
 if (strtotime($user["reset_token_expires_at"]) <= time()) {
-    die("token has expired");
+    die("Token has expired.");
 }
-
 ?>
 
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Reset Password</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
 </head>
 <body>
+    <h2>Reset Your Password</h2>
+    <form action="process-reset-password.php" method="POST">
+        <input type="hidden" name="email" value="<?= htmlspecialchars($user['Email']) ?>">
+        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+        
+        <label for="password">New Password:</label>
+        <input type="password" id="password" name="password" required>
 
-    <h1>Reset Password</h1>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
 
-    <form method="post" action="process-reset-password.php">
-
-        <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
-
-        <label for="password">New password</label>
-        <input type="password" id="password" name="password">
-
-        <label for="password_confirmation">Repeat password</label>
-        <input type="password" id="password_confirmation"
-               name="password_confirmation">
-
-        <button>Send</button>
+        <button type="submit">Reset Password</button>
     </form>
-
 </body>
 </html>

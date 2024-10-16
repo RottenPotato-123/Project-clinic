@@ -40,6 +40,7 @@ if ($mysqli instanceof mysqli) {
         $stmt->execute();
 
         if ($mysqli->affected_rows) {
+            $reset_url = "http://localhost/Project-clinic/reset-password.php?token=$token";
 
             $mail = require __DIR__ . "/mailer.php";
             $mail = getMailer();
@@ -48,9 +49,18 @@ if ($mysqli instanceof mysqli) {
             $mail->Subject = "Password Reset";
             $mail->Body = <<<END
             
-            z
-            
-            END;
+          Hello,
+
+We received a request to reset your password. Click the link below to reset it:
+
+<a href=$reset_url> Reset Link </a>
+
+This link will expire in 30 minutes.
+
+If you did not request a password reset, please ignore this message.
+
+Thank you!
+END;
             
             try {
                 $mail->send();
@@ -64,4 +74,8 @@ echo "Invalid database connection object";
 exit;
 }
 
-echo "Message sent, please check your inbox.";
+echo 
+"<script>
+                alert('Message sent, please check your inbox.');
+                window.location.href = 'landingpage.html';
+              </script>";
