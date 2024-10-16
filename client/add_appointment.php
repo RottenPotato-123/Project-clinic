@@ -12,6 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Get the client's ID from their session
 $client_id = $_SESSION['user_id'];
+$client_email = $_SESSION['email'];
 
 // Get the user type from the session or the GET parameter
 $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
@@ -51,11 +52,28 @@ if (isset($_POST['add_appointment'])) {
   // Insert appointment
   $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$civilstatus','$birth_date','$birthplace', '$service', '$appointment_date', '$queue_number', 'pending')";
   if ($conn->query($sql) === TRUE) {
-    echo "<script>
-                alert('Appointment added successfully for $appointment_date!');
-                window.location.href = 'blank.php';
-              </script>";
-    exit; 
+    try {
+      $mail = 
+      include $_SERVER['DOCUMENT_ROOT'] . '/Project-clinic/mailer.php';
+        $mail = getMailer();
+        $mail->setFrom("noreply@example.com");
+        $mail->addAddress($client_email, $first_name); // Send email to client
+
+        $mail->Subject = "Appointment Confirmation";
+        $mail->Body = "
+            <h1>Hello $first_name,</h1>
+            <p>Your appointment for <strong>$service</strong> has been scheduled on <strong>$appointment_date</strong>.</p>
+            <p>Thank you for choosing our clinic!</p>
+        ";
+
+        $mail->send();
+        echo "<script>
+        alert('Appointment added successfully for $appointment_date!');
+        window.location.href = 'blank.php';
+      </script>";
+    } catch (Exception $e) {
+        echo "<script>alert('Error: Email could not be sent. {$mail->ErrorInfo}');</script>";
+    } 
 } else {
     echo "<scri pt>alert('Error adding appointment: " . $conn->error . "');</script>";
 }
