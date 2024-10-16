@@ -193,14 +193,14 @@ $conn->close();
 
 <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Tables</h1>
+                <h1 class="text-3xl text-black pb-6">On-going Appointments</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i>Counselling
+                        <i class="fas fa-list mr-3"></i>
                     </p>
 <table id="appointments-table" class="display nowrap w-full text-left table-auto min-w-max">
-  <thead> On going Appointments
+  <thead> 
     <tr>
       <th>Appointment ID</th>
       <th>First Name</th>
@@ -233,14 +233,14 @@ $conn->close();
 </div>
 <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Tables</h1>
+                <h1 class="text-3xl text-black pb-6">New Appointments</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i>Counselling
+                        <i class="fas fa-list mr-3"></i>
                     </p>
 <!-- Second DataTable: Completed Appointments -->
-<table id="pending-table" class="display nowrap w-full text-left table-auto min-w-max mt-4">New Appointments
+<table id="pending-table" class="display nowrap w-full text-left table-auto min-w-max mt-4">
   <thead>
     <tr>
       <th>Appointment ID</th>
@@ -477,17 +477,17 @@ $conn->close();
     });
 
     // Filter function for ongoing appointments in the appointments table
-    $.fn.dataTable.ext.search.push(
-        function(settings, data, dataIndex) {
-            if (settings.nTable.id === 'appointments-table') {
-                const status = data[6]; // Assuming status is in the 7th column (index 6)
-                console.log('Appointments Row data:', data);
-                console.log('Appointments Status:', status);
-                return status && status.trim().toLowerCase() === "ongoing"; // Filter condition
-            }
-            return true; // Don't filter for other tables
-        }
-    );
+      $.fn.dataTable.ext.search.push(
+          function(settings, data, dataIndex) {
+              if (settings.nTable.id === 'appointments-table') {
+                  const status = data[6]; // Assuming status is in the 7th column (index 6)
+                  console.log('Appointments Row data:', data);
+                  console.log('Appointments Status:', status);
+                  return status && status.trim().toLowerCase() === "ongoing"; // Filter condition
+              }
+              return true; // Don't filter for other tables
+          }
+      );
 
     // Draw the appointments table to apply the filter
     
