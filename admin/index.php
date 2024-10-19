@@ -151,97 +151,16 @@ if ($user_type !== 'Admin') {
             <main class="w-full flex-grow p-6">
                 <h1 class="text-3xl text-black pb-6">Dashboard</h1>
     
-                <div class="flex flex-wrap mt-6">
-                    <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
-                        <p class="text-xl pb-3 flex items-center">
-                            <i class="fas fa-plus mr-3"></i> Monthly Reports
-                        </p>
-                        <div class="p-6 bg-white">
-                            <canvas id="chartOne" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                    <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
-                        <p class="text-xl pb-3 flex items-center">
-                            <i class="fas fa-check mr-3"></i> Resolved Reports
-                        </p>
-                        <div class="p-6 bg-white">
-                            <canvas id="chartTwo" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="w-full mt-12">
-                    <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Latest Reports
-                    </p>
-                    <div class="bg-white overflow-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-800 text-white">
-                                <tr>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Last name</th>
-                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Phone</th>
-                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Email</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-700">
-                                <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">Lian</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Smith</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr class="bg-gray-200">
-                                    <td class="w-1/3 text-left py-3 px-4">Emma</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Johnson</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">Oliver</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Williams</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr class="bg-gray-200">
-                                    <td class="w-1/3 text-left py-3 px-4">Isabella</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Brown</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">Lian</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Smith</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr class="bg-gray-200">
-                                    <td class="w-1/3 text-left py-3 px-4">Emma</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Johnson</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">Oliver</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Williams</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                                <tr class="bg-gray-200">
-                                    <td class="w-1/3 text-left py-3 px-4">Isabella</td>
-                                    <td class="w-1/3 text-left py-3 px-4">Brown</td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                                    <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+
+                
             </main>
     
-            <footer class="w-full bg-white text-right p-4">
-                Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
-            </footer>
+           
+            
+
         </div>
         
     </div>
@@ -254,81 +173,39 @@ if ($user_type !== 'Admin') {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
     <script>
-        var chartOne = document.getElementById('chartOne');
-        var myChart = new Chart(chartOne, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+window.onload = function () {
+        // Fetch appointment data from the server
+        $.ajax({
+            url: 'function/fecth.php', // Path to your PHP script
+            method: 'GET',
+            dataType: 'json',
+            success: function(appointments) {
+                // Prepare data points for the chart
+                var dataPoints = appointments.map(function(appointment) {
+                    return { label: appointment.service, y: parseInt(appointment.count) };
+                });
 
-        var chartTwo = document.getElementById('chartTwo');
-        var myLineChart = new Chart(chartTwo, {
-            type: 'line',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
+                // Construct options for the chart
+                var options = {
+                    title: {
+                        text: "Appointments by Service"              
+                    },
+                    data: [              
+                        {
+                            type: "column",
+                            dataPoints: dataPoints
                         }
-                    }]
-                }
+                    ]
+                };
+
+                // Render the chart
+                $("#chartContainer").CanvasJSChart(options);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: " + error);
             }
         });
-    </script>
+    }
+            </script>
 </body>
 </html>
