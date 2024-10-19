@@ -41,7 +41,7 @@ if (isset($_POST['add_appointment'])) {
   $queue_number = $row['max_queue_number'] + 1;
 
   // Insert appointment
-  $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$address', '$service', '$appointment_date', '$queue_number', 'pending')";
+  $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$civilstatus','$birth_date','$birthplace', '$service', '$appointment_date', '$queue_number', 'pending')";
   if ($conn->query($sql) === TRUE) {
     echo "<script>
     alert('Appointment added successfully for $appointment_date!');

@@ -162,11 +162,11 @@ if ($user_type !== 'Admin') {
 
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Tables</h1>
+                <h1 class="text-3xl text-black pb-6">Walk in</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i>Counselling
+                        <i class="fas fa-list mr-3"></i>
                     </p>
                     <table id="appointments" class="display" style="width:100%">
         <thead>
@@ -186,59 +186,33 @@ if ($user_type !== 'Admin') {
     </table>
                 </div>
 
-                <div class="w-full mt-12">
+                <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="text-3xl text-black pb-6">Online Appointments</h1>
+
+                <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Table Example
+                        <i class="fas fa-list mr-3"></i>
                     </p>
-                    <div class="bg-white overflow-auto">
-                        <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
-                            <thead>
-                                <tr>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Name</th>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Last Name</th>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Phone</th>
-                                    <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                                <tr class="hover:bg-grey-lighter">
-                                    <td class="py-4 px-6 border-b border-grey-light">Lian</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">Smith</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">622322662</td>
-                                    <td class="py-4 px-6 border-b border-grey-light">jonsmith@mail.com</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="pt-3 text-gray-600">
-                        Source: <a class="underline" href="https://tailwindcomponents.com/component/table">https://tailwindcomponents.com/component/table</a>
-                    </p>
+                    <table id="Online" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Age</th>
+                <th>Civil Status</th>
+                <th>Birth Date</th>
+                <th>Birth Place</th>
+                <th>appointment_date</th>
+                <th>Status</th>
+                <th>Services</th>
+                
+            </tr>
+        </thead>
+    </table>
                 </div>
 
-                <div class="w-full mt-12">
-                    <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Table Example
-                    </p>
-                    
-                    </div>
+                
                     <p class="pt-3 text-gray-600">
                         Source: <a class="underline" href="https://tailwindcomponents.com/component/table-responsive-with-filters">https://tailwindcomponents.com/component/table-responsive-with-filters</a>
                     </p>
@@ -289,7 +263,7 @@ $(document).ready(function() {
     "ajax": {   
       "url": "function/data.php",
       "dataSrc": function(json) {
-        return json.filter(item => item.status.toLowerCase() === 'confirmed' && item.Service.toLowerCase() === 'counselling');
+        return json.filter(item =>  item.status.trim() === 'Confirmed' &&  item.Service.trim() === 'New Born Care'|| item.Service.trim() === 'New Born Screening'|| item.Service.trim()=== 'Post Partum Care Post Partum' || item.Service.trim() === 'Normal Spontaneous Delivery');
       }
     },
     "columns": [
@@ -313,6 +287,32 @@ $(document).ready(function() {
     "processing": true,
     "serverSide": false
   });
+  $('#Online').DataTable({
+    "ajax": {   
+      "url": "function/data.php",
+      "dataSrc": function(json) {
+        return json.filter(item =>  item.status.trim() === 'Confirmed' &&  item.Service.trim() === 'Counselling'|| item.Service.trim() === 'Family Planning'||item.Service.trim() === 'Ear Piercing'||item.Service.trim() === 'Immunization'||item.Service.trim() === 'Acid Wash');
+      }
+    },
+    "columns": [
+      { "title": "ID", "data": "id" },
+      { "title": "Full Name", "data": "FullName" },
+      { "title": "Age", "data": "Age" },
+      { "title": "Civil Status", "data": "civil_status" },
+      { "title": "Birth Date", "data": "birth_date" },
+      { "title": "Birth Place", "data": "birth_place" },
+      { "title": "Appointment Date", "data": "appointment_date" },
+      { "title": "Status", "data": "status", "visible": false },
+      { "title": "Services", "data": "Service"}
+      
+    ],
+    "processing": true,
+    "serverSide": false
+  });
+
+
+
+
 });
 
 function viewAppointment(id) {
