@@ -63,7 +63,10 @@ function insertData($conn) {
                 
                 // Execute the update statement
                 if (mysqli_stmt_execute($update_stmt)) {
-                    echo "Appointment status updated to confirmed";
+                    echo "<script>
+    alert('Record added successfully for !');
+    window.location.href = 'blank.php';
+  </script>";
                 } else {
                     echo "Error updating appointment status: " . mysqli_stmt_error($update_stmt);
                 }
