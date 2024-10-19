@@ -7,7 +7,7 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 // Function to check if user is client
 if ($user_type !== 'Client') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: unauthorized_access.php');
+    header('Location: Project-clinic/login.php');
     exit;
 }
 
