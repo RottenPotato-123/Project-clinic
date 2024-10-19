@@ -57,7 +57,7 @@ function insertData($conn) {
                 echo "New record created successfully";
 
                 // Update the status of the appointment to "confirmed"
-                $update_sql = "UPDATE appointments SET status = 'confirmed' WHERE id = ?";
+                $update_sql = "UPDATE appointments SET status = 'Confirmed' WHERE id = ?";
                 $update_stmt = mysqli_prepare($conn, $update_sql);
                 mysqli_stmt_bind_param($update_stmt, "i", $appointment_id);
                 
