@@ -24,7 +24,9 @@ if (isset($_POST['add_appointment'])) {
   $middle_name = $_POST['MiddleName'];
   $last_name = $_POST['LastName'];
   $age = $_POST['Age'];
-  $address = $_POST['Address'];
+  $civilstatus = $_POST['civilstatus'];
+  $birth_date =date("Y-m-d",strtotime( $_POST['date']));
+  $birthplace = $_POST['Birthplace'];
   $service = $_POST['service'];
   $appointment_date = date("Y-m-d",strtotime($_POST['appointment_date']));
  
@@ -39,7 +41,7 @@ if (isset($_POST['add_appointment'])) {
   $queue_number = $row['max_queue_number'] + 1;
 
   // Insert appointment
-  $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$address', '$service', '$appointment_date', '$queue_number', 'pending')";
+  $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$civilstatus','$birth_date','$birthplace', '$service', '$appointment_date', '$queue_number', 'pending')";
   if ($conn->query($sql) === TRUE) {
     echo "<script>alert('Appointment added successfully for today!');</script>";
 } else {

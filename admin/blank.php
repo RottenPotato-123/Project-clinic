@@ -1,22 +1,25 @@
 <?php
 session_start();
-
+include 'db.php';
 // Determine the user type
 $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
 if ($user_type !== 'Admin') {
     // Redirect to an unauthorized access page or display an error message
     header('Location: unauthorized_access.php');
     exit;
+  
+
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind Admin Template</title>
-    <meta name="author" content="David Grzyb">
+    <title>Chit's Lying-in Clinic</title>
+    <link rel="icon" href="/image/logo.png" type="image/png">
     <meta name="description" content="">
 
     <!-- Tailwind -->
@@ -70,9 +73,28 @@ if ($user_type !== 'Admin') {
         <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/2"></div>
             <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                    <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400">
-                </button>
+            <button @click="isOpen = !isOpen" class="relative z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none bg-gray-300 flex items-center justify-center text-white font-bold text-xl">
+    <?php 
+    // Initialize the initials variable
+    $initials = "?"; // Fallback if no name is available
+
+    // Check if session variable is set
+    if (isset($_SESSION['name'])) {
+        // Get the full name from the session
+        $full_name = htmlspecialchars($_SESSION['name']); 
+
+        // Get the first letter of the first name
+        $first_name = strtok($full_name, ' '); // Get the first part of the full name
+
+        // Check if $first_name is set
+        if ($first_name) {
+            $initials = strtoupper(substr($first_name, 0, 1)); // First name initial
+        }
+    }
+    echo $initials; // Display the initials in the button
+    ?>
+</button>
+
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
@@ -279,7 +301,7 @@ $conn->close();
   <!-- Modal Content -->
   <div class="bg-white rounded shadow-md w-1/2 h-2/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     <!-- Header -->
-    <h2 class="text-3xl font-bold text-gray-800   mb-4">New Appointment</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
     <!-- Form -->
     <form action="add_appointment.php" method="post">
       <!-- Input Fields -->
@@ -287,29 +309,50 @@ $conn->close();
 
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
-        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Age:</label>
-        <input type="text" id="Age" name="Age" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="number" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Address:</label>
-        <input type="text" id="Address" name="Address" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
+        <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
+        <select id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
+       
+        <option value="Single">Single</option>
+        <option value="Married">Married</option>
+        <option value="Separated">Separated</option>
+        <option value="Widowed">Widowed</option>
+        </select>
+   </div>
+
+      <div class="mb-4" >
+
+        <label for="title" class="block mb-2 text-gray-700">Birthdate:</label>
+        
+        <input type="date" id="date" name="date" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+      </div>
+      <div class="mb-4">
+        <label for="title" class="block mb-2 text-gray-700">Birthplace:</label>
+        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <!-- Select Field -->
       <div class="mb-4">
         <label for="service" class="block mb-2 text-gray-700">Service:</label>
-        <select id="service" name="service" class="w-full p-2 pl-1 text-sm text-gray-700 border border-gray-300 rounded">
-          <option value="Counselling">Counselling</option>
+        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
+          <option value="Post Partum Care Post Partum">Post Partum Care Post Partum</option>
+          <option value="Normal Spontaneous Delivery">Normal Spontaneous Delivery</option>
+          <option value="New Born Screening">New Born Screening</option>
+          <option value="New Born Care">New Born Care</option>
+        <option value="Counselling">Counselling</option>
           <option value="Family Planning">Family Planning</option>
           <option value="Ear Piercing">Ear Piercing</option>
           <option value="Immunization">Immunization</option>
@@ -317,12 +360,13 @@ $conn->close();
         </select>
       </div>
       <!-- Submit Button -->
-      <button type="submit" name="add_appointment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"onclick="addAppointment()">Book Appointment</button>
+      <button type="submit" name="add_appointment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
     </form>
     <!-- Close Button -->
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
   </div>
 </div>   
+
 
 <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2">
   <!-- Modal Content -->
@@ -407,17 +451,20 @@ $conn->close();
   </div>
 </div>   
 <!-- Confirmation Modal -->
-<div id="confirmModal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Are you sure you want to delete this item?</p>
-        <button id="confirmDelete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Confirm</button>
-        <button class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded cancel">Cancel</button>
+<div class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden" id="confirmModal">
+    <div class="flex items-center justify-center h-full">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
+            <h2 class="text-lg font-semibold mb-4">Confirmation</h2>
+            <p>Are you sure you want to delete this appointment?</p>
+            <div class="mt-4">
+                <button id="confirmDelete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Confirm</button>
+                <button class="cancel bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded ml-2">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>
 
-
-
+      
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     
@@ -426,6 +473,8 @@ $conn->close();
     $(document).ready(function() {
     // Initialize DataTables with responsive support
     const appointmentsTable = $('#appointments-table').DataTable({
+    
+
         "paging": true,
         "lengthChange": true,
         "searching": true,
@@ -433,6 +482,7 @@ $conn->close();
         "info": true,
         "autoWidth": false,
         "responsive": true,
+        
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
         },
@@ -446,12 +496,15 @@ $conn->close();
                 "render": function(data, type, row) {
                     console.log('Row:', row); // Log the row for debugging
                     console.log('Row ID:', row[0]); // Log the ID (first element of the row)
+                    console.log('Service:', row[3]); // Log the service (assuming it's in the 4th column)
+
                     return `
                         <button 
                             class="confirm-button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" 
-                            data-id="${row[0]}" 
+                            data-id="${row[0]}"
+                            data-service="${row[3]}" 
                             type="button">
-                            Confirm
+                            Mark as done
                         </button>&nbsp;
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" 
                             data-id="${row[0]}" 
@@ -464,16 +517,41 @@ $conn->close();
         ]
     });
 
+     const modalServices  = [
+      "Post Partum Care Post Partum",
+      "Normal Spontaneous Delivery",
+      "New Born Screening",
+      "New Born Care"
+    ];
+    const markAsDoneServices  = [
+      "Counselling",
+      "Family Planning",
+      "Ear Piercing",
+      "Immunization",
+      "Acid Wash"
+    ];
     // Event listener for the confirm button
     $('#appointments-table').on('click', '.confirm-button', function() {
-        var id = $(this).data('id'); // Retrieve the appointment ID
+        
+      var id = $(this).data('id'); // Retrieve the appointment ID
         console.log('Button data-id:', id); // Log the ID to confirm it's correct
+        const service = $(this).data('service');  // Get the service
+        console .log('Service:', service); // Log the service to confirm it's correct
 
         // Update the input field in the modal with the appointment ID
+       
+        if (modalServices.includes(service)) {
+        // Open the modal if the service matches the modal-triggering list
+        console.log(`Opening modal for Appointment ID: ${id}`);
         $('#modal-overlay2 input[name="appointment_id"]').val(id);
-
-        // Show the modal
         $('#modal-overlay2').removeClass('hidden');
+    } else if (markAsDoneServices.includes(service)) {
+        // If the service is in the "Mark as Done" list, proceed directly
+        console.log(`Marking Appointment ID: ${id} as done.`);
+        markAsDone(id);  // Call the function to mark as done
+    } else {
+        console.log(`Service "${service}" is not recognized.`);
+    }
     });
 
     // Filter function for ongoing appointments in the appointments table
@@ -493,36 +571,42 @@ $conn->close();
     
 
     // Handle row deletion
-    $(document).on('click', '.delete-btn', function() {
-        const appointmentId = $(this).data('id');
-        const row = $(this).closest('tr'); // Get the closest row
-        $('#confirmDelete').data('id', appointmentId); // Set the ID in the confirm button
-        $('#confirmModal').removeClass('hidden'); // Show the confirmation modal
+  $(document).on('click', '.delete-btn', function() {
+    console.log('Delete button clicked'); // Log a message to the console
+    const appointmentId = $(this).data('id'); // Retrieve the appointment ID
+    const row = $(this).closest('tr'); // Get the closest row
+    console.log('Appointment ID:', appointmentId); // Log the appointment ID
+    $('#confirmDelete').data('id', appointmentId); // Set the ID in the confirm button
+    console.log('Confirm delete button ID:', $('#confirmDelete').data('id')); // Log the ID of the confirm button
+    $('#confirmModal').removeClass('hidden'); // Show the confirmation modal
+    console.log('Modal visible:', $('#confirmModal').is(':visible')); // Log whether the modal is visible
 
-        // Confirm deletion on confirm button click
-        $('#confirmDelete').off('click').on('click', function() {
-            $.ajax({
-                url: 'funtion.php', // Update with your actual PHP file
-                type: 'POST',
-                data: { id: appointmentId },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        appointmentsTable.row(row).remove().draw(); // Remove the row from DataTable
-                        alert('Data deleted successfully!'); // Notify the user
-                    } else {
-                        alert('Failed to delete data: ' + (response.message || 'Unknown error.'));
-                    }
-                    $('#confirmModal').addClass('hidden'); // Hide the modal
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('AJAX request failed:', textStatus, errorThrown);
-                    alert('Error occurred while deleting the data. Check console for details.');
-                    $('#confirmModal').addClass('hidden'); // Hide the modal on error
+    // Confirm deletion on confirm button click
+    $('#confirmDelete').off('click').on('click', function() {
+        $.ajax({
+            url: 'funtion.php', //q Corrected the URL
+            type: 'POST',
+            data: { id: appointmentId },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    appointmentsTable.row(row).remove().draw(); // Remove the row from DataTable
+                    window.location.reload(true);
+
+                    
+                } else {
+                    alert('Failed to delete data: ' + (response.message || 'Unknown error.'));
                 }
-            });
+                $('#confirmModal').addClass('hidden'); // Hide the modal
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX request failed:', textStatus, errorThrown);
+                alert('Error occurred while deleting the data. Check console for details.');
+                $('#confirmModal').addClass('hidden'); // Hide the modal on error
+            }
         });
     });
+});
 
     // Close modal when cancel button is clicked
     $('.cancel, .close').on('click', function() {
@@ -555,7 +639,7 @@ $conn->close();
                             onclick="updateStatus(${row[0]})">
                             Confirm
                         </button>&nbsp;
-                        <button class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn1" 
+                        <button class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded delete-btn" 
                             data-id="${row[0]}" 
                             type="button">
                             Delete
@@ -586,6 +670,9 @@ appointmentsTable.draw();
 
     
 });
+
+
+
 function updateStatus(id) {
     // Make an AJAX request to your server-side script
     $.ajax({
@@ -594,13 +681,14 @@ function updateStatus(id) {
         data: { id: id, status: "ongoing" },
         success: function(response) {
             console.log("Status updated successfully!");
+            window.location.reload(true);
         },
-        error: function(xhr, status, error) {
+        error: function(xhr, status  , error) {
             console.log("Error updating status:", error);
         }
     });
 }
-
+ 
 
 
     
@@ -664,6 +752,20 @@ $.ajax({
     console.log('Error:', error);
   }
 });
+function markAsDone(id) {
+  $.ajax({
+        type: "POST",
+        url: "function/update.php", // Replace with your server-side script URL
+        data: { id: id, status: "Confirmed" },
+        success: function(response) {
+            console.log("Status updated successfully!");
+            window.location.reload(true);
+        },
+        error: function(xhr, status  , error) {
+            console.log("Error updating status:", error);
+        }
+    });
+}
 
  </script>
     <!-- Font Awesome -->

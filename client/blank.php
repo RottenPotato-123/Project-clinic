@@ -66,9 +66,27 @@ if ($user_type !== 'Client') {
             <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
                 <div class="w-1/2"></div>
                 <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                    <button @click="isOpen = !isOpen" class="relative z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                        <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400" alt="Profile">
-                    </button>
+                <button @click="isOpen = !isOpen" class="relative z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none bg-gray-300 flex items-center justify-center text-white font-bold text-xl">
+    <?php 
+    // Initialize the initials variable
+    $initials = "?"; // Fallback if no name is available
+
+    // Check if session variable is set
+    if (isset($_SESSION['name'])) {
+        // Get the full name from the session
+        $full_name = htmlspecialchars($_SESSION['name']); 
+
+        // Get the first letter of the first name
+        $first_name = strtok($full_name, ' '); // Get the first part of the full name
+
+        // Check if $first_name is set
+        if ($first_name) {
+            $initials = strtoupper(substr($first_name, 0, 1)); // First name initial
+        }
+    }
+    echo $initials; // Display the initials in the button
+    ?>
+</button>
                     <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                     <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                         <a href="userSetting.php" class="block px-4 py-2 account-link hover:text-white">Account</a>
@@ -155,12 +173,17 @@ if ($user_type !== 'Client') {
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Age:</label>
-        <input type="text" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <input type="number" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Civil status:</label>
-        <input type="text" id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
-      </div>
+      <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
+        <select id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
+       
+        <option value="Single">Single</option>
+        <option value="Married">Married</option>
+        <option value="Separated">Separated</option>
+        <option value="Widowed">Widowed</option>
+        </select> </div>
       <div class="mb-4" >
         <label for="title" class="block mb-2 text-gray-700">Birthdate:</label>
         
