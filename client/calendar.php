@@ -127,11 +127,97 @@ if ($user_type !== 'Client') {
                     
                 </nav>
             </header>
+            <?php
+// Include the database connection file
+require_once 'db.php';
+
+// Get the user_id from the session
+$user_id = $_SESSION['user_id']; // Ensure you set this when the user logs in
+
+// Get appointments for the logged-in user
+// Get appointments for the logged-in user
+$sql = "SELECT * FROM appointments WHERE client_id = ?"; // Changed Id to user_id
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id); // Bind the user_id to the query
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Store the appointments in an array
+$appointments = array();
+while ($row = $result->fetch_assoc()) {
+    $appointment = array(
+        'Id' => $row['id'],
+        'FirstName' => $row['FirstName'],
+        'LastName' => $row['LastName'],
+        'Service' => $row['Service'],
+        'appointment_date' => $row['appointment_date'],
+        'queue_number' => $row['queue_number'],
+        'status' => $row['status']
+    );
+    $appointments[] = $appointment;
+}
+
+// Check if appointments were found
+if (empty($appointments)) {
+    echo "No appointments found for User ID: $user_id";
+}
+
+// Store the appointments in the session
+$_SESSION['appointments'] = $appointments;
+
+// Close the database connection
+$conn->close();
+
+?>
 
             <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
                 <main class="w-full flex-grow p-6">
-                    <h1 class="text-3xl text-black pb-6">Dashboard</h1>
-                    <p>Welcome, Client. Here is your dashboard.</p>
+                    <h1 class="text-3xl text-black pb-6"></h1>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+
+        <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
+
+                <div class="w-full mt-6">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i>
+                    </p>
+<table id="appointments-table" class="display nowrap w-full text-left table-auto min-w-max">
+  <thead> 
+    <tr>
+      <th>Appointment ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Service</th>
+      <th>Appointment Date</th>
+      <th>Queue Number</th>
+      <th>Status</th> 
+   
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
+      <tr data-id="<?= $appointment['Id'] ?>">
+        <td><?= $appointment['Id'] ?></td>
+        <td><?= $appointment['FirstName'] ?></td>
+        <td><?= $appointment['LastName'] ?></td>
+        <td><?= $appointment['Service'] ?></td>
+        <td><?= $appointment['appointment_date'] ?></td>
+        <td><?= $appointment['queue_number'] ?></td>
+        <td><?= $appointment['status'] ?></td>
+        
+      </tr>
+    <?php } ?>
+  </tbody>
+</table>
+</main>
+</div>
+
                 </main>
             </div>
         </div>
@@ -142,5 +228,43 @@ if ($user_type !== 'Client') {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
    
 </body>
+<script>
+     $(document).ready(function() {
+    // Initialize DataTables with responsive support
+    const appointmentsTable = $('#appointments-table').DataTable({
+        "paging": true,
+        
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
+        },
+        
+        "createdRow": function(row, data) {
+            
+            $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
+        },
+        "columnDefs": [
+            { "width": "20%", "targets": 6 }, // Adjust column width for action buttons
+            {
+                
+            }
+        ]
+    });
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            if (settings.nTable.id === 'appointments-table') {
+                const status = data[6]; // Assuming status is in the 7th column (index 6)
+                console.log('Appointments Row data:', data);
+                console.log('Appointments Status:', status);
+                return status && status.trim() === "Confirmed"  // Filter condition
+            }
+            return true; // Don't filter for other tables
+        }
+    );
+});
+</script>
 
 </html>

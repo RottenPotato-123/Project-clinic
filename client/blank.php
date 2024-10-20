@@ -129,7 +129,7 @@ if ($user_type !== 'Client') {
                 </nav>
             </header>
 <main>
-            <div class="bg-white md:py-8 px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
+<div class="bg-white md:py-8 px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
     <p class="text-4xl font-bold text-gray-800 mb-8" id="month-year"></p>
     <div class="inline-flex flex-col space-y-1 items-start justify-start h-full w-full">
         <!-- days of the week -->
@@ -148,6 +148,7 @@ if ($user_type !== 'Client') {
         </div>
     </div>
 </div>
+
 
 <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay">
   <!-- Modal Content -->
@@ -214,12 +215,20 @@ if ($user_type !== 'Client') {
 </main>
 </body>
 <script>
-const currentDate = new Date();
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const monthNames = ["January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December"];
 
+// Get the current date
+const currentDate = new Date();
+
+// Get the date 4 days from now
+const fourDaysFromNow = new Date(currentDate);
+fourDaysFromNow.setDate(currentDate.getDate() + 4);
+
+// Display the month and year
 document.getElementById("month-year").textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
 
-// generate calendar days
+// Generate calendar days
 const calendarDays = [];
 for (let i = 1; i <= 31; i++) {
     const day = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
@@ -228,22 +237,40 @@ for (let i = 1; i <= 31; i++) {
     }
 }
 
-// update calendar days in HTML
+// Update calendar days in HTML
 const calendarContainer = document.getElementById("calendar-days");
 calendarDays.forEach((day) => {
     const dayElement = document.createElement("div");
     dayElement.className = "w-40 h-20 pl-2 pr-32 pt-2.5 pb-24 border border-gray-200";
+
+    // Create a paragraph element for the date
+    const dayText = document.createElement("p"); // Define dayText here
+    dayText.className = "text-sm font-medium text-gray-800"; // Text styling
+
+    // Highlight the current date
     if (day === currentDate.getDate()) {
-        dayElement.className += " bg-red-100"; // add a highlighted class for the current date
+        dayElement.classList.add("bg-red-100"); // Highlight current date in red
+        dayText.textContent = `${day} - Today`; // Add "Today" text
+    } 
+    // Highlight the date 4 days from now
+    else if (day === fourDaysFromNow.getDate() && currentDate.getMonth() === fourDaysFromNow.getMonth()) {
+        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
+        dayText.textContent = `${day} - BookThisDay and onwards`; // Add "In 4 Days" text
+    } 
+    // Default case for other dayss
+    else {
+        dayText.textContent = `${day}`; // Just display the day
     }
-    dayElement.innerHTML = `<p class="text-sm font-medium text-gray-800">${day}</p>`;
+
+    // Append the text to the day element
+    dayElement.appendChild(dayText);
+
     dayElement.addEventListener("click", () => {
         const selectedDate = `${monthNames[currentDate.getMonth()]} ${day}, ${currentDate.getFullYear()}`;
         console.log('Selected date:', selectedDate);
         document.getElementById("appointment_date").value = selectedDate;
 
         // Send the selected date to your PHP script using AJAX or form submission
-        // Example using AJAX (using the Fetch API)
         fetch('date.php', {
             method: 'POST',
             headers: {
@@ -257,6 +284,7 @@ calendarDays.forEach((day) => {
         const modalOverlay = document.getElementById("modal-overlay");
         modalOverlay.classList.remove("hidden");
     });
+
     calendarContainer.appendChild(dayElement);
 });
 

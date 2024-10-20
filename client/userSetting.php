@@ -180,7 +180,7 @@ $user = $result->fetch_assoc();
                 <!-- Phone Number -->
                 <div class="mb-4">
                     <label for="Phone" class="block text-sm font-medium text-indigo-900">Phone Number</label>
-                    <input type="text" id="Phone" name="Phone" 
+                    <input type="number" id="Phone" name="Phone" 
                         class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
                 </div>
@@ -193,6 +193,9 @@ $user = $result->fetch_assoc();
                     </button>
                     
                 </div>
+                </form>
+                <form action="change_password.php"id="passwordForm" method="POST">
+
                 <!-- Password Section -->
                 <div class="mb-6">
                     <h2 class="text-lg font-medium text-indigo-900 mb-4">Change Password</h2>
@@ -229,7 +232,8 @@ $user = $result->fetch_assoc();
                         </button>
                     </div>
                 </div>
-            </form>
+                </form>
+
         </div>
     </div>
 
@@ -240,6 +244,37 @@ $user = $result->fetch_assoc();
         <!-- Font Awesome -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
    
+        <script>
+            function validatePasswords(password, passwordConfirmation, event) {
+    // Check password length
+    if (password.length < 6 ) {
+        alert("Password must be 6 characters.");
+        event.preventDefault(); // Prevent form submission
+        return false;
+    }
+
+    // Validate if passwords match
+    if (password !== passwordConfirmation) {
+        alert("Passwords do not match.");
+        event.preventDefault(); // Prevent form submission
+        return false;
+    }
+
+    // All checks passed
+    return true;
+}
+document.getElementById('passwordForm').addEventListener('submit', function(event) {
+    const password = document.getElementById('new_password').value;
+    const passwordConfirmation = document.getElementById('confirm_password').value;
+
+    // Call the validation function
+    if (!validatePasswords(password, passwordConfirmation, event)) {
+        console.log("Password validation failed."); // For debugging purposes
+    }
+});
+
+        </script>
 </body>
+
 
 </html>

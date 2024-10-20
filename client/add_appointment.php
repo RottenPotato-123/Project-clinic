@@ -33,10 +33,12 @@ if (isset($_POST['add_appointment'])) {
   $service = $_POST['service'];
   $appointment_date = date("Y-m-d",strtotime($_POST['appointment_date']));
   $current_date = date('Y-m-d'); // Get the current date
-  $tommorow = date('Y-m-d', $today + 86400 ); // Get tom
-  
+ 
+
+  $four_days_later = date('Y-m-d', strtotime($current_date) + (86400 * 4)); // Get the date four days from now
+
   // Check if the appointment date is today
-  if ($appointment_date === $current_date || $appointment_date === $tommorow) {
+  if ( $appointment_date === $four_days_later) {
     
   }else{
     echo "Error: You can only add appointments for today and tommorow";
@@ -54,7 +56,7 @@ if (isset($_POST['add_appointment'])) {
   if ($conn->query($sql) === TRUE) {
     try {
       $mail = 
-      include $_SERVER['DOCUMENT_ROOT'] . '/code/mailer.php';
+      include $_SERVER['DOCUMENT_ROOT'] . '/Project-clinic/mailer.php';
         $mail = getMailer();
         $mail->setFrom("noreply@example.com");
         $mail->addAddress($client_email, $first_name); // Send email to client

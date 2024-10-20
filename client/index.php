@@ -259,7 +259,9 @@ $conn->close();
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
         },
+        
         "createdRow": function(row, data) {
+            
             $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
         },
         "columnDefs": [
@@ -275,7 +277,7 @@ $conn->close();
                 const status = data[6]; // Assuming status is in the 7th column (index 6)
                 console.log('Appointments Row data:', data);
                 console.log('Appointments Status:', status);
-                return status && status.trim().toLowerCase() === "ongoing"; // Filter condition
+                return status && status.trim().toLowerCase() === "ongoing" || status.trim().toLowerCase() === "pending"; // Filter condition
             }
             return true; // Don't filter for other tables
         }
