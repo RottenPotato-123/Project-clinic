@@ -51,6 +51,7 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
         .nav-item:hover { background: #1947ee; }
         .account-link:hover { background: #3d68ff; }
     </style>
+    
 </head>
 <body class="bg-gray-100 font-family-karla flex">
   
@@ -200,7 +201,52 @@ $conn->close();
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
+
+    <main class="w-min flex-grow p-6">
+        <h1 class="text-2xl text-black pb-6">On going queue</h1>
+
+         <!-- Changed w-half to w-min for smaller width -->
+            <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[300px]"> <!-- Set a minimum width for better responsiveness -->
+                <thead>
+                    <tr>
+                        <th class="p-1 text-sm">Appointment ID</th>
+                        <th class="p-1 text-sm">Queue Number</th>
+                        <th class="p-1 text-sm">Service</th>
+                        <th class="p-1 text-sm">Status</th>
+                        <th class="p-1 text-sm">Estimated Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    // Define service and time mappings
+                    $serviceTimes = [
+                        'Counselling' => '30m to 1h',
+                        'Family Planning' => '20m to 30m',
+                        'Ear Piercing' => '5m to 10m',
+                        'Immunization' => '10m to 15m',
+                        'Acid Wash' => '20m to 30m'
+                    ];
+
+                    // Loop through appointments
+                    foreach ($_SESSION['appointments'] as $appointment) {
+                        $service = $appointment['Service'];
+                        $estimatedTime = $serviceTimes[$service] ?? 'Unknown'; // Handle unknown services
+                ?>  
+                    <tr data-id="<?= $appointment['Id'] ?>">
+                        <td class="p-1 text-sm"><?= $appointment['Id'] ?></td>
+                        <td class="p-1 text-sm"><?= $appointment['queue_number'] ?></td>
+                        <td class="p-1 text-sm"><?= $appointment['Service'] ?></td>
+                        <td class="p-1 text-sm"><?= $appointment['status'] ?></td>
+                        <td class="p-1 text-sm"><?= $estimatedTime ?></td> 
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        
+    </main>
+
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            
             <main class="w-full flex-grow p-6">
                 <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
 
@@ -239,6 +285,7 @@ $conn->close();
 </main>
 </div>
 
+
         <!-- AlpineJS -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
         <!-- Font Awesome -->
@@ -247,42 +294,71 @@ $conn->close();
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>  
 <script>
-     $(document).ready(function() {
-    // Initialize DataTables with responsive support
+    $(document).ready(function () {
+    // Initialize Appointments DataTable
     const appointmentsTable = $('#appointments-table').DataTable({
-        "paging": true,
-        
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
+        paging: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
         },
-        
-        "createdRow": function(row, data) {
-            
-            $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
+        createdRow: function (row, data) {
+            $(row).attr('data-id', data.Id); // Set data-id on the tr element
         },
-        "columnDefs": [
-            { "width": "20%", "targets": 6 }, // Adjust column width for action buttons
-            {
-                
-            }
-        ]
+        columnDefs: [{ width: "20%", targets: 6 }] // Adjust column width
     });
-    $.fn.dataTable.ext.search.push(
-        function(settings, data, dataIndex) {
-            if (settings.nTable.id === 'appointments-table') {
-                const status = data[6]; // Assuming status is in the 7th column (index 6)
-                console.log('Appointments Row data:', data);
-                console.log('Appointments Status:', status);
-                return status && status.trim().toLowerCase() === "ongoing" || status.trim().toLowerCase() === "pending"; // Filter condition
-            }
-            return true; // Don't filter for other tables
+
+    // Initialize Ongoing Queue DataTable
+    const Ongoing_Que = $('#Ongoing_Que').DataTable({
+        paging: false,
+        ordering: true,
+        info: false,
+        autoWidth: false,
+        responsive: true,
+        
+        createdRow: function (row, data) {
+            
+            $(row).attr('data-id', data.Id); // Set data-id on the tr element
+        },
+        columnDefs: 
+        [
+            { targets: 0, visible: false }, // Hide the Appointment ID column
+            { width: "30%", targets: 4 }] // Adjust column width
+    });
+    $('#Ongoing_Que_filter').addClass('hidden');
+
+    // Single filter function for both tables
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        let status;
+
+        // Filter for 'appointments-table' (Assuming status is in the 7th column)
+        if (settings.nTable.id === 'appointments-table') {
+            status = data[6]?.trim().toLowerCase(); // Status in column index 6
+            console.log('Appointments Row Data:', data);
+            console.log('Appointments Status:', status);
+            return status === 'ongoing' || status === 'pending'; // Filter condition
         }
-    );
+
+        // Filter for 'Ongoing_Que' (Assuming status is in the 5th column)
+        if (settings.nTable.id === 'Ongoing_Que') {
+            status = data[3]?.trim().toLowerCase(); // Status in column index 4
+            console.log('Ongoing Queue Row Data:', data);
+            console.log('Ongoing Queue Status:', status);
+            return status === 'ongoing'; // Filter condition
+        }
+
+        // Allow all rows for other tables
+        return true;
+    });
+
+    // Redraw tables when filters are applied
+    appointmentsTable.draw();
+    Ongoing_Que.draw();
 });
+
 </script>
 
 </html>
