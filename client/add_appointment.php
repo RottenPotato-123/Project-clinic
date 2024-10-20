@@ -41,7 +41,12 @@ if (isset($_POST['add_appointment'])) {
   if ( $appointment_date === $four_days_later) {
     
   }else{
-    echo "Error: You can only add appointments for today and tommorow";
+    echo "";
+    echo "<script>
+        alert('Error: You can only add appointments for 4 days form now and onwards  !');
+        window.location.href = 'blank.php';
+      </script>";
+    
     exit;
   }
 
@@ -78,6 +83,7 @@ if (isset($_POST['add_appointment'])) {
     } 
 } else {
     echo "<scri pt>alert('Error adding appointment: " . $conn->error . "');</script>";
+
 }
 }
 
