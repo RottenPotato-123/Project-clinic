@@ -99,7 +99,7 @@ if ($user_type !== 'Client') {
             <!-- Mobile Header & Nav -->
             <header x-data="{ isOpen: false }" class="w-full bg-sidebar py-5 px-6 sm:hidden">
                 <div class="flex items-center justify-between">
-                    <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+                    <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Client</a>
                     <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
                         <i x-show="!isOpen" class="fas fa-bars"></i>
                         <i x-show="isOpen" class="fas fa-times"></i>
@@ -129,30 +129,33 @@ if ($user_type !== 'Client') {
                 </nav>
             </header>
 <main>
-<div class="bg-white md:py-8 px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
-    <p class="text-4xl font-bold text-gray-800 mb-8" id="month-year"></p>
-    <div class="inline-flex flex-col space-y-1 items-start justify-start h-full w-full">
-        <!-- days of the week -->
-        <div class="inline-flex space-x-28 items-start justify-start pr-24 h-full w-full">
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">M</p>
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">T</p>
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">W</p>
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">T</p>
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">F</p>
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">S</p>
-            <p class="w-12 h-full text-sm font-medium text-gray-800 uppercase">S</p>
-        </div>
-        <!-- calendar days -->
-        <div class="flex flex-wrap items-start justify-start" id="calendar-days">
-            <!-- generate calendar days here -->
-        </div>
+<div class="bg-white py-8 px-2 sm:px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
+    <!-- Month-Year Title -->
+    <p class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 text-center" id="month-year"></p>
+    
+    <!-- Days of the Week (abbreviated to fit mobile) -->
+    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">M</p>
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">T</p>
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">W</p>
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">T</p>
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">F</p>
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">S</p>
+        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">S</p>
+    </div>
+
+    <!-- Calendar Days -->
+    <div class="grid grid-cols-3 sm:grid-cols-7 gap-1 sm:gap-2" id="calendar-days">
+        <!-- dynamically generated days will go here -->
     </div>
 </div>
 
 
+
+
 <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay">
   <!-- Modal Content -->
-  <div class="bg-white rounded shadow-md w-1/2 h-2/2 p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+  <div class="bg-white rounded shadow-md w-full sm:w-4/5 md:w-1/2 lg:w-1/3 h-auto p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
     <!-- Header -->
     <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
     <!-- Form -->
@@ -161,37 +164,36 @@ if ($user_type !== 'Client') {
       <input type="hidden" id="appointment_date" name="appointment_date" />
 
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <label for="FirstName" class="block mb-2 text-gray-700">First Name:</label>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
+        <label for="MiddleName" class="block mb-2 text-gray-700">Middle Name:</label>
         <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <label for="LastName" class="block mb-2 text-gray-700">Last Name:</label>
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Age:</label>
-        <input type="number" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <label for="Age" class="block mb-2 text-gray-700">Age:</label>
+        <input type="number" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <div class="mb-4">
-      <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
+        <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
         <select id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-       
-        <option value="Single">Single</option>
-        <option value="Married">Married</option>
-        <option value="Separated">Separated</option>
-        <option value="Widowed">Widowed</option>
-        </select> </div>
-      <div class="mb-4" >
-        <label for="title" class="block mb-2 text-gray-700">Birthdate:</label>
-        
-        <input type="date" id="date" name="date" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Separated">Separated</option>
+          <option value="Widowed">Widowed</option>
+        </select>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Birthplace:</label>
+        <label for="date" class="block mb-2 text-gray-700">Birthdate:</label>
+        <input type="date" id="date" name="date" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label for="Birthplace" class="block mb-2 text-gray-700">Birthplace:</label>
         <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <!-- Select Field -->
@@ -211,7 +213,8 @@ if ($user_type !== 'Client') {
     <!-- Close Button -->
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
   </div>
-</div>   
+</div>
+ 
 </main>
 </body>
 <script>
@@ -230,7 +233,7 @@ document.getElementById("month-year").textContent = `${monthNames[currentDate.ge
 
 // Generate calendar days
 const calendarDays = [];
-for (let i = 1; i <= 31; i++) {
+for (let i = 1; i <= 31; i++) { 
     const day = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
     if (day.getMonth() === currentDate.getMonth()) {
         calendarDays.push(day.getDate());
@@ -241,7 +244,7 @@ for (let i = 1; i <= 31; i++) {
 const calendarContainer = document.getElementById("calendar-days");
 calendarDays.forEach((day) => {
     const dayElement = document.createElement("div");
-    dayElement.className = "w-40 h-20 pl-2 pr-32 pt-2.5 pb-24 border border-gray-200";
+    dayElement.className = "w-full h-16 sm:h-20 p-2 border border-gray-200 flex items-center justify-center";
 
     // Create a paragraph element for the date
     const dayText = document.createElement("p"); // Define dayText here
@@ -250,12 +253,12 @@ calendarDays.forEach((day) => {
     // Highlight the current date
     if (day === currentDate.getDate()) {
         dayElement.classList.add("bg-red-100"); // Highlight current date in red
-        dayText.textContent = `${day} - Today`; // Add "Today" text
+        dayText.textContent = `${day} Today`; // Add "Today" text
     } 
     // Highlight the date 4 days from now
     else if (day === fourDaysFromNow.getDate() && currentDate.getMonth() === fourDaysFromNow.getMonth()) {
         dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
-        dayText.textContent = `${day} - BookThisDay and onwards`; // Add "In 4 Days" text
+        dayText.textContent = `${day} BookThisDay and onwards`; // Add "In 4 Days" text
     } 
     // Default case for other dayss
     else {

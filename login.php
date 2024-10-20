@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['email'] = $Email;
                         $_SESSION['name'] = $FName;
                         $_SESSION['userType'] = $UserType;
-                    
+                        
                        
                         // Determine user type and redirect accordingly
                         if (strcasecmp($UserType, 'Admin') === 0) {
