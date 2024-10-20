@@ -61,7 +61,7 @@ if (isset($_POST['add_appointment'])) {
   if ($conn->query($sql) === TRUE) {
     try {
       $mail = 
-      include $_SERVER['DOCUMENT_ROOT'] . '/Project-clinic/mailer.php';
+      include $_SERVER['DOCUMENT_ROOT'] . '/code/mailer.php';
         $mail = getMailer();
         $mail->setFrom("noreply@example.com");
         $mail->addAddress($client_email, $first_name); // Send email to client

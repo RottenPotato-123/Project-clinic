@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         echo "<script>
-        alert('Appointment added successfully for $appointment_date!');
+        alert('Profile update successfully! ');
         window.location.href = 'userSetting.php';
       </script>";
     } else {
