@@ -39,7 +39,7 @@ if ($user_type !== 'Admin') {
         .font-family-karla { font-family: karla; }
         .bg-sidebar { background: #2AAA8A; }
         .cta-btn { color: #2AAA8A; }
-        
+        .upgrade-btn:hover { background: #ffffff; }
         .active-nav-link { background: #50C878; }
         .nav-item:hover { background: #50C878; }
         .account-link:hover { background: #2AAA8A; }
@@ -56,7 +56,7 @@ if ($user_type !== 'Admin') {
         </div>
         <nav class="text-white text-base font-semibold pt-3">
                 <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                    <i class="fas fa-chart-line  mr-3"></i> Statistics
                 </a>
                 <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-calendar mr-3"></i> Appointments
