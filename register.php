@@ -82,7 +82,7 @@ $mysqli->close();
             background-color: #2AAA8A;
         }
     </style>
-    <title>Clinic</title>
+    <title>Login</title>
 </head>
 <body>
     <div>
@@ -92,7 +92,7 @@ $mysqli->close();
                 <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">Create a new account</h2>
                 <p class="mt-4 text-lg text-center text-sm leading-5 text-white max-w">
                     Or
-                    <a href="#" class="login-button underline font-medium text-green-600 hover:text-green-500 focus:outline-none focus:underline transition ease-in-out duration-150" onclick="redirectToLogin()">
+                    <a href="#" class="login-button underline font-medium text-white-600 hover:text-white-500 focus:outline-none focus:underline transition ease-in-out duration-150" onclick="redirectToLogin()">
                         login to your account
                     </a>
                 </p>
@@ -145,7 +145,7 @@ $mysqli->close();
 
                         <div class="mt-6">
                             <span class="block w-full rounded-md shadow-sm">
-                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                                     Create account
                                 </button>
                             </span>
