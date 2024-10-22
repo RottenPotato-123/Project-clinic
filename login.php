@@ -122,9 +122,12 @@ $mysqli->close();
     </main>
 
     <div class="max-w-lg mx-auto text-center mt-12 mb-6">
-        <p class="text-black">Don't have an account? <a href="#" class="font-bold hover:underline" onclick="redirectToRegister()">Sign up</a>.</p>
+        <p class="text-black">Don't have an account? <a href="#" class="font-bold hover:underline" onclick="redirectToRegister()">Sign up</a>. </p>
+        <p class="text-black">Go back to
+    <a href="#" class="font-bold hover:underline" onclick="redirectToMain()"> Menu</a>.
+    </p>
     </div>
-
+   
     <footer class="max-w-lg mx-auto flex justify-center text-white">
     
     </footer>
@@ -132,6 +135,9 @@ $mysqli->close();
     <script>
         function redirectToRegister() {
             window.location.href = "register.php";
+        }
+        function redirectToMain() {
+            window.location.href = "landingPage.html";
         }
     </script>
 </body>

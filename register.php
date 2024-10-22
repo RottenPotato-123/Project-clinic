@@ -107,6 +107,10 @@ $mysqli->close();
                         login to your account
                     </a>
                 </p>
+                <p class="mt-4 text-lg text-center text-sm leading-5 text-white max-w">
+
+                <a href="#" class="font-bold hover:underline" onclick="redirectToMain()">Back to menu</a>
+                </p>
             </div>
 
             <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -189,6 +193,9 @@ $mysqli->close();
 
         function redirectToLogin() {
             window.location.href = "login.php"; 
+        }
+        function redirectToMain() {
+            window.location.href = "landingPage.html";
         }
     </script>
 </body>
