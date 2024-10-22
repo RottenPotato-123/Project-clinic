@@ -61,7 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
 
     if ($stmt->affected_rows == 1) {
-        echo "User data saved successfully";
+        ?>
+        <script>
+        alert( "User data saved successfully");
+        window.location.href = "login.php"; 
+        </script>
+        <?php
     } else {
         echo "Error saving user data";
     }

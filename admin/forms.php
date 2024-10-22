@@ -126,82 +126,320 @@ if ($user_type !== 'Admin') {
                 <i class="fas fa-plus mr-3"></i> New Report
             </button> -->
         </header>
-    
-        <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
-                <h1 class="w-full text-3xl text-black pb-6">Forms</h1>
+        <?php
+// Include the database connection file
+require_once 'db.php';
 
-                <table id="appointments" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Patient Name</th>
-                <th>Doctor Name</th>
-                <th>Appointment Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-    </table>
-                    </div>
+// Start the session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-                    <div class="w-full lg:w-1/2 mt-6 pl-0 lg:pl-2">
-                        <p class="text-xl pb-6 flex items-center">
-                            <i class="fas fa-list mr-3"></i> Checkout Form
-                        </p>
-                        <div class="leading-loose">
-                            <form class="p-10 bg-white rounded shadow-xl">
-                                <p class="text-lg text-gray-800 font-medium pb-4">Customer information</p>
-                                <div class="">
-                                    <label class="block text-sm text-gray-600" for="cus_name">Name</label>
-                                    <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="cus_name" name="cus_name" type="text" required="" placeholder="Your Name" aria-label="Name">
-                                </div>
-                                <div class="mt-2">
-                                    <label class="block text-sm text-gray-600" for="cus_email">Email</label>
-                                    <input class="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" id="cus_email" name="cus_email" type="text" required="" placeholder="Your Email" aria-label="Email">
-                                </div>
-                                <div class="mt-2">
-                                    <label class=" block text-sm text-gray-600" for="cus_email">Address</label>
-                                    <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cus_email" name="cus_email" type="text" required="" placeholder="Street" aria-label="Email">
-                                </div>
-                                <div class="mt-2">
-                                    <label class="hidden text-sm block text-gray-600" for="cus_email">City</label>
-                                    <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cus_email" name="cus_email" type="text" required="" placeholder="City" aria-label="Email">
-                                </div>
-                                <div class="inline-block mt-2 w-1/2 pr-1">
-                                    <label class="hidden block text-sm text-gray-600" for="cus_email">Country</label>
-                                    <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cus_email" name="cus_email" type="text" required="" placeholder="Country" aria-label="Email">
-                                </div>
-                                <div class="inline-block mt-2 -mx-1 pl-1 w-1/2">
-                                    <label class="hidden block text-sm text-gray-600" for="cus_email">Zip</label>
-                                    <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cus_email"  name="cus_email" type="text" required="" placeholder="Zip" aria-label="Email">
-                                </div>
-                                <p class="text-lg text-gray-800 font-medium py-4">Payment information</p>
-                                <div class="">
-                                    <label class="block text-sm text-gray-600" for="cus_name">Card</label>
-                                    <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cus_name" name="cus_name" type="text" required="" placeholder="Card Number MM/YY CVC" aria-label="Name">
-                                </div>
-                                <div class="mt-6">
-                                    <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" type="submit">$3.00</button>
-                                </div>
-                            </form>
-                        </div>
-                        <p class="pt-6 text-gray-600">
-                            Source: <a class="underline" href="https://tailwindcomponents.com/component/checkout-form">https://tailwindcomponents.com/component/checkout-form</a>
-                        </p>
-                    </div>
-                </div>
-            </main>
-    
-            <footer class="w-full bg-white text-right p-4">
-                Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
-            </footer>
+// Get all users of type 'Client' from the database
+$sql = "SELECT * FROM user WHERE UserType = 'Client'"; // Adjusted query to filter by user type
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Store the user details in an array
+$users = array();
+while ($row = $result->fetch_assoc()) {
+    $user = array(
+        'Id' => $row['Id'], // Ensure you're using the correct column name
+        'Email' => $row['Email'],
+        'Fname' => $row['FName'],
+        'Address' => $row['Address'],
+        'Phone' => $row['Phone'],
+    );
+    $users[] = $user; // Add each user to the array
+}
+
+// Check if users were found
+if (empty($users)) {
+    echo "No clients found.";
+}
+
+// Store the users in the session
+$_SESSION['users'] = $users;
+
+// Close the database connection
+$conn->close();
+?>
+
+<!-- Include the jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include the DataTables library -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+    <main class="w-full flex-grow p-6">
+        <h1 class="text-3xl text-black pb-6">Client Users</h1>
+
+        <div class="w-full mt-6">
+            <table id="user-table" class="display nowrap w-full text-left table-auto min-w-max">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Full name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Actions</th> <!-- New column for actions -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($_SESSION['users'] as $user) { ?>
+                        <tr data-id="<?= $user['Id'] ?>">
+                            <td><?= htmlspecialchars($user['Id']) ?></td>
+                            <td><?= htmlspecialchars($user['Email']) ?></td>
+                            <td><?= htmlspecialchars($user['Fname']) ?></td>
+                            <td><?= htmlspecialchars($user['Address']) ?></td>
+                            <td><?= htmlspecialchars($user['Phone']) ?></td>
+                            <td>
+                            <button class="edit-user-btn" data-id="<?= $user['Id'] ?>" title="Edit User">
+    <i class="fas fa-user-edit"></i> <!-- Edit User icon -->
+</button>
+
+<button class="edit-password-btn" data-id="<?= $user['Id'] ?>" title="Edit Password">
+    <i class="fas fa-lock-open"></i> <!-- Edit Password icon -->
+</button>
+
+<button class="remove-btn" data-id="<?= $user['Id'] ?>" title="Remove">
+    <i class="fas fa-trash-alt"></i> <!-- Remove icon -->
+</button></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
+    </main>
+</div>
+
+
+<!-- Edit User Modal -->
+<div id="edit-user-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="modal-content bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/3">
+        <span class="close text-black cursor-pointer absolute top-2 right-2 text-lg">&times;</span>
+        <h2 class="text-2xl font-semibold mb-4">Edit User</h2>
+        <form id="edit-user-form">
+            <input type="hidden" name="user_id" id="edit-user-id" />
+            <div class="mb-4">
+                <label for="edit-email" class="block text-sm font-medium text-gray-700">Email:</label>
+                <input type="email" id="edit-email" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <div class="mb-4">
+                <label for="edit-fname" class="block text-sm font-medium text-gray-700">Full Name:</label>
+                <input type="text" id="edit-fname" name="fname" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <div class="mb-4">
+                <label for="edit-address" class="block text-sm font-medium text-gray-700">Address:</label>
+                <input type="text" id="edit-address" name="address" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <div class="mb-4">
+                <label for="edit-phone" class="block text-sm font-medium text-gray-700">Phone:</label>
+                <input type="text" id="edit-phone" name="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+            </div>
+            <button type="submit" class="mt-4 bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700">Save Changes</button>
+            <button type="button" class="close-modal mt-2 bg-gray-400 text-white rounded-md p-2 hover:bg-gray-500">Close</button> <!-- Close button -->
+        </form>
+    </div>
+</div>
+
+<!-- Edit Password Modal -->
+<div id="edit-password-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="modal-content bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/3">
+        <span class="close text-black cursor-pointer absolute top-2 right-2 text-lg">&times;</span>
+        <h2 class="text-2xl font-semibold mb-4">Edit Password</h2>
+        <form id="edit-password-form">
+            <input type="hidden" name="user_id" id="edit-password-id" />
+            <div class="mb-4 relative">
+                <label for="edit-password" class="block text-sm font-medium text-gray-700">New Password:</label>
+                <input type="password" id="edit-password" name="password" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                <!-- Show Password Button -->
+                <button type="button" id="toggle-password" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600">
+                    👁️
+                </button>
+            </div>
+            <button type="submit" class="mt-4 bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700">Change Password</button>
+            <button type="button" class="close-modal mt-2 bg-gray-400 text-white rounded-md p-2 hover:bg-gray-500">Close</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-confirmation-modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="modal-content bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/3">
+        <span class="close text-black cursor-pointer absolute top-2 right-2 text-lg">&times;</span>
+        <h2 class="text-lg font-semibold mb-4">Are you sure you want to delete this user?</h2>
+        <div class="flex justify-end">
+            <button id="confirm-delete" class="bg-red-600 text-white rounded-md p-2 hover:bg-red-700 mr-2">Confirm</button>
+            <button class="close-modal bg-gray-400 text-white rounded-md p-2 hover:bg-gray-500">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+
+        
         
     </div>
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <!-- Font Awesome -->
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $('#toggle-password').on('click', function () {
+        const passwordInput = $('#edit-password');
+        const passwordFieldType = passwordInput.attr('type');
+
+        if (passwordFieldType === 'password') {
+            passwordInput.attr('type', 'text'); // Change to text to show password
+        } else {
+            passwordInput.attr('type', 'password'); // Change back to password
+        }
+    });
+        // Initialize User DataTable
+        const appointmentsTable = $('#user-table').DataTable({
+            paging: true,
+            ordering: true,
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
+            },
+            createdRow: function (row, data) {
+                $(row).attr('data-id', data.Id); // Set data-id on the tr element
+            },
+            columnDefs: [{ width: "20%", targets: 5 }] // Adjust column width for actions
+        });
+
+        // Handle Edit User button click
+        $(document).on('click', '.edit-user-btn', function () {
+            const userId = $(this).data('id');
+            const rowData = appointmentsTable.row($(this).closest('tr')).data();
+            
+            // Fill the form with user data
+            $('#edit-user-id').val(userId);
+            $('#edit-email').val(rowData.Email);
+            $('#edit-fname').val(rowData.Fname);
+            $('#edit-address').val(rowData.Address);
+            $('#edit-phone').val(rowData.Phone);
+            
+            // Show the Edit User modal
+            $('#edit-user-modal').removeClass('hidden');
+        });
+
+        // Handle Edit Password button click
+        $(document).on('click', '.edit-password-btn', function () {
+            const userId = $(this).data('id');
+            
+            // Set the user ID in the password form
+            $('#edit-password-id').val(userId);
+            
+            // Show the Edit Password modal
+            $('#edit-password-modal').removeClass('hidden');
+        });
+
+        // Handle modal close
+        $(document).on('click', '.close, .close-modal', function () {
+        $(this).closest('.modal').addClass('hidden');
+    });
+        // Handle Edit User form submission
+// Handle Edit User form submission
+$('#edit-user-form').on('submit', function (e) {
+    e.preventDefault();
+    const userId = $('#edit-user-id').val();
+    const email = $('#edit-email').val();
+    const fname = $('#edit-fname').val();
+    const address = $('#edit-address').val();
+    const phone = $('#edit-phone').val();
+
+    // Perform AJAX request to update user
+    $.ajax({
+        url: 'function/edit_user.php',
+        method: 'POST',
+        data: {
+            user_id: userId,
+            email: email,
+            fname: fname,
+            address: address,
+            phone: phone
+        },
+        success: function (response) {
+            alert('User updated successfully!');
+            window.location.reload(true);
+
+            $('#edit-user-modal').addClass('hidden'); // Hide the modal
+        },
+        error: function (xhr, status, error) {
+            alert('Error updating user: ' + error);
+        }
+    });
+});
+
+        // Handle Edit Password form submission
+        $('#edit-password-form').on('submit', function (e) {
+            e.preventDefault();
+            const userId = $('#edit-password-id').val();
+            const password = $('#edit-password').val();
+
+            // Perform AJAX request to update password
+            $.ajax({
+                url: 'function/edit_password.php', // Your PHP script to handle the password change
+                method: 'POST',
+                data: {
+                    user_id: userId,
+                    password: password
+                },
+                success: function (response) {
+                    alert('Password changed successfully!');
+                    $('#edit-password-modal').addClass('hidden'); // Hide the modal
+                },
+                error: function (xhr, status, error) {
+                    alert('Error changing password: ' + error);
+                }
+            });
+        });
+        let userIdToDelete; // Variable to store the ID of the user to be deleted
+
+    // Handle Remove button click to open confirmation modal
+    $(document).on('click', '.remove-btn', function () {
+        userIdToDelete = $(this).data('id'); // Get the user ID from the clicked button
+        $('#delete-confirmation-modal').removeClass('hidden'); // Show the confirmation modal
+    });
+
+    // Handle Confirm Delete button click
+    $('#confirm-delete').on('click', function () {
+        $.ajax({
+            url: 'function/delete_user.php', // Your PHP script to handle the deletion
+            method: 'POST',
+            data: { user_id: userIdToDelete },
+            success: function (response) {
+                alert('User deleted successfully!');
+                window.location.reload(true);
+
+                $('#delete-confirmation-modal').addClass('hidden'); // Hide the confirmation modal
+            },
+            error: function (xhr, status, error) {
+                alert('Error deleting user: ' + error);
+            }
+        });
+    });
+
+    // Handle modal close
+    $(document).on('click', '.close, .close-modal', function () {
+        $(this).closest('.modal').addClass('hidden'); // Hide the modal
+    });
+    });
+</script>
 </body>
 </html>

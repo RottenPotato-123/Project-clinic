@@ -40,7 +40,7 @@ if ($user_type !== 'Admin') {
 
 <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
             <div class="p-6">
-                <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Client</a>
+                <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
                 <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                     <i class="fas fa-plus mr-3"></i> New Report
                 </button>
@@ -52,7 +52,9 @@ if ($user_type !== 'Admin') {
                 <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                     <i class="fas fa-sticky-note mr-3"></i>Appointments
                 </a>
-               
+                <a href="forms.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    <i class="fas fa-align-left mr-3"></i> user
+                </a>
                
                
                 <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
@@ -91,7 +93,7 @@ if ($user_type !== 'Admin') {
 
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
+                    <a href="userSetting.php" class="block px-4 py-2 account-link hover:text-white">Account</a>
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
                     <a href="logout.php" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                 </div>
@@ -131,7 +133,7 @@ if ($user_type !== 'Admin') {
                     <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-cogs mr-3"></i> Support
                     </a>
-                    <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <a href="userSetting.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-user mr-3"></i> My Account
                     </a>
                     <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
