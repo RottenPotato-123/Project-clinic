@@ -19,34 +19,27 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 
 // Add appointment
 if (isset($_POST['add_appointment'])) {
-  
-  
-  
-  $today = time();
+  $today = date("Y-m-d"); // Get the current date
   $first_name = $_POST['FirstName'];
   $middle_name = $_POST['MiddleName'];
   $last_name = $_POST['LastName'];
   $age = $_POST['Age'];
   $civilstatus = $_POST['civilstatus'];
-  $birth_date =date("Y-m-d",strtotime( $_POST['date']));
+  $birth_date = date("Y-m-d", strtotime($_POST['date']));
   $birthplace = $_POST['Birthplace'];
   $service = $_POST['service'];
-  $appointment_date = date("Y-m-d",strtotime($_POST['appointment_date']));
-  $current_date = date('Y-m-d'); // Get the current date
- 
+  $appointment_date = date("Y-m-d", strtotime($_POST['appointment_date']));
+  
+  // Calculate tomorrow and four days later
+  $tomorrow = date('Y-m-d', strtotime($today . ' +1 day'));
+  $four_days_later = date('Y-m-d', strtotime($today . ' +4 days'));
 
-  $four_days_later = date('Y-m-d', strtotime($current_date) + (86400 * 4)); // Get the date four days from now
-
-  // Check if the appointment date is today
-  if ( $appointment_date === $four_days_later) {
-    
-  }else{
-    echo "";
+  // Check if the appointment date is within the allowed range
+  if ($appointment_date < $tomorrow || $appointment_date > $four_days_later) {
     echo "<script>
-        alert('Error: You can only add appointments for 4 days form now and onwards  !');
+        alert('Error: You can only add appointments from tomorrow and up to four days from now!');
         window.location.href = 'blank.php';
       </script>";
-    
     exit;
   }
 
@@ -60,31 +53,29 @@ if (isset($_POST['add_appointment'])) {
   $sql = "INSERT INTO appointments VALUES (null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', '$civilstatus','$birth_date','$birthplace', '$service', '$appointment_date', '$queue_number', 'pending')";
   if ($conn->query($sql) === TRUE) {
     try {
-      $mail = 
-      include $_SERVER['DOCUMENT_ROOT'] . '/code/mailer.php';
-        $mail = getMailer();
-        $mail->setFrom("noreply@example.com");
-        $mail->addAddress($client_email, $first_name); // Send email to client
+      $mail = include $_SERVER['DOCUMENT_ROOT'] . '/Project-clinic/mailer.php';
+      $mail = getMailer();
+      $mail->setFrom("noreply@example.com");
+      $mail->addAddress($client_email, $first_name); // Send email to client
 
-        $mail->Subject = "Appointment Confirmation";
-        $mail->Body = "
-            <h1>Hello $first_name,</h1>
-            <p>Your appointment for <strong>$service</strong> has been scheduled on <strong>$appointment_date</strong>.</p>
-            <p>Thank you for choosing our clinic!</p>
-        ";
+      $mail->Subject = "Appointment Confirmation";
+      $mail->Body = "
+          <h1>Hello $first_name,</h1>
+          <p>Your appointment for <strong>$service</strong> has been scheduled on <strong>$appointment_date</strong>.</p>
+          <p>Thank you for choosing our clinic!</p>
+      ";
 
-        $mail->send();
-        echo "<script>
+      $mail->send();
+      echo "<script>
         alert('Appointment added successfully for $appointment_date!');
         window.location.href = 'blank.php';
       </script>";
     } catch (Exception $e) {
-        echo "<script>alert('Error: Email could not be sent. {$mail->ErrorInfo}');</script>";
+      echo "<script>alert('Error: Email could not be sent. {$mail->ErrorInfo}');</script>";
     } 
-} else {
-    echo "<scri pt>alert('Error adding appointment: " . $conn->error . "');</script>";
-
-}
+  } else {
+    echo "<script>alert('Error adding appointment: " . $conn->error . "');</script>";
+  }
 }
 
 $conn->close();

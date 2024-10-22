@@ -6,7 +6,7 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 
 if ($user_type !== 'Client') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: Project-clinic/login.php');
+    header('Location: ../login.php');
     exit;
 }
 

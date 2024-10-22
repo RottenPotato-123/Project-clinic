@@ -7,7 +7,7 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 // Function to check if user is client
 if ($user_type !== 'Client') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: Project-clinic/login.php');
+    header('Location: ../login.php');
     exit;
 }
 
@@ -225,8 +225,14 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 const currentDate = new Date();
 
 // Get the date 4 days from now
-const fourDaysFromNow = new Date(currentDate);
-fourDaysFromNow.setDate(currentDate.getDate() + 4);
+const oneday = new Date(currentDate);
+oneday.setDate(currentDate.getDate() + 1);
+const twoday = new Date(currentDate);
+twoday.setDate(currentDate.getDate() + 2);
+const treeday = new Date(currentDate);
+treeday.setDate(currentDate.getDate() + 3);
+const forday = new Date(currentDate);
+forday.setDate(currentDate.getDate() + 4);
 
 // Display the month and year
 document.getElementById("month-year").textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
@@ -256,9 +262,21 @@ calendarDays.forEach((day) => {
         dayText.textContent = `${day} Today`; // Add "Today" text
     } 
     // Highlight the date 4 days from now
-    else if (day === fourDaysFromNow.getDate() && currentDate.getMonth() === fourDaysFromNow.getMonth()) {
+    else if (day === oneday.getDate() && currentDate.getMonth() === oneday.getMonth()) {
         dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
-        dayText.textContent = `${day} BookThisDay and onwards`; // Add "In 4 Days" text
+        dayText.textContent = `${day} You Can Book This Day`; // Add "In 4 Days" text
+    } 
+    else if (day === twoday.getDate() && currentDate.getMonth() === twoday.getMonth()) {
+        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
+        dayText.textContent = `${day} You Can Book This Day `; // Add "In 4 Days" text
+    } 
+    else if (day === treeday.getDate() && currentDate.getMonth() === treeday.getMonth()) {
+        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
+        dayText.textContent = `${day} You Can Book This Day`; // Add "In 4 Days" text
+    } 
+    else if (day === forday.getDate() && currentDate.getMonth() === forday.getMonth()) {
+        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
+        dayText.textContent = `${day} You Can Book This Day `; // Add "In 4 Days" text
     } 
     // Default case for other dayss
     else {

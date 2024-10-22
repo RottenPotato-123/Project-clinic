@@ -6,7 +6,7 @@ $user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userTyp
 
 if ($user_type !== 'Admin') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: unauthorized_access.php');
+    header('Location: ../login.php');
     exit;
 }
 ?>
@@ -240,7 +240,7 @@ $conn->close();
         <h1 class="text-3xl text-black pb-6">Admin account</h1>
 
         <div class="w-full mt-6">
-        <button class="w-max bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+        <button id="openModal" class="w-max bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                 <i class="fas fa-plus mr-3"></i> Add New Admin Account 
              </button><button>Add Admin Account</button>
             <table id="admin-table" class="display nowrap w-full text-left table-auto-max-w-max">
@@ -350,6 +350,51 @@ $conn->close();
     </div>
 </div>
 
+<div id="modal" class="fixed inset-0 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg w-96">
+            <div class="p-6">
+                <h2 class="text-lg font-bold mb-4">User Information</h2>
+                <form id="adminForm" action="function/admin_save.php" method="POST">
+    <div class="mb-4">
+        <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+        <input type="text" id="fullName" name="fullName" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    </div>
+    <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+        <input type="email" id="email" name="email" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    </div>
+    <div class="mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+        <input type="text" id="address" name="address" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    </div>
+    <div class="mb-4">
+        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+        <input type="tel" id="phone" name="phone" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    </div>
+    <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" name="password" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    </div>
+    <div class="mb-4">
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="password_confirmation" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    </div>
+    <div class="flex justify-end">
+        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 mr-2">Cancel</button>
+        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Submit</button>
+    </div>
+</form>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+
+
+
+
 
 
         
@@ -362,6 +407,19 @@ $conn->close();
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 <script>
+     const openModalButton = document.getElementById('openModal');
+        const modal = document.getElementById('modal');
+        const closeModalButton = document.getElementById('closeModal');
+
+        // Open modal
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // Close modal
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
   $(document).ready(function () {
     $('#toggle-password').on('click', function () {
         const passwordInput = $('#edit-password');
