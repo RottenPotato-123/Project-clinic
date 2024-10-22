@@ -136,7 +136,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
     <!-- Month-Year Title -->
     <p class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 text-center" id="month-year"></p>
     
-    <!-- Days of the Week (abbreviated to fit mobile) -->
+    <!-- Days of the Week -->
     <div class="grid grid-cols-7 gap-1 text-center mb-2">
         <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">M</p>
         <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">T</p>
@@ -258,34 +258,27 @@ calendarDays.forEach((day) => {
     // Create a paragraph element for the date
     const dayText = document.createElement("p"); // Define dayText here
     dayText.className = "text-sm font-medium text-gray-800"; // Text styling
-
+   
     // Highlight the current date
     if (day === currentDate.getDate()) {
         dayElement.classList.add("bg-red-100"); // Highlight current date in red
         dayText.textContent = `${day} Today`; // Add "Today" text
-    } 
-    // Highlight the date 4 days from now
-    else if (day === oneday.getDate() && currentDate.getMonth() === oneday.getMonth()) {
-        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
-        dayText.textContent = `${day} You Can Book This Day`; // Add "In 4 Days" text
-    } 
-    else if (day === twoday.getDate() && currentDate.getMonth() === twoday.getMonth()) {
-        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
-        dayText.textContent = `${day} You Can Book This Day `; // Add "In 4 Days" text
-    } 
-    else if (day === treeday.getDate() && currentDate.getMonth() === treeday.getMonth()) {
-        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
-        dayText.textContent = `${day} You Can Book This Day`; // Add "In 4 Days" text
-    } 
-    else if (day === forday.getDate() && currentDate.getMonth() === forday.getMonth()) {
-        dayElement.classList.add("bg-green-100"); // Add a green background for the date 4 days from now
-        dayText.textContent = `${day} You Can Book This Day `; // Add "In 4 Days" text
-    } 
-    // Default case for other dayss
+    }
     else {
         dayText.textContent = `${day}`; // Just display the day
     }
-
+    // Highlight the date 4 days from now
+    for (let i = 1; i <= 4; i++) {
+        const futureDate = new Date(currentDate);
+        futureDate.setDate(currentDate.getDate() + i);
+        if (day === futureDate.getDate() && currentDate.getMonth() === futureDate.getMonth()) {
+            dayElement.classList.add("bg-green-100"); // Add a green background
+            dayText.textContent = `${day} You Can Book This Day`;
+        }
+    }
+    // Default case for other dayss
+    
+ 
     // Append the text to the day element
     dayElement.appendChild(dayText);
 

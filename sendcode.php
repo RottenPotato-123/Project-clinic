@@ -68,7 +68,10 @@ END;
             echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
         }
     } else {
-        echo "No user found with that email address.";
+        echo "<script>
+        alert('No user found with that email address..');
+        window.location.href = 'forgotpass.php';
+      </script>";
     }
 } else {
     echo "Invalid database connection object";
