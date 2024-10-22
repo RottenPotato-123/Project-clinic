@@ -21,6 +21,7 @@ if ($user_type !== 'Admin') {
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
+      
        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
         .font-family-karla { font-family: karla; }
         .bg-sidebar { background: #2AAA8A; }
@@ -45,11 +46,14 @@ if ($user_type !== 'Admin') {
                 <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-chart-line mr-3"></i> Statistics
                 </a>
-                <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-calendar mr-3"></i> Appointments
                 </a>               
                 <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-table mr-3"></i> Tables
+                </a>
+                <a href="forms.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    <i class="fas fa-align-left mr-3"></i> Users
                 </a>
             </nav>
           
