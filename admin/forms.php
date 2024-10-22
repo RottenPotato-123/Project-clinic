@@ -64,9 +64,27 @@ if ($user_type !== 'Admin') {
         <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/2"></div>
             <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                    <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400">
-                </button>
+            <button @click="isOpen = !isOpen" class="relative z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none bg-gray-300 flex items-center justify-center text-white font-bold text-xl">
+    <?php 
+    // Initialize the initials variable
+    $initials = "?"; // Fallback if no name is available
+
+    // Check if session variable is set
+    if (isset($_SESSION['name'])) {
+        // Get the full name from the session
+        $full_name = htmlspecialchars($_SESSION['name']); 
+
+        // Get the first letter of the first name
+        $first_name = strtok($full_name, ' '); // Get the first part of the full name
+
+        // Check if $first_name is set
+        if ($first_name) {
+            $initials = strtoupper(substr($first_name, 0, 1)); // First name initial
+        }
+    }
+    echo $initials; // Display the initials in the button
+    ?>
+</button>
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
@@ -131,7 +149,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Get all users of type 'Client' from the database
-$sql = "SELECT * FROM user WHERE UserType = 'Client'"; // Adjusted query to filter by user type
+$sql = "SELECT * FROM user "; // Adjusted query to filter by user type
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -145,6 +163,7 @@ while ($row = $result->fetch_assoc()) {
         'Fname' => $row['FName'],
         'Address' => $row['Address'],
         'Phone' => $row['Phone'],
+        'Usertype' => $row['UserType'],
     );
     $users[] = $user; // Add each user to the array
 }
@@ -183,6 +202,7 @@ $conn->close();
                         <th>Full name</th>
                         <th>Address</th>
                         <th>Phone</th>
+                        <th>UserType</th>
                         <th>Actions</th> <!-- New column for actions -->
                     </tr>
                 </thead>
@@ -194,6 +214,7 @@ $conn->close();
                             <td><?= htmlspecialchars($user['Fname']) ?></td>
                             <td><?= htmlspecialchars($user['Address']) ?></td>
                             <td><?= htmlspecialchars($user['Phone']) ?></td>
+                            <td><?= htmlspecialchars($user['Usertype']) ?></td>
                             <td>
                             <button class="edit-user-btn" data-id="<?= $user['Id'] ?>" title="Edit User">
     <i class="fas fa-user-edit"></i> <!-- Edit User icon -->
@@ -213,6 +234,57 @@ $conn->close();
         </div>
     </main>
 </div>
+
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+    <main class="w-full flex-grow p-6">
+        <h1 class="text-3xl text-black pb-6">Admin account</h1>
+
+        <div class="w-full mt-6">
+        <button class="w-max bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                <i class="fas fa-plus mr-3"></i> Add New Admin Account 
+             </button><button>Add Admin Account</button>
+            <table id="admin-table" class="display nowrap w-full text-left table-auto-max-w-max">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Full name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>UserType</th>
+                        <th>Actions</th> <!-- New column for actions -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($_SESSION['users'] as $user) { ?>
+                        <tr data-id="<?= $user['Id'] ?>">
+                            <td><?= htmlspecialchars($user['Id']) ?></td>
+                            <td><?= htmlspecialchars($user['Email']) ?></td>
+                            <td><?= htmlspecialchars($user['Fname']) ?></td>
+                            <td><?= htmlspecialchars($user['Address']) ?></td>
+                            <td><?= htmlspecialchars($user['Phone']) ?></td>
+                            <td><?= htmlspecialchars($user['Usertype']) ?></td>
+
+                            <td>
+                            <button class="edit-user-btn1" data-id="<?= $user['Id'] ?>" title="Edit User">
+    <i class="fas fa-user-edit"></i> <!-- Edit User icon -->
+</button>
+
+<button class="edit-password-btn1" data-id="<?= $user['Id'] ?>" title="Edit Password">
+    <i class="fas fa-lock-open"></i> <!-- Edit Password icon -->
+</button>
+
+<button class="remove-btn1" data-id="<?= $user['Id'] ?>" title="Remove">
+    <i class="fas fa-trash-alt"></i> <!-- Remove icon -->
+</button></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
 
 
 <!-- Edit User Modal -->
@@ -314,13 +386,96 @@ $conn->close();
             createdRow: function (row, data) {
                 $(row).attr('data-id', data.Id); // Set data-id on the tr element
             },
-            columnDefs: [{ width: "20%", targets: 5 }] // Adjust column width for actions
+            columnDefs: [{ width: "20%", targets: 6 },
+            { targets: 5, visible: false } 
+            ] // Adjust column width for actions
         });
+
+          // Initialize User DataTable
+            const admintables = $('#admin-table').DataTable({
+                paging: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json"
+                },
+                createdRow: function (row, data) {
+                    $(row).attr('data-id', data.Id); // Set data-id on the tr element
+                },
+                columnDefs: [{ width: "20%", targets: 6 },
+                { targets: 5, visible: false } 
+                ] // Adjust column width for actions
+            });
+
+        $.fn.dataTable.ext.search.push(
+          function(settings, data, dataIndex) {
+              if (settings.nTable.id === 'user-table') {
+                  const status = data[5]; // Assuming status is in the 7th column (index 6)
+                  console.log('Appointments Row data:', data);
+                  console.log('Appointments Status:', status);
+                  return status && status.trim()  === "Client"; // Filter condition
+              }
+              return true; // Don't filter for other tables
+          }
+      );
+      $.fn.dataTable.ext.search.push(
+          function(settings, data, dataIndex) {
+              if (settings.nTable.id === 'admin-table') {
+                  const status = data[5]; // Assuming status is in the 7th column (index 6)
+                  console.log('Appointments Row data:', data);
+                  console.log('Appointments Status:', status);
+                  return status && status.trim()  === "Admin"; // Filter condition
+              }
+              return true; // Don't filter for other tables
+          }
+      );
 
         // Handle Edit User button click
         $(document).on('click', '.edit-user-btn', function () {
             const userId = $(this).data('id');
             const rowData = appointmentsTable.row($(this).closest('tr')).data();
+            
+            // Fill the form with user data
+            $('#edit-user-id').val(userId);
+            $('#edit-email').val(rowData.Email);
+            $('#edit-fname').val(rowData.Fname);
+            $('#edit-address').val(rowData.Address);
+            $('#edit-phone').val(rowData.Phone);
+            
+            // Show the Edit User modal
+            $('#edit-user-modal').removeClass('hidden');
+        });
+
+        // Handle Edit Password button click
+        $(document).on('click', '.edit-password-btn', function () {
+            const userId = $(this).data('id');
+            
+            // Set the user ID in the password form
+            $('#edit-password-id').val(userId);
+            
+            // Show the Edit Password modal
+            $('#edit-password-modal').removeClass('hidden');
+        });
+        $(document).on('click', '.edit-password-btn1', function () {
+            const userId = $(this).data('id');
+            
+            // Set the user ID in the password form
+            $('#edit-password-id').val(userId);
+            
+            // Show the Edit Password modal
+            $('#edit-password-modal').removeClass('hidden');
+        });
+
+
+        // Handle modal close
+        $(document).on('click', '.close, .close-modal', function () {
+        $(this).closest('.modal').addClass('hidden');
+    });
+    $(document).on('click', '.edit-user-btn1', function () {
+            const userId = $(this).data('id');
+            const rowData = admintables.row($(this).closest('tr')).data();
             
             // Fill the form with user data
             $('#edit-user-id').val(userId);
@@ -406,8 +561,13 @@ $('#edit-user-form').on('submit', function (e) {
         });
         let userIdToDelete; // Variable to store the ID of the user to be deleted
 
+        
     // Handle Remove button click to open confirmation modal
     $(document).on('click', '.remove-btn', function () {
+        userIdToDelete = $(this).data('id'); // Get the user ID from the clicked button
+        $('#delete-confirmation-modal').removeClass('hidden'); // Show the confirmation modal
+    });
+    $(document).on('click', '.remove-btn1', function () {
         userIdToDelete = $(this).data('id'); // Get the user ID from the clicked button
         $('#delete-confirmation-modal').removeClass('hidden'); // Show the confirmation modal
     });
