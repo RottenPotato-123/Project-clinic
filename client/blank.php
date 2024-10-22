@@ -1,18 +1,21 @@
 <?php
-session_start();
+session_start(); // Start the session
 
-// Determine the user type
-$user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
+// Get user type and status from GET parameters or session
+$user_type = $_GET['role'] ?? $_SESSION['userType'] ?? null; 
+$status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 
-// Function to check if user is client
-if ($user_type !== 'Client') {
+// Function to check if user is a client and status is active
+if ($user_type !== 'Client'|| $status !== 'active' ) {
     // Redirect to an unauthorized access page or display an error message
     header('Location: ../login.php');
-    exit;
+    exit; // Ensure no further code is executed
 }
 
-
+// If the user is a client and active, continue with the page logic
+// Your page content goes here
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

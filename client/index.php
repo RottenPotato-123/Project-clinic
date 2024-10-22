@@ -2,14 +2,14 @@
 session_start();
 require_once 'db.php';
 // Determine the user type
-$user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
+$user_type = $_GET['role'] ?? $_SESSION['userType'] ?? null; 
+$status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 
-// Function to check if user is client
-
-if ($user_type !== 'Client') {
+// Function to check if user is a client and status is active
+if ($user_type !== 'Client' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../   login.php');
-    exit;
+    header('Location: ../login.php');
+    exit; // Ensure no further code is executed
 }
 $user_id = $_SESSION['user_id']; // Ensure you set this when user logs in
 

@@ -15,14 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $loginError = "Email and password cannot be empty.";
         } else {
             // Check if user exists
-            $sql = "SELECT Id, Email, Password, UserType, FName, Address, Phone FROM user WHERE Email = ?";
+            $sql = "SELECT Id, Email, Password, UserType, FName, Address, Phone ,Status FROM user WHERE Email = ?";
             if ($stmt = $mysqli->prepare($sql)) {
                 $stmt->bind_param("s", $email);
                 $stmt->execute();
                 $stmt->store_result();
 
                 if ($stmt->num_rows > 0) {
-                    $stmt->bind_result($Id, $Email, $Password, $UserType, $FName, $Address, $Phone);
+                    $stmt->bind_result($Id, $Email, $Password, $UserType, $FName, $Address, $Phone, $Status);
                     $stmt->fetch();
 
                     // Check password (hashed)
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['email'] = $Email;
                         $_SESSION['name'] = $FName;
                         $_SESSION['userType'] = $UserType;
+                        $_SESSION['status'] = $Status;
                         
                        
                         // Determine user type and redirect accordingly

@@ -5,19 +5,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $passwordConfirmation = $_POST["password_confirmation"]; // Get password confirmation
+    $passwordConfirmation = $_POST["password_confirmation"];
     $name = $_POST["name"];
     $address = $_POST["address"];
     $phoneNumber = $_POST['phone_number'];
     $userType = "Client"; 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $status = 'inactive';
+    $confirmationCode = bin2hex(random_bytes(16));
 
     if (empty($email) || empty($password) || empty($passwordConfirmation) || empty($name) || empty($address) || empty($phoneNumber) || empty($userType)) {
         echo "Please fill in all fields.";
         exit;
     }
 
-    // Check if the passwords match
     if ($password !== $passwordConfirmation) {
         echo "Passwords do not match.";
         exit;
@@ -27,12 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = "SELECT * FROM user WHERE Email = '$email'";
     $result = mysqli_query($mysqli, $query);
     if (mysqli_num_rows($result) > 0) {
-        ?>
-        <script>
-            alert("Email already exists. Please use a different email address.");
-            window.location.href = "register.php"; 
-        </script>
-        <?php
+        echo "<script>alert('Email already exists. Please use a different email address.'); window.location.href = 'register.php';</script>";
         exit;
     }
 
@@ -40,33 +36,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = "SELECT * FROM user WHERE Phone = '$phoneNumber'";
     $result = mysqli_query($mysqli, $query);
     if (mysqli_num_rows($result) > 0) {
-        ?>
-        <script>
-            alert("Phone number already exists. Please use a different phone number.");
-            window.location.href = "register.php"; 
-        </script>
-        <?php
+        echo "<script>alert('Phone number already exists. Please use a different phone number.'); window.location.href = 'register.php';</script>";
         exit;
     }
 
-    // Check if the phone number is 11 digits long
     if (strlen($phoneNumber) != 11) {
         echo "Invalid phone number. Please enter an 11-digit number.";
         exit;
     }
 
-    $query = "INSERT INTO user (Email, Password, Fname, Address, Phone, UserType) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO user (Email, Password, Fname, Address, Phone, UserType, Status, ConfirmationCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("ssssss", $email, $hashedPassword, $name, $address, $phoneNumber, $userType);
+    $stmt->bind_param("ssssssss", $email, $hashedPassword, $name, $address, $phoneNumber, $userType, $status, $confirmationCode);
     $stmt->execute();
 
     if ($stmt->affected_rows == 1) {
-        ?>
-        <script>
-        alert( "User data saved successfully");
-        window.location.href = "login.php"; 
-        </script>
-        <?php
+        // Send confirmation email using PHPMailer
+       
+        try {
+            // Server settings
+          
+
+            $mail = include $_SERVER['DOCUMENT_ROOT'] . '/Project-clinic/mailer.php';
+            $mail = getMailer();
+            $mail->setFrom('no-reply@yourdomain.com', 'Your Website Name'); // Your sender email and name
+            $mail->addAddress($email); // Add a recipient
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Email Confirmation';
+            $mail->Body    = 'Please click the link below to confirm your email:<br>' .
+                             '<a href="http://localhost/Project-clinic/confirmation.php?code=' . $confirmationCode . '">Confirm Email</a>';
+
+            $mail->send();
+            echo "<script>alert('Registration successful! A confirmation email has been sent to your email address.'); window.location.href = 'login.php';</script>";
+        } catch (Exception $e) {
+            echo "Error sending confirmation email: {$mail->ErrorInfo}";
+        }
     } else {
         echo "Error saving user data";
     }

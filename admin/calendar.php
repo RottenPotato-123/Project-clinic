@@ -3,12 +3,14 @@
 session_start();
 
 // Determine the user type
-$user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
+$user_type = $_GET['role'] ?? $_SESSION['userType'] ?? null; 
+$status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 
-if ($user_type !== 'Admin') {
+// Function to check if user is a client and status is active
+if ($user_type !== 'Admin' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: Project-clinic/login.php');
-    exit;
+    header('Location: ../login.php');
+    exit; // Ensure no further code is executed
 }
 
 ?>

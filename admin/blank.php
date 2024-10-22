@@ -2,13 +2,14 @@
 session_start();
 include 'db.php';
 // Determine the user type
-$user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
-if ($user_type !== 'Admin') {
+$user_type = $_GET['role'] ?? $_SESSION['userType'] ?? null; 
+$status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
+
+// Function to check if user is a client and status is active
+if ($user_type !== 'Admin' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
     header('Location: ../login.php');
-    exit;
-  
-
+    exit; // Ensure no further code is executed
 }
 
 ?>
