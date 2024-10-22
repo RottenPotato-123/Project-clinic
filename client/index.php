@@ -43,13 +43,13 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
         .font-family-karla { font-family: karla; }
-        .bg-sidebar { background: #3d68ff; }
-        .cta-btn { color: #3d68ff; }
-        .upgrade-btn { background: #1947ee; }
-        .upgrade-btn:hover { background: #0038fd; }
-        .active-nav-link { background: #1947ee; }
-        .nav-item:hover { background: #1947ee; }
-        .account-link:hover { background: #3d68ff; }
+        .bg-sidebar { background: #2AAA8A; }
+        .cta-btn { color: #2AAA8A; }
+        .upgrade-btn { background: #50C878; }
+        .upgrade-btn:hover { background: #ffffff; }
+        .active-nav-link { background: #50C878; }
+        .nav-item:hover { background: #50C878; }
+        .account-link:hover { background: #2AAA8A; }
     </style>
     
 </head>
@@ -62,21 +62,21 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
             <div class="p-6">
                 <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Client</a>
                 <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                    <i class="fas fa-plus mr-3"></i> New Report
+                    <i ></i> Chit's Clinic
                 </button>
             </div>
             <nav class="text-white text-base font-semibold pt-3">
                 <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                    <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
                 <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i> Blank Page
+                    <i class="fas fa-calendar mr-3"></i> Calendar
                 </a>
                
                
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
+                    <i class="fas fa-table mr-3"></i> Appointments
                 </a>
             </nav>
           
@@ -131,11 +131,11 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
                         <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                     </a>
                     <a href="blank.php" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-                        <i class="fas fa-sticky-note mr-3"></i> Blank Page
+                        <i class="fas fa-calendar mr-3"></i> Calendar
                     </a>
                    
                     <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                        <i class="fas fa-calendar mr-3"></i> Calendar
+                        <i class="fas fa-table mr-3"></i> Appointments
                     </a>
                     <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-cogs mr-3"></i> Support
