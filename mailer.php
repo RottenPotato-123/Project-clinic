@@ -9,7 +9,6 @@ require __DIR__ . "/vendor/autoload.php";
 function getMailer() {
     $mail = new PHPMailer(true);
 
-     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
 
     $mail->isSMTP();
     $mail->SMTPAuth = true;
