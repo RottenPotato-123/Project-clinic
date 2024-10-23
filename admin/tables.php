@@ -17,7 +17,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind Admin Template</title>
+    <title>Admin Dashboard</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
   <!-- Tailwind -->
@@ -65,7 +65,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
                 <i class="fas fa-calendar mr-3"></i> Appointments
                 </a>
                 <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-table mr-3"></i> Tables
+                    <i class="fas fa-table mr-3"></i> Records
                 </a>
                 <a href="forms.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-align-left mr-3"></i> Users
