@@ -2,16 +2,17 @@
 session_start();
 require_once 'db.php';
 // Determine the user type
-$user_type = $_GET['role'] ?? $_SESSION['userType'] ?? null; 
-$status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
+$user_type = $_GET['role'] ?? (isset($_SESSION['userType']) ? $_SESSION['userType'] : null);
 
-// Function to check if user is a client and status is active
-if ($user_type !== 'Client' || $status !== 'active') {
+// Function to check if user is client
+
+if ($user_type !== 'Client') {
     // Redirect to an unauthorized access page or display an error message
     header('Location: ../login.php');
-    exit; // Ensure no further code is executed
+    exit;
 }
 $user_id = $_SESSION['user_id']; // Ensure you set this when user logs in
+
 
 // Prepare and execute query to get the first name
 $query = "SELECT Fname FROM user WHERE id = ?";
@@ -150,11 +151,26 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
                 </nav>
             </header>
 
-            <?php
+               <?php
 // Include the database connection file
 require_once 'db.php';
 
-// Get the user_id from the session
+// Get the user_id from the session if needed
+// $user_id = $_SESSION['user_id']; // Uncomment if user_id is needed for filtering appointments
+
+$today = date('Y-m-d');
+
+// Query to get all appointments scheduled for today
+$query = "SELECT * FROM appointments WHERE DATE(appointment_date) = '$today'";
+$result = $conn->query($query);
+
+// Check for SQL errors
+if ($result === false) {
+    die("SQL error: " . $conn->error);
+}
+
+// Store appointments in a session variable for display
+$_SESSION['appointments_today'] = [];
 $user_id = $_SESSION['user_id']; // Ensure you set this when the user logs in
 
 // Get appointments for the logged-in user
@@ -170,6 +186,7 @@ $appointments = array();
 while ($row = $result->fetch_assoc()) {
     $appointment = array(
         'Id' => $row['id'],
+        'client_id' => $row['client_id'],
         'FirstName' => $row['FirstName'],
         'LastName' => $row['LastName'],
         'Service' => $row['Service'],
@@ -177,22 +194,40 @@ while ($row = $result->fetch_assoc()) {
         'queue_number' => $row['queue_number'],
         'status' => $row['status']
     );
-    $appointments[] = $appointment;
-}
 
-// Check if appointments were found
-if (empty($appointments)) {
-    echo "No appointments found for User ID: $user_id";
-}
-
-// Store the appointments in the session
-$_SESSION['appointments'] = $appointments;
+        $_SESSION['appointments_today'][] = $appointment; // Store each appointment in the session
+    }
+    $sql = "SELECT * FROM appointments";
+    $result = $conn->query($sql);
+    
+    // Store the appointments in an array
+    $appointments = array();
+    while ($row = $result->fetch_assoc()) {
+        // Get the client's name from the database
+        $client_sql = "SELECT FName FROM user WHERE Id = '$row[client_id]'";
+        $client_result = $conn->query($client_sql);
+        $client_row = $client_result->fetch_assoc();
+    
+        $appointment = array(
+            'Id' => $row['id'],
+            'FirstName' => $row['FirstName'],
+            'LastName' => $row['LastName'],
+            'Service' => $row['Service'],
+            'appointment_date' => $row['appointment_date'],
+            'queue_number' => $row['queue_number'],
+            'status' => $row['status']
+        );
+    
+        $appointments[] = $appointment;
+    }
+    
+    // Store the appointments in the session
+    $_SESSION['appointments'] = $appointments;
+    
 
 // Close the database connection
 $conn->close();
-
-?>
-           <!-- Include the jQuery library -->
+?>           <!-- Include the jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Include the DataTables library -->
@@ -209,7 +244,9 @@ $conn->close();
             <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[300px]"> <!-- Set a minimum width for better responsiveness -->
                 <thead>
                     <tr>
+                    
                         <th class="p-1 text-sm">Appointment ID</th>
+                        
                         <th class="p-1 text-sm">Queue Number</th>
                         <th class="p-1 text-sm">Service</th>
                         <th class="p-1 text-sm">Status</th>
@@ -245,46 +282,51 @@ $conn->close();
         
     </main>
 
-        <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            
-            <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
+    <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+    <main class="w-full flex-grow p-6">
+        <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
 
-                <div class="w-full mt-6">
-                    <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i>
-                    </p>
-<table id="appointments-table" class="display nowrap w-full text-left table-auto min-w-max">
-  <thead> 
-    <tr>
-      <th>Appointment ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Service</th>
-      <th>Appointment Date</th>
-      <th>Queue Number</th>
-      <th>Status</th> 
-   
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ($_SESSION['appointments'] as $appointment) { ?>
-      <tr data-id="<?= $appointment['Id'] ?>">
-        <td><?= $appointment['Id'] ?></td>
-        <td><?= $appointment['FirstName'] ?></td>
-        <td><?= $appointment['LastName'] ?></td>
-        <td><?= $appointment['Service'] ?></td>
-        <td><?= $appointment['appointment_date'] ?></td>
-        <td><?= $appointment['queue_number'] ?></td>
-        <td><?= $appointment['status'] ?></td>
-        
-      </tr>
-    <?php } ?>
-  </tbody>
-</table>
-</main>
+        <div class="w-full mt-6">
+            <p class="text-xl pb-3 flex items-center">
+                <i class="fas fa-list mr-3"></i>
+            </p>
+            <table id="appointments-table" class="display nowrap w-full text-left table-auto min-w-max">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Client ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Service</th>
+                        <th>Appointment Date</th>
+                        <th>Queue Number</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $totalAppointmentsToday = count($_SESSION['appointments_today']);
+                    foreach ($_SESSION['appointments_today'] as $index => $appointment) {
+                        // Calculate remaining appointments dynamically
+                        $remaining = $totalAppointmentsToday - $index - 1;
+                    ?>
+                    <tr data-id="<?= $appointment['Id'] ?>">
+                        <td><?= $appointment['Id'] ?></td>
+                        <td><?= $appointment['client_id'] ?></td>
+                        <td><?= $appointment['FirstName'] ?></td>
+                        <td><?= $appointment['LastName'] ?></td>
+                        <td><?= $appointment['Service'] ?></td>
+                        <td><?= $appointment['appointment_date'] ?></td>
+                        <td><?= $appointment['queue_number'] ?></td>
+                        <td><?= $appointment['status'] ?></td>
+                       
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
-
 
         <!-- AlpineJS -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -294,6 +336,9 @@ $conn->close();
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>  
 <script>
+       
+        
+
     $(document).ready(function () {
     // Initialize Appointments DataTable
     const appointmentsTable = $('#appointments-table').DataTable({
@@ -308,7 +353,10 @@ $conn->close();
         createdRow: function (row, data) {
             $(row).attr('data-id', data.Id); // Set data-id on the tr element
         },
-        columnDefs: [{ width: "20%", targets: 6 }] // Adjust column width
+        columnDefs: [{ width: "20%", targets: 6 },
+        { targets: [1], visible: false } // Hide the first column (Client ID)
+
+        ] // Adjust column width
     });
 
     // Initialize Ongoing Queue DataTable
@@ -333,14 +381,26 @@ $conn->close();
     // Single filter function for both tables
     $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
         let status;
+       let clientId;
 
         // Filter for 'appointments-table' (Assuming status is in the 7th column)
         if (settings.nTable.id === 'appointments-table') {
-            status = data[6]?.trim().toLowerCase(); // Status in column index 6
+            const clientIdToFilter = '<?php echo $user_id; ?>';
+            status = data[7]?.trim().toLowerCase(); // Status in column index 6
+            clientId = data[1]?.trim(); // Assuming client ID is in column index 1
+            console.log('Client ID:', clientId);
+            console.log(' ID:', clientIdToFilter)
+           
+
             console.log('Appointments Row Data:', data);
             console.log('Appointments Status:', status);
-            return status === 'ongoing' || status === 'pending'; // Filter condition
-        }
+            const isStatusMatch = status === 'ongoing' || status === 'pending'; // Check if status is ongoing or pending
+
+            const shouldDisplayRow = clientId === clientIdToFilter;
+
+console.log('Should Display Row:', shouldDisplayRow); // Log whether the row should be displayed
+return shouldDisplayRow && isStatusMatch;
+}
 
         // Filter for 'Ongoing_Que' (Assuming status is in the 5th column)
         if (settings.nTable.id === 'Ongoing_Que') {

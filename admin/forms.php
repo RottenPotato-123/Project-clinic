@@ -310,7 +310,8 @@ $conn->close();
             </div>
             <div class="mb-4">
                 <label for="edit-phone" class="block text-sm font-medium text-gray-700">Phone:</label>
-                <input type="text" id="edit-phone" name="phone" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+                <input id="edit-phone" name="phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11" class="mt-1 block w-full p-2 border border-gray-300 rounded" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
             </div>
             <button type="submit" class="mt-4 bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700">Save Changes</button>
             <button type="button" class="close-modal mt-2 bg-gray-400 text-white rounded-md p-2 hover:bg-gray-500">Close</button> <!-- Close button -->
@@ -371,7 +372,8 @@ $conn->close();
     </div>
     <div class="mb-4">
         <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-        <input type="tel" id="phone" name="phone" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+        <input id="phone" name="phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11" class="mt-1 block w-full p-2 border border-gray-300 rounded" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
     </div>
     <div class="mb-4">
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>

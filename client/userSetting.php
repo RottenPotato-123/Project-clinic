@@ -182,9 +182,10 @@ $user = $result->fetch_assoc();
                 <!-- Phone Number -->
                 <div class="mb-4">
                     <label for="Phone" class="block text-sm font-medium text-indigo-900">Phone Number</label>
-                    <input type="number" id="Phone" name="Phone" 
-                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
+                     <input id="phone" name="phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11"                         class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"                        value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
+                        
+
                 </div>
 
                 <!-- Submit Button -->
