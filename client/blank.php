@@ -131,82 +131,148 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                    
                 </nav>
             </header>
-<main>
-<div class="bg-white py-8 px-2 sm:px-4 lg:max-w-7xl lg:mx-auto lg:px-8">
-    <!-- Month-Year Title -->
-    <p class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 text-center" id="month-year"></p>
-    
-    <!-- Days of the Week -->
-    <div class="grid grid-cols-7 gap-1 text-center mb-2">
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">M</p>
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">T</p>
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">W</p>
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">T</p>
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">F</p>
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">S</p>
-        <p class="text-xs sm:text-sm md:text-base font-medium text-gray-800 uppercase">S</p>
-    </div>
+            <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="text-3xl text-black pb-6">Calendar</h1>
 
-    <!-- Calendar Days -->
-    <div class="grid grid-cols-3 sm:grid-cols-7 gap-1 sm:gap-2" id="calendar-days">
-        <!-- dynamically generated days will go here -->
-    </div>
-</div>
+                <div class="w-full">
+                    <!-- source: https://tailwindcomponents.com/component/calendar-ui-with-tailwindcss-and-alpinejs -->
+                    <div class="antialiased sans-serif bg-gray-100">
+                        <div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
+                            <div class="container py-2">
+                                <div class="bg-white rounded-lg shadow overflow-hidden">
+                                    <div class="flex items-center justify-between py-2 px-6">
+                                        <div>
+                                            <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800"></span>
+                                            <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
+                                        </div>
+                                        <div class="border rounded-lg px-1" style="padding-top: 2px;">
+                                            <button 
+                                                type="button"
+                                                class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center" 
+                                                :class="{'cursor-not-allowed opacity-25': month == 0 }"
+                                                :disabled="month == 0 ? true : false"
+                                                @click="month--; getNoOfDays()">
+                                                <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                                </svg>  
+                                            </button>
+                                            <div class="border-r inline-flex h-6"></div>		
+                                            <button 
+                                                type="button"
+                                                class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
+                                                :class="{'cursor-not-allowed opacity-25': month == 11 }"
+                                                :disabled="month == 11 ? true : false"
+                                                @click="month++; getNoOfDays()">
+                                                <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                </svg>									  
+                                            </button>
+                                        </div>
+                                    </div>	
+
+                                    <div class="-mx-1 -mb-1">
+                                        <div class="flex flex-wrap" style="margin-bottom: -40px;">
+                                            <template x-for="(day, index) in DAYS" :key="index">	
+                                                <div style="width: 14.26%" class="px-2 py-2">
+                                                    <div
+                                                        x-text="day" 
+                                                        class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
+                                                </div>
+                                            </template>
+                                        </div>
+
+                                        <div class="flex flex-wrap border-t border-l">
+                                            <template x-for="blankday in blankdays">
+                                                <div 
+                                                    style="width: 14.28%; height: 120px"
+                                                    class="text-center border-r border-b px-4 pt-2"	
+                                                ></div>
+                                            </template>	
+                                            <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">	
+                                                <div style="width: 14.28%; height: 120px" class="px-4 pt-2 border-r border-b relative">
+                                                    <div
+                                                        @click="showEventModal(date)"
+                                                        x-text="date"
+                                                        class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100"
+                                                        :class="{'bg-blue-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-blue-200': isToday(date) == false }"	
+                                                    ></div>
+                                                    <div style="height: 80px;" class="overflow-y-auto mt-1">
+                                                        <template x-for="event in events.filter(e => new Date(e.event_date).toDateString() ===  new Date(year, month, date).toDateString() )">	
+                                                            <div
+                                                                class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
+                                                                :class="{
+                                                                    'border-blue-200 text-blue-800 bg-blue-100': event.event_theme === 'blue',
+                                                                    'border-red-200 text-red-800 bg-red-100': event.event_theme === 'red',
+                                                                    'border-yellow-200 text-yellow-800 bg-yellow-100': event.event_theme === 'yellow',
+                                                                    'border-green-200 text-green-800 bg-green-100': event.event_theme === 'green',
+                                                                    'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
+                                                                }"
+                                                            >
+                                                                <p x-text="event.event_title" class="text-sm truncate leading-tight"></p>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50" x-show.transition.opacity="openEventModal" >
 
 
 
 
-<div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 hidden" id="modal-overlay">
-  <!-- Modal Content -->
-  <div class="bg-white rounded shadow-md w-full sm:w-4/5 md:w-1/2 lg:w-1/3 h-auto p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-    <!-- Header -->
-    <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
-    <!-- Form -->
-    <form action="add_appointment.php" method="post">
-      <!-- Input Fields -->
-      <input type="hidden" id="appointment_date" name="appointment_date" />
 
-      <div class="mb-4">
-        <label for="FirstName" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-      </div>
-      <div class="mb-4">
-        <label for="MiddleName" class="block mb-2 text-gray-700">Middle Name:</label>
-        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
-      </div>
-      <div class="mb-4">
-        <label for="LastName" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-      </div>
-      <div class="mb-4">
-        <label for="Age" class="block mb-2 text-gray-700">Age:</label>
-        <input type="number" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-      </div>
-      <div class="mb-4">
-        <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
-        <select id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-          <option value="Single">Single</option>
-          <option value="Married">Married</option>
-          <option value="Separated">Separated</option>
-          <option value="Widowed">Widowed</option>
-        </select>
-      </div>
-      <div class="mb-4">
-        <label for="date" class="block mb-2 text-gray-700">Birthdate:</label>
-        <input type="date" id="date" name="date" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-      </div>
-      <div class="mb-4">
-        <label for="Birthplace" class="block mb-2 text-gray-700">Birthplace:</label>
-        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-      </div>
-      <!-- Select Field -->
-      <div class="mb-4">
-        <label for="service" class="block mb-2 text-gray-700">Service:</label>
-        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-          <option value="Counselling">Counselling</option>
-          <option value="Family Planning">Family Planning</option>
-          <option value="Ear Piercing">Ear Piercing</option>
-          <option value="Immunization">Immunization</option>
+                            <div class="bg-white rounded shadow-md w-full sm:w-4/5 md:w-1/2 lg:w-1/3 h-auto p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <!-- Header -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
+        <!-- Form -->
+        <form action="add_appointment.php" method="post">
+            <!-- Input Fields -->
+            <input type="hidden" id="appointment_date" name="appointment_date" x-bind:value="event_date" />
+
+            <div class="mb-4">
+                <label for="FirstName" class="block mb-2 text-gray-700">First Name:</label>
+                <input type="text" id="FirstName" name="FirstName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="MiddleName" class="block mb-2 text-gray-700">Middle Name:</label>
+                <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded">
+            </div>
+            <div class="mb-4">
+                <label for="LastName" class="block mb-2 text-gray-700">Last Name:</label>
+                <input type="text" id="LastName" name="LastName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="Age" class="block mb-2 text-gray-700">Age:</label>
+                <input type="number" id="Age" name="Age" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
+                <select id="civilstatus" name="civilstatus" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Separated">Separated</option>
+                    <option value="Widowed">Widowed</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="date" class="block mb-2 text-gray-700">Birthdate:</label>
+                <input type="date" id="date" name="date" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="Birthplace" class="block mb-2 text-gray-700">Birthplace:</label>
+                <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="service" class="block mb-2 text-gray-700">Service:</label>
+                <select id="service" name="service" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+                    <option value="Counselling">Counselling</option>
+                    <option value="Family Planning">Family Planning</option>
+                    <option value="Ear Piercing">Ear Piercing
+                    <option value="Immunization">Immunization</option>
           <option value="Acid Wash">Acid Wash</option>
         </select>
       </div>
@@ -214,102 +280,125 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
       <button type="submit" name="add_appointment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Appointment</button>
     </form>
     <!-- Close Button -->
-    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')">Close</button>
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded absolute top-0 right-0" onclick="document.getElementById('modal-overlay').classList.toggle('hidden')"@click="openEventModal = false">Close</button>
   </div>
 </div>
- 
-</main>
-</body>
-<script>
-const monthNames = ["January", "February", "March", "April", "May", "June", 
-                    "July", "August", "September", "October", "November", "December"];
-
-// Get the current date
-const currentDate = new Date();
-
-// Get the date 4 days from now
-const oneday = new Date(currentDate);
-oneday.setDate(currentDate.getDate() + 1);
-const twoday = new Date(currentDate);
-twoday.setDate(currentDate.getDate() + 2);
-const treeday = new Date(currentDate);
-treeday.setDate(currentDate.getDate() + 3);
-const forday = new Date(currentDate);
-forday.setDate(currentDate.getDate() + 4);
-
-// Display the month and year
-document.getElementById("month-year").textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-
-// Generate calendar days
-const calendarDays = [];
-for (let i = 1; i <= 31; i++) { 
-    const day = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-    if (day.getMonth() === currentDate.getMonth()) {
-        calendarDays.push(day.getDate());
-    }
-}
-
-// Update calendar days in HTML
-const calendarContainer = document.getElementById("calendar-days");
-calendarDays.forEach((day) => {
-    const dayElement = document.createElement("div");
-    dayElement.className = "w-full h-16 sm:h-20 p-2 border border-gray-200 flex items-center justify-center";
-
-    // Create a paragraph element for the date
-    const dayText = document.createElement("p"); // Define dayText here
-    dayText.className = "text-sm font-medium text-gray-800"; // Text styling
-   
-    // Highlight the current date
-    if (day === currentDate.getDate()) {
-        dayElement.classList.add("bg-red-100"); // Highlight current date in red
-        dayText.textContent = `${day} Today`; // Add "Today" text
-    }
-    else {
-        dayText.textContent = `${day}`; // Just display the day
-    }
-    // Highlight the date 4 days from now
-    for (let i = 1; i <= 4; i++) {
-        const futureDate = new Date(currentDate);
-        futureDate.setDate(currentDate.getDate() + i);
-        if (day === futureDate.getDate() && currentDate.getMonth() === futureDate.getMonth()) {
-            dayElement.classList.add("bg-green-100"); // Add a green background
-            dayText.textContent = `${day} You Can Book This Day`;
-        }
-    }
-    // Default case for other dayss
+                           
+                    
+                        </div>
+                    </div>
+                   
+                </div>
+            </main>
     
- 
-    // Append the text to the day element
-    dayElement.appendChild(dayText);
+            
+    </body>
+<script>
+const MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June', 
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    dayElement.addEventListener("click", () => {
-        const selectedDate = `${monthNames[currentDate.getMonth()]} ${day}, ${currentDate.getFullYear()}`;
-        console.log('Selected date:', selectedDate);
-        document.getElementById("appointment_date").value = selectedDate;
-
-        // Send the selected date to your PHP script using AJAX or form submission
-        fetch('date.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+function app() {
+    return {
+        month: '',
+        year: '',
+        no_of_days: [],
+        blankdays: [],
+        days: DAYS,
+        events: [
+            {
+                event_date: new Date(2020, 3, 1),
+                event_title: "April Fool's Day",
+                event_theme: 'blue'
             },
-            body: 'date=' + encodeURIComponent(selectedDate)
-        })
-        .then(response => response.text())
-        .then(data => console.log('Response from PHP script:', data));
+            {
+                event_date: new Date(2020, 3, 10),
+                event_title: "Birthday",
+                event_theme: 'red'
+            },
+            {
+                event_date: new Date(2020, 3, 16),
+                event_title: "Upcoming Event",
+                event_theme: 'green'
+            }
+        ],
+        event_title: '',
+        event_date: '',
+        event_theme: 'blue',
+        themes: [
+            { value: "blue", label: "Blue Theme" },
+            { value: "red", label: "Red Theme" },
+            { value: "yellow", label: "Yellow Theme" },
+            { value: "green", label: "Green Theme" },
+            { value: "purple", label: "Purple Theme" }
+        ],
+        openEventModal: false,
+        datepickerValue: '',
 
-        const modalOverlay = document.getElementById("modal-overlay");
-        modalOverlay.classList.remove("hidden");
-    });
+        // Initialize the current month and year
+        initDate() {
+            let today = new Date();
+            this.month = today.getMonth();
+            this.year = today.getFullYear();
+            this.datepickerValue = today.toDateString();
+            this.getNoOfDays();
+        },
 
-    calendarContainer.appendChild(dayElement);
-});
+        // Check if the given date is today
+        isToday(date) {
+            const today = new Date();
+            const d = new Date(this.year, this.month, date);
+            return today.toDateString() === d.toDateString();
+        },
 
-// add an event listener to close the modal window
-document.getElementById("close-modal").addEventListener("click", () => {
-    const modalOverlay = document.getElementById("modal-overlay");
-    modalOverlay.classList.add("hidden");
-});
+        // Open the event modal and send the selected date
+        showEventModal(day) {
+            const selectedDate = new Date(this.year, this.month , day); // Subtract 1 from month
+            const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+
+            console.log('Selected date:', formattedDate);
+            document.getElementById("appointment_date").value = formattedDate; // Ensure this is set correctly
+
+            // Send the selected date to your PHP script
+            fetch('date.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'date=' + encodeURIComponent(formattedDate)
+            })
+            .then(response => response.text())
+            .then(data => console.log('Response from PHP script:', data));
+
+            this.openEventModal = true;
+            const modalOverlay = document.getElementById("modal-overlay");
+            modalOverlay.classList.remove("hidden");
+
+            // Add event listener to close the modal when clicking outside the modal content
+            modalOverlay.addEventListener('click', (event) => {
+                if (event.target === modalOverlay) {
+                    this.closeModal();
+                }
+            });
+        },
+
+        // Close the event modal
+        closeModal() {
+            this.openEventModal = false;
+            const modalOverlay = document.getElementById("modal-overlay");
+            modalOverlay.classList.add("hidden");
+        },
+
+        // Get the number of days and blank days for the current month
+        getNoOfDays() {
+            let daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
+            let firstDayOfMonth = new Date(this.year, this.month, 1).getDay();
+
+            this.blankdays = Array.from({ length: firstDayOfMonth }, (_, i) => i + 1);
+            this.no_of_days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+        }
+    };
+}
 </script>
  <!-- AlpineJS -->
  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
