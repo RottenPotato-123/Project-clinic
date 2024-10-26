@@ -132,95 +132,101 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                 </nav>
             </header>
             <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Calendar</h1>
+    <main class="w-full flex-grow p-6">
+        <h1 class="text-3xl text-black pb-6">Calendar</h1>
 
-                <div class="w-full">
-                    <!-- source: https://tailwindcomponents.com/component/calendar-ui-with-tailwindcss-and-alpinejs -->
-                    <div class="antialiased sans-serif bg-gray-100">
-                        <div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
-                            <div class="container py-2">
-                                <div class="bg-white rounded-lg shadow overflow-hidden">
-                                    <div class="flex items-center justify-between py-2 px-6">
-                                        <div>
-                                            <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800"></span>
-                                            <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
-                                        </div>
-                                        <div class="border rounded-lg px-1" style="padding-top: 2px;">
-                                            <button 
-                                                type="button"
-                                                class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center" 
-                                                :class="{'cursor-not-allowed opacity-25': month == 0 }"
-                                                :disabled="month == 0 ? true : false"
-                                                @click="month--; getNoOfDays()">
-                                                <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                                                </svg>  
-                                            </button>
-                                            <div class="border-r inline-flex h-6"></div>		
-                                            <button 
-                                                type="button"
-                                                class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
-                                                :class="{'cursor-not-allowed opacity-25': month == 11 }"
-                                                :disabled="month == 11 ? true : false"
-                                                @click="month++; getNoOfDays()">
-                                                <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                                </svg>									  
-                                            </button>
-                                        </div>
-                                    </div>	
+        <div class="w-full">
+            <div class="antialiased sans-serif bg-gray-100">
+                <div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
+                    <div class="container py-2">
+                        <div class="bg-white rounded-lg shadow overflow-hidden">
+                            <div class="flex items-center justify-between py-2 px-6">
+                                <div>
+                                    <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800"></span>
+                                    <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
+                                </div>
+                                <div class="border rounded-lg px-1" style="padding-top: 2px;">
+                                    <button 
+                                        type="button"
+                                        class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center" 
+                                        :class="{'cursor-not-allowed opacity-25': month == 0 }"
+                                        :disabled="month == 0 ? true : false"
+                                        @click="month--; getNoOfDays()">
+                                        <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                        </svg>  
+                                    </button>
+                                    <div class="border-r inline-flex h-6"></div>		
+                                    <button 
+                                        type="button"
+                                        class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
+                                        :class="{'cursor-not-allowed opacity-25': month == 11 }"
+                                        :disabled="month == 11 ? true : false"
+                                        @click="month++; getNoOfDays()">
+                                        <svg class="h-6 w-6 text-gray-500 inline-flex leading-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>									  
+                                    </button>
+                                </div>
+                            </div>	
 
-                                    <div class="-mx-1 -mb-1">
-                                        <div class="flex flex-wrap" style="margin-bottom: -40px;">
-                                            <template x-for="(day, index) in DAYS" :key="index">	
-                                                <div style="width: 14.26%" class="px-2 py-2">
+                            <div class="-mx-1 -mb-1">
+                                <div class="flex flex-wrap" style="margin-bottom: -40px;">
+                                    <template x-for="(day, index) in DAYS" :key="index">	
+                                        <div style="width: 14.26%" class="px-2 py-2">
+                                            <div
+                                                x-text="day" 
+                                                class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <div class="flex flex-wrap border-t border-l">
+                                    <template x-for="blankday in blankdays">
+                                        <div 
+                                            style="width: 14.28%; height: 120px"
+                                            class="text-center border-r border-b px-4 pt-2"	
+                                        ></div>
+                                    </template>	
+                                    <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">	
+                                        <div style="width: 14.28%; height: 120px" class="px-4 pt-2 border-r border-b relative">
+                                            <div
+                                                @click="showEventModal(date)"
+                                                x-text="date"
+                                                class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100"
+                                                :class="{
+                                                    'bg-blue-500 text-white': isToday(date),
+                                                    'text-gray-700 hover:bg-blue-200': !isToday(date),
+                                                    'bg-green-200': isWithinBookingRange(date) // New condition for booking days
+                                                }"
+                                            ></div>
+                                            <div style="height: 80px;" class="overflow-y-auto mt-1">
+                                                <template x-if="isWithinBookingRange(date)">
+                                                    <p class="text-green-800 text-sm text-center">You Can Book This Day</p> <!-- Booking text -->
+                                                </template>
+                                                <template x-for="event in events.filter(e => new Date(e.event_date).toDateString() ===  new Date(year, month, date).toDateString() )">	
                                                     <div
-                                                        x-text="day" 
-                                                        class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center"></div>
-                                                </div>
-                                            </template>
-                                        </div>
-
-                                        <div class="flex flex-wrap border-t border-l">
-                                            <template x-for="blankday in blankdays">
-                                                <div 
-                                                    style="width: 14.28%; height: 120px"
-                                                    class="text-center border-r border-b px-4 pt-2"	
-                                                ></div>
-                                            </template>	
-                                            <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">	
-                                                <div style="width: 14.28%; height: 120px" class="px-4 pt-2 border-r border-b relative">
-                                                    <div
-                                                        @click="showEventModal(date)"
-                                                        x-text="date"
-                                                        class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100"
-                                                        :class="{'bg-blue-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-blue-200': isToday(date) == false }"	
-                                                    ></div>
-                                                    <div style="height: 80px;" class="overflow-y-auto mt-1">
-                                                        <template x-for="event in events.filter(e => new Date(e.event_date).toDateString() ===  new Date(year, month, date).toDateString() )">	
-                                                            <div
-                                                                class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
-                                                                :class="{
-                                                                    'border-blue-200 text-blue-800 bg-blue-100': event.event_theme === 'blue',
-                                                                    'border-red-200 text-red-800 bg-red-100': event.event_theme === 'red',
-                                                                    'border-yellow-200 text-yellow-800 bg-yellow-100': event.event_theme === 'yellow',
-                                                                    'border-green-200 text-green-800 bg-green-100': event.event_theme === 'green',
-                                                                    'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
-                                                                }"
-                                                            >
-                                                                <p x-text="event.event_title" class="text-sm truncate leading-tight"></p>
-                                                            </div>
-                                                        </template>
+                                                        class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
+                                                        :class="{
+                                                            'border-blue-200 text-blue-800 bg-blue-100': event.event_theme === 'blue',
+                                                            'border-red-200 text-red-800 bg-red-100': event.event_theme === 'red',
+                                                            'border-yellow-200 text-yellow-800 bg-yellow-100': event.event_theme === 'yellow',
+                                                            'border-green-200 text-green-800 bg-green-100': event.event_theme === 'green',
+                                                            'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
+                                                        }"
+                                                    >
+                                                        <p x-text="event.event_title" class="text-sm truncate leading-tight"></p>
                                                     </div>
-                                                </div>
-                                            </template>
+                                                </template>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </template>
                                 </div>
                             </div>
-                            <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50" x-show.transition.opacity="openEventModal" >
-
+                        </div>
+                    </div>
+                    <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50" x-show.transition.opacity="openEventModal">
+                   
 
 
 
@@ -246,9 +252,9 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                 <input type="text" id="LastName" name="LastName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
             </div>
             <div class="mb-4">
-                <label for="Age" class="block mb-2 text-gray-700">Age:</label>
-                <input type="number" id="Age" name="Age" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
-            </div>
+    <label for="Age" class="block mb-2 text-gray-700">Age:</label>
+    <input type="number" id="Age" name="Age" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required readonly>
+</div>
             <div class="mb-4">
                 <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
                 <select id="civilstatus" name="civilstatus" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
@@ -294,6 +300,20 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
             
     </body>
 <script>
+       document.getElementById('date').addEventListener('change', function () {
+        const birthDate = new Date(this.value); // Get the selected birthdate
+        const today = new Date(); // Current date
+
+        let age = today.getFullYear() - birthDate.getFullYear(); // Calculate year difference
+        const monthDiff = today.getMonth() - birthDate.getMonth(); // Calculate month difference
+
+        // Adjust if the birthday hasn't occurred yet this year
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        document.getElementById('Age').value = age >= 0 ? age : 0; // Display age or 0 if invalid
+    });
 const MONTH_NAMES = [
     'January', 'February', 'March', 'April', 'May', 'June', 
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -344,6 +364,17 @@ function app() {
             this.year = today.getFullYear();
             this.datepickerValue = today.toDateString();
             this.getNoOfDays();
+        },
+        isWithinBookingRange(date) {
+            const today = new Date();
+            const bookingStart = new Date();
+            bookingStart.setDate(today.getDate() + 0); // Tomorrow
+
+            const bookingEnd = new Date();
+            bookingEnd.setDate(today.getDate() + 4); // Four days from tomorrow
+
+            const selectedDate = new Date(this.year, this.month, date);
+            return selectedDate >= bookingStart && selectedDate <= bookingEnd;
         },
 
         // Check if the given date is today
