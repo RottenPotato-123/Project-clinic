@@ -231,7 +231,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
         <!-- Form -->
         <form action="add_appointment.php" method="post">
             <!-- Input Fields -->
-            <input type="hidden" id="appointment_date" name="appointment_date" x-bind:value="event_date" />
+            <input type="hidden" id="appointment_date" name="appointment_date" />
 
             <div class="mb-4">
                 <label for="FirstName" class="block mb-2 text-gray-700">First Name:</label>
@@ -355,11 +355,15 @@ function app() {
 
         // Open the event modal and send the selected date
         showEventModal(day) {
-            const selectedDate = new Date(this.year, this.month , day); // Subtract 1 from month
-            const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+            const selectedDate = new Date(this.year, this.month, day);
+            const formattedDate = `${MONTH_NAMES[selectedDate.getMonth()]} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`;
 
-            console.log('Selected date:', formattedDate);
-            document.getElementById("appointment_date").value = formattedDate; // Ensure this is set correctly
+            const isoDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+
+  console.log("ISO date:", isoDate);
+
+
+            document.getElementById("appointment_date").value = isoDate; // Ensure this is set correctly
 
             // Send the selected date to your PHP script
             fetch('date.php', {

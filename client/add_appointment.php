@@ -28,7 +28,7 @@ if (isset($_POST['add_appointment'])) {
     $birth_date = date("Y-m-d", strtotime($_POST['date']));
     $birthplace = $_POST['Birthplace'];
     $service = $_POST['service'];
-    $appointment_date = date("Y-m-d", strtotime($_POST['appointment_date']));
+    $appointment_date = ($_POST['appointment_date']);
     
 
     // Calculate tomorrow and four days later
@@ -39,7 +39,7 @@ if (isset($_POST['add_appointment'])) {
     if ($appointment_date < $tomorrow || $appointment_date > $four_days_later) {
         
         echo "<script>
-            alert('Error: You can only add appointments from tomorrow and up to four days from now!');
+            alert('Error: You can only add appointments from tomorrow and up to four days from now!$appointment_date');
             window.location.href = 'blank.php';
           </script>";
         exit;
