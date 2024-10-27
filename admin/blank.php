@@ -321,27 +321,23 @@ $conn->close();
         <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
-        <label for="title" class="block mb-2 text-gray-700">Age:</label>
-        <input type="number" id="Age" name="Age" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
-      </div>
-      <div class="mb-4">
-        <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
-        <select id="civilstatus" name="civilstatus" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-       
-        <option value="Single">Single</option>
-        <option value="Married">Married</option>
-        <option value="Separated">Separated</option>
-        <option value="Widowed">Widowed</option>
-        </select>
-   </div>
-
-      <div class="mb-4" >
-
-        <label for="title" class="block mb-2 text-gray-700">Birthdate:</label>
-        
-        <input type="date" id="date" name="date" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
-      </div>
-      <div class="mb-4">
+    <label for="Age" class="block mb-2 text-gray-700"></label>
+    <input type="hidden" id="Age" name="Age" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required readonly>
+</div>
+            <div class="mb-4">
+                <label for="civilstatus" class="block mb-2 text-gray-700">Civil status:</label>
+                <select id="civilstatus" name="civilstatus" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Separated">Separated</option>
+                    <option value="Widowed">Widowed</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="date" class="block mb-2 text-gray-700">Birthdate:</label>
+                <input type="date" id="date" name="date" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+            </div>
+             <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Birthplace:</label>
         <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
@@ -471,6 +467,26 @@ $conn->close();
     
    
     <script>
+    document.getElementById('date').addEventListener('change', function () {
+    const birthDate = new Date(this.value); // Get the selected birthdate
+
+    // Adjust for GMT+8 timezone by adding 8 hours to the UTC date
+    const utcOffset = 8 * 60 * 60 * 1000; // 8 hours in milliseconds
+    const adjustedBirthDate = new Date(birthDate.getTime() + utcOffset); // Adjust the birth date
+
+    const today = new Date(); // Current date
+    const adjustedToday = new Date(today.getTime() + utcOffset); // Adjust the current date
+
+    let age = adjustedToday.getFullYear() - adjustedBirthDate.getFullYear(); // Calculate year difference
+    const monthDiff = adjustedToday.getMonth() - adjustedBirthDate.getMonth(); // Calculate month difference
+
+    // Adjust if the birthday hasn't occurred yet this year
+    if (monthDiff < 0 || (monthDiff === 0 && adjustedToday.getDate() < adjustedBirthDate.getDate())) {
+        age--;
+    }
+
+    document.getElementById('Age').value = age >= 0 ? age : 0; // Display age or 0 if invalid
+});
     $(document).ready(function() {
     // Initialize DataTables with responsive support
     const appointmentsTable = $('#appointments-table').DataTable({

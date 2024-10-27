@@ -93,7 +93,7 @@ $mysqli->close();
             background-color: #2AAA8A;
         }
     </style>
-    <title>Login</title>
+    <title>Sign up</title>
 </head>
 <body>
     <div>
@@ -151,7 +151,7 @@ $mysqli->close();
             type="password" 
             id="password" 
             name="password" 
-            class=" rounded w-full text-gray-700   border border-gray-300   transition duration-500 px-3 pb-3 pr-10"
+            class=" rounded w-full text-gray-700   border border-gray-300   transition duration-500 px-3 pb-3 pr-10 py-2"
             placeholder="Enter your password"
         >
         <button 
@@ -176,7 +176,7 @@ $mysqli->close();
             type="password" 
             id="password_confirmation" 
             name="password_confirmation" 
-            class=" rounded w-full text-gray-700   border border-gray-300  transition duration-500 px-3 pb-3 pr-10"
+            class=" rounded w-full text-gray-700   border border-gray-300  transition duration-500 px-3 pb-3 pr-10 py-2"
             placeholder="Confirm your password"
         >
         <button 

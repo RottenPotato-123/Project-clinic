@@ -204,9 +204,9 @@ if ($user_type !== 'Admin' || $status !== 'active') {
     
             
 
- <div id="appointmentModal" class="flex items-center justify-center min-h-screen absolute inset-0 bg-gray-800/30 backdrop-blur-md w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50  hidden" id="modal-overlay2" >
- <div class="bg-white rounded shadow-md w-4/5 h-4/5 max-w-2xl max-h-screen overflow-hidden flex  center flex-col overflow-y-auto">
-         <div class="flex justify-between items-center p-4 border-b">
+            <div id="appointmentModal" class="flex items-center justify-center min-h-screen absolute inset-0 bg-gray-800/30 backdrop-blur-md w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2">
+  <div class="bg-white rounded shadow-md w-4/5 h-4/5 max-w-2xl max-h-screen overflow-hidden flex center flex-col overflow-y-auto">
+    <div class="flex justify-between items-center p-4 border-b">
       <h5 class="text-lg font-semibold" id="appointmentModalLabel">Appointment Details</h5>
       <button type="button" id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
     </div>
@@ -236,11 +236,27 @@ if ($user_type !== 'Admin' || $status !== 'active') {
           <!-- Result data will be inserted here -->
         </tbody>
       </table>
+
+      <!-- Print Button -->
+      <button type="button" id="printModal" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Print</button>
     </div>
   </div>
 </div>
-
     <script>
+      document.getElementById('printModal').addEventListener('click', function() {
+    const printContent = document.getElementById('appointmentModal').innerHTML;
+    const printWindow = window.open('', '', 'height=800,width=800');
+    
+    printWindow.document.write('<html><head><title>Print Appointment</title>');
+    printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">'); // Optional: Tailwind CSS
+    printWindow.document.write('<style>body { margin: 0; padding: 20px; }</style>'); // Custom print styles
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<h5 class="text-lg font-semibold">Appointment Details</h5>'); // Title for printed document
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  });
 $(document).ready(function() {
   $('#appointments').DataTable({
     "ajax": {   
