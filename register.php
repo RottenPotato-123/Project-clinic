@@ -151,7 +151,7 @@ $mysqli->close();
             type="password" 
             id="password" 
             name="password" 
-            class=" rounded w-full text-gray-700 focus:outline-none  border border-gray-300   transition duration-500 px-3 pb-3 pr-10"
+            class=" rounded w-full text-gray-700   border border-gray-300   transition duration-500 px-3 pb-3 pr-10"
             placeholder="Enter your password"
         >
         <button 
