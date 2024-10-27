@@ -41,15 +41,15 @@ $user = $result->fetch_assoc();
     <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
         .font-family-karla { font-family: karla; }
-        .bg-sidebar { background: #3d68ff; }
-        .cta-btn { color: #3d68ff; }
-        .upgrade-btn { background: #1947ee; }
-        .upgrade-btn:hover { background: #0038fd; }
-        .active-nav-link { background: #1947ee; }
-        .nav-item:hover { background: #1947ee; }
-        .account-link:hover { background: #3d68ff; }
+        .bg-sidebar { background: #2AAA8A; }
+        .cta-btn { color: #2AAA8A; }
+        .upgrade-btn { background: #50C878; }
+        .upgrade-btn:hover { background: #ffffff; }
+        .active-nav-link { background: #50C878; }
+        .nav-item:hover { background: #50C878; }
+        .account-link:hover { background: #2AAA8A; }
     </style>
 </head>
 <body class="bg-gray-100 font-family-karla flex">
@@ -75,9 +75,7 @@ $user = $result->fetch_assoc();
                
                
                
-                <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
-                </a>
+               
             </nav>
            
         </aside>
@@ -205,29 +203,80 @@ $user = $result->fetch_assoc();
                 <div class="mb-6">
                     <h2 class="text-lg font-medium text-indigo-900 mb-4">Change Password</h2>
 
-                    <!-- Current Password -->
-                    <div class="mb-4">
-                        <label for="current_password" class="block text-sm font-medium text-indigo-900">Current Password</label>
-                        <input type="password" id="current_password" name="current_password"
-                            class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-400"
-                            placeholder="Enter your current password" required>
-                    </div>
+                <!-- Current Password -->
+<div class="mb-4 relative">
+    <label for="current_password" class="block text-sm font-medium text-indigo-900">Current Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="current_password" 
+            name="current_password"
+            class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-400 pr-12"
+            placeholder="Enter your current password" required 
+        />
+        <button 
+            type="button" 
+            id="toggle-current" 
+            class="absolute inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-500"
+        >
+            <svg id="icon-current" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+        </button>
+    </div>
+</div>
 
-                    <!-- New Password -->
-                    <div class="mb-4">
-                        <label for="new_password" class="block text-sm font-medium text-indigo-900">New Password</label>
-                        <input type="password" id="new_password" name="new_password"
-                            class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-400"
-                            placeholder="Enter a new password" required>
-                    </div>
+<!-- New Password -->
+<div class="mb-4 relative">
+    <label for="new_password" class="block text-sm font-medium text-indigo-900">New Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="new_password" 
+            name="new_password"
+            class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-400 pr-12"
+            placeholder="Enter a new password" required 
+        />
+        <button 
+            type="button" 
+            id="toggle-new" 
+            class="absolute inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-500"
+        >
+            <svg id="icon-new" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+        </button>
+    </div>
+</div>
 
-                    <!-- Confirm New Password -->
-                    <div class="mb-4">
-                        <label for="confirm_password" class="block text-sm font-medium text-indigo-900">Confirm New Password</label>
-                        <input type="password" id="confirm_password" name="confirm_password"
-                            class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-400"
-                            placeholder="Re-enter new password" required>
-                    </div>
+<!-- Confirm New Password -->
+<div class="mb-4 relative">
+    <label for="confirm_password" class="block text-sm font-medium text-indigo-900">Confirm New Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="confirm_password" 
+            name="confirm_password"
+            class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-400 pr-12"
+            placeholder="Re-enter new password" required 
+        />
+        <button 
+            type="button" 
+            id="toggle-confirm" 
+            class="absolute inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-500"
+        >
+            <svg id="icon-confirm" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+        </button>
+    </div>
+</div>
 
                     <!-- Update Password Button -->
                     <div class="flex justify-end">
@@ -250,6 +299,24 @@ $user = $result->fetch_assoc();
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
    
         <script>
+             function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        const isPassword = input.type === 'password';
+        
+        input.type = isPassword ? 'text' : 'password';
+        icon.innerHTML = isPassword 
+            ? `<path stroke-linecap="round" stroke-linejoin="round" 
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.978 9.978 0 012.442-3.487m4.673-.757a3 3 0 014.05 4.05m1.664 1.664A9.953 9.953 0 0112 17c-1.02 0-2.007-.15-2.925-.427m8.15 3.252l-12-12" />`
+            : `<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+               <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+    }
+
+    // Attach event listeners for all toggle buttons
+    document.getElementById('toggle-current').addEventListener('click', () => togglePassword('current_password', 'icon-current'));
+    document.getElementById('toggle-new').addEventListener('click', () => togglePassword('new_password', 'icon-new'));
+    document.getElementById('toggle-confirm').addEventListener('click', () => togglePassword('confirm_password', 'icon-confirm'));
+
             function validatePasswords(password, passwordConfirmation, event) {
     // Check password length
     if (password.length < 6 ) {

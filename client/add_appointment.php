@@ -39,7 +39,7 @@ if (isset($_POST['add_appointment'])) {
     if ($appointment_date < $tomorrow || $appointment_date > $four_days_later) {
         
         echo "<script>
-            alert('Error: You can only add appointments from tomorrow and up to four days from now!$appointment_date');
+            alert('Error: You can only add appointments from tomorrow and up to four days from now!');
             window.location.href = 'blank.php';
           </script>";
         exit;

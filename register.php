@@ -144,19 +144,55 @@ $mysqli->close();
                             </div>
                         </div>
 
-                        <div class="mt-6">
-                            <label for="password" class="block text-sm font-medium leading-5 text-gray-700">Password</label>
-                            <div class="mt-1 rounded-md shadow-sm">
-                                <input id="password" name="password" type="password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                            </div>
-                        </div>
+                        <div class="mb-6 pt-3 rounded  relative">
+    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class=" rounded w-full text-gray-700 focus:outline-none  border border-gray-300   transition duration-500 px-3 pb-3 pr-10"
+            placeholder="Enter your password"
+        >
+        <button 
+            type="button" 
+            id="toggle-password" 
+            class="absolute inset-y-1 right-0 flex items-center pr-3 text-gray-500"
+            onclick="togglePasswordVisibility('password', 'icon-password')"
+        >
+        <svg id="icon-password" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        </button>
+    </div>
+</div>
 
-                        <div class="mt-6">
-                            <label for="password_confirmation" class="block text-sm font-medium leading-5 text-gray-700">Confirm Password</label>
-                            <div class="mt-1 rounded-md shadow-sm">
-                                <input id="password_confirmation" name="password_confirmation" type="password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                            </div>
-                        </div>
+<div class="mb-6 pt-3 rounded  relative">
+    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password_confirmation">Confirm Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="password_confirmation" 
+            name="password_confirmation" 
+            class=" rounded w-full text-gray-700   border border-gray-300  transition duration-500 px-3 pb-3 pr-10"
+            placeholder="Confirm your password"
+        >
+        <button 
+            type="button" 
+            id="toggle-confirm-password" 
+            class="absolute inset-y-1 right-0 flex items-center pr-3 text-gray-500"
+            onclick="togglePasswordVisibility('password_confirmation', 'icon-confirm-password')"
+        >
+        <svg id="icon-confirm-password" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        </button>
+    </div>
+</div>
 
                         <div class="mt-6">
                             <span class="block w-full rounded-md shadow-sm">
@@ -172,6 +208,19 @@ $mysqli->close();
     </div>
 
     <script>
+         function togglePasswordVisibility(passwordFieldId, iconId) {
+        const passwordField = document.getElementById(passwordFieldId);
+        const icon = document.getElementById(iconId);
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.innerHTML =  `<path stroke-linecap="round" stroke-linejoin="round" 
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.978 9.978 0 012.442-3.487m4.673-.757a3 3 0 014.05 4.05m1.664 1.664A9.953 9.953 0 0112 17c-1.02 0-2.007-.15-2.925-.427m8.15 3.252l-12-12" />`        ; // Eye icon
+        } else {
+            passwordField.type = "password";
+            icon.innerHTML = '<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />'; // Original icon
+        }
+    }
         document.getElementById('user-form').addEventListener('submit', function (event) {
             const password = document.getElementById('password').value;
             const passwordConfirmation = document.getElementById('password_confirmation').value;

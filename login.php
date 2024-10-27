@@ -106,10 +106,30 @@ $mysqli->close();
                     <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Email</label>
                     <input type="text" id="email" name="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-600 transition duration-500 px-3 pb-3">
                 </div>
-                <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
-                    <input type="password" id="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-600 transition duration-500 px-3 pb-3">
-                </div>
+                <div class="mb-6 pt-3 rounded bg-gray-200 relative">
+    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
+    <div class="relative">
+    <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-600 transition duration-500 px-3 pb-3 pr-10"
+        placeholder="Enter your password"
+    >
+    <button 
+        type="button" 
+        id="toggle-password" 
+        class="absolute inset-y-1 right-0 flex items-center pr-3 text-gray-500"
+    >
+        <svg id="icon-password" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+    </button>
+    </div>
+</div>
+
                 <div class="flex justify-end">
                     <a href="forgotpass.php" class="text-sm text-green-600 hover:text-green-700 hover:underline mb-6">Forgot your password?</a>
                 </div>
@@ -133,6 +153,21 @@ $mysqli->close();
     </footer>
 
     <script>
+        document.getElementById('toggle-password').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('icon-password');
+        
+        // Toggle input type between 'password' and 'text'
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+
+        // Swap icon between 'eye' and 'eye-off'
+        icon.innerHTML = isPassword 
+            ? `<path stroke-linecap="round" stroke-linejoin="round" 
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.978 9.978 0 012.442-3.487m4.673-.757a3 3 0 014.05 4.05m1.664 1.664A9.953 9.953 0 0112 17c-1.02 0-2.007-.15-2.925-.427m8.15 3.252l-12-12" />`
+            : `<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+               <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+    });
         function redirectToRegister() {
             window.location.href = "register.php";
         }
