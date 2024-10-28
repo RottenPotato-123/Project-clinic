@@ -31,7 +31,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
         .bg-sidebar { background: #2AAA8A; }
         .cta-btn { color: #2AAA8A; }
         .upgrade-btn { background: #50C878; }
-        .upgrade-btn:hover { background: #fcfcfc; }
+        .upgrade-btn:hover { background: #ffffff; }
         .active-nav-link { background: #50C878; }
         .nav-item:hover { background: #50C878; }
         .account-link:hover { background: #2AAA8A; }
@@ -51,7 +51,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                 <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
-                <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-calendar mr-3"></i> Calendar
                 </a>
                
@@ -110,22 +110,20 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                 </div>
                 <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
                     <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                        <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                        <i class="fas fa-tachometer-alt mr-3"></i> Queuing
                     </a>
-                    <a href="blank.php" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-                        <i class="fas fa-sticky-note mr-3"></i> Blank Page
-                    </a>
+                    <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                        <i class="fas fa-sticky-note mr-3"></i> Calendar
+                    </a>    
                    
                     <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-calendar mr-3"></i> Calendar
                     </a>
-                    <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                        <i class="fas fa-cogs mr-3"></i> Support
-                    </a>
+                    
                     <a href="userSetting.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-user mr-3"></i> My Account
                     </a>
-                    <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <a href="logout.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-sign-out-alt mr-3"></i> Sign Out
                     </a>
                    
