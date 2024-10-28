@@ -218,13 +218,9 @@ $conn->close();
                             <td><?= htmlspecialchars($user['Phone']) ?></td>
                             <td><?= htmlspecialchars($user['Usertype']) ?></td>
                             <td>
-                            <button class="edit-user-btn" data-id="<?= $user['Id'] ?>" title="Edit User">
-    <i class="fas fa-user-edit"></i> <!-- Edit User icon -->
-</button>
+   
 
-<button class="edit-password-btn" data-id="<?= $user['Id'] ?>" title="Edit Password">
-    <i class="fas fa-lock-open"></i> <!-- Edit Password icon -->
-</button>
+
 
 <button class="remove-btn" data-id="<?= $user['Id'] ?>" title="Remove">
     <i class="fas fa-trash-alt"></i> <!-- Remove icon -->
@@ -268,13 +264,9 @@ $conn->close();
                             <td><?= htmlspecialchars($user['Usertype']) ?></td>
 
                             <td>
-                            <button class="edit-user-btn1" data-id="<?= $user['Id'] ?>" title="Edit User">
-    <i class="fas fa-user-edit"></i> <!-- Edit User icon -->
-</button>
+                
 
-<button class="edit-password-btn1" data-id="<?= $user['Id'] ?>" title="Edit Password">
-    <i class="fas fa-lock-open"></i> <!-- Edit Password icon -->
-</button>
+
 
 <button class="remove-btn1" data-id="<?= $user['Id'] ?>" title="Remove">
     <i class="fas fa-trash-alt"></i> <!-- Remove icon -->
