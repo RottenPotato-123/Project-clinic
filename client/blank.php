@@ -243,7 +243,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
             </div>
             <div class="mb-4">
                 <label for="MiddleName" class="block mb-2 text-gray-700">Middle Name:</label>
-                <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded">
+                <input type="text" id="MiddleName"  placeholder="optional" name="MiddleName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded">
             </div>
             <div class="mb-4">
                 <label for="LastName" class="block mb-2 text-gray-700">Last Name:</label>
