@@ -170,6 +170,12 @@ $user = $result->fetch_assoc();
                 
 
                 <!-- Email -->
+                <div class="mb-4">
+                    <label for="Email" class="block text-sm font-medium text-indigo-900">Email</label>
+                    <input type="email" id="Email" name="Email" 
+                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        value="<?php echo htmlspecialchars($user['Email']); ?>" required>
+                </div>
                
 
                 <!-- Phone Number -->

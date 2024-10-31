@@ -229,7 +229,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
 
 
 
-                            <div class="bg-white rounded shadow-md w-full sm:w-4/5 md:w-1/2 lg:w-1/3 h-auto p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+         <div class="bg-white rounded shadow-md w-full sm:w-4/5 md:w-1/2 lg:w-1/3 h-auto p-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <!-- Header -->
         <h2 class="text-3xl font-bold text-gray-800 mb-4">New Appointment</h2>
         <!-- Form -->
@@ -298,6 +298,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
             
     </body>
 <script>
+    
      document.getElementById('date').addEventListener('change', function () {
     const birthDate = new Date(this.value); // Get the selected birthdate
 

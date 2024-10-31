@@ -171,7 +171,7 @@ $doneAppointments = $doneResult->fetch_assoc()['done_appointments'];
     </div>
     <div class="text-right flex-1">
       <p class="text-3xl font-semibold"><?php echo $userCount; ?></p>
-      <p class="text-lg">Users</p>
+      <p class="text-lg">Clients</p>
     </div>
   </div>
 
@@ -184,7 +184,7 @@ $doneAppointments = $doneResult->fetch_assoc()['done_appointments'];
     </div>
     <div class="text-right flex-1">
       <p class="text-3xl font-semibold"><?php echo $totalAppointments; ?></p>
-      <p class="text-lg">Appointments</p>
+      <p class="text-lg">All Appointments</p>
     </div>
   </div>
 
