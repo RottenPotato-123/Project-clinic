@@ -9,7 +9,6 @@ require __DIR__ . "/vendor/autoload.php";
 function getMailer() {
     $mail = new PHPMailer(true);
 
-
     $mail->isSMTP();
     $mail->SMTPAuth = true;
 
@@ -19,9 +18,7 @@ function getMailer() {
     $mail->Username = "frozenheart2121@gmail.com";
     $mail->Password = "dhsc xyup gfmr reym";
 
- 
     $mail->isHtml(true);
     
-
     return $mail;
 }

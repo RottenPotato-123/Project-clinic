@@ -156,47 +156,45 @@ $user = $result->fetch_assoc();
 
             <div class="w-full h-screen flex items-center justify-center bg-gray-50">
         <div class="w-full max-w-lg p-6 bg-white shadow-lg rounded-lg">
-            <form action="update.php" method="POST">
+        <form action="update.php" method="POST">
 
-                <!-- First Name -->
-                <div class="mb-4">
-                    <label for="FName" class="block text-sm font-medium text-indigo-900">Full name</label>
-                    <input type="text" id="FName" name="FName" 
-                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value="<?php echo htmlspecialchars($user['FName']); ?>" required>
-                </div>
+<!-- First Name -->
+<div class="mb-4">
+    <label for="FName" class="block text-sm font-medium text-indigo-900">Full name</label>
+    <input type="text" id="FName" name="FName" 
+        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="<?php echo htmlspecialchars($user['FName']); ?>" required>
+</div>
 
-                <!-- Last Name -->
-                
+<!-- Email -->
+<div class="mb-4">
+    <label for="Email" class="block text-sm font-medium text-indigo-900">Email</label>
+    <input type="email" id="Email" name="Email" 
+        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="<?php echo htmlspecialchars($user['Email']); ?>" required>
+</div>
 
-                <!-- Email -->
-                <div class="mb-4">
-                    <label for="Email" class="block text-sm font-medium text-indigo-900">Email</label>
-                    <input type="email" id="Email" name="Email" 
-                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value="<?php echo htmlspecialchars($user['Email']); ?>" required>
-                </div>
-               
 
-                <!-- Phone Number -->
-                <div class="mb-4">
-                    <label for="Phone" class="block text-sm font-medium text-indigo-900">Phone Number</label>
-                     <input id="phone" name="phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11"                         class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"                        value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
-                        
+<!-- Phone Number -->
+<div class="mb-4">
+    <label for="Phone" class="block text-sm font-medium text-indigo-900">Phone Number</label>
+    <input id="Phone" name="Phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11" 
+        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+        value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
+</div>
 
-                </div>
 
-                <!-- Submit Button -->
-                <div class="flex justify-end">
-                    <button type="submit" 
-                        class="px-5 py-2.5 text-white bg-indigo-700 hover:bg-indigo-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-indigo-300">
-                        Save
-                    </button>
-                    
-                </div>
-                </form>
-                <form action="change_password.php"id="passwordForm" method="POST">
+<!-- Submit Button -->
+<div class="flex justify-end">
+    <button type="submit" 
+        class="px-5 py-2.5 text-white bg-indigo-700 hover:bg-indigo-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-indigo-300">
+        Save
+    </button>
+</div>
+</form>
+<form action="change_password.php" id="passwordForm" method="POST">
+
 
                 <!-- Password Section -->
                 <div class="mb-6">

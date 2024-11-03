@@ -171,7 +171,7 @@ $user = $result->fetch_assoc();
                         value="<?php echo htmlspecialchars($user['FName']); ?>" required>
                 </div>
 
-                <!-- Last Name -->
+                
                 
 
                 <!-- Email -->

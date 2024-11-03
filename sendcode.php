@@ -38,7 +38,7 @@ if ($mysqli instanceof mysqli) {
         $reset_url = "http://localhost/Project-clinic/reset-password.php?token=$token";
 
         // Include your mailer setup
-        $mail = require __DIR__ . "/mailer.php";
+        $mail = require __DIR__ . "../mailer.php";
         $mail = getMailer();
         $mail->setFrom("noreply@example.com");
         $mail->addAddress($email);
