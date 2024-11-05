@@ -181,7 +181,7 @@ $conn->close();
 
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Your Appointments History Records</h1>
+                <h1 class="text-3xl text-black pb-6">Appointments History Records</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">

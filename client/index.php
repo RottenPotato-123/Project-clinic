@@ -235,54 +235,51 @@ $conn->close();
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 
-    <main class="w-min flex-grow p-6">
-        <h1 class="text-2xl text-black pb-6">On going queue</h1>
+   <main class="w-min flex-grow p-10">
+    <h1 class="text-2xl text-black pb-6">ONGING QUE</h1>
 
-         <!-- Changed w-half to w-min for smaller width -->
-            <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[300px]"> <!-- Set a minimum width for better responsiveness -->
-                <thead>
-                    <tr>
-                    
-                        <th class="p-1 text-sm">Appointment ID</th>
-                        
-                        <th class="p-1 text-sm">Queue Number</th>
-                        <th class="p-1 text-sm">Service</th>
-                        <th class="p-1 text-sm">Status</th>
-                        <th class="p-1 text-sm">Estimated Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                    // Define service and time mappings
-                    $serviceTimes = [
-                        'Counselling' => '30m to 1h',
-                        'Family Planning' => '20m to 30m',
-                        'Ear Piercing' => '5m to 10m',
-                        'Immunization' => '10m to 15m',
-                        'Acid Wash' => '20m to 30m'
-                    ];
+    <!-- Adjusted class for table width and responsiveness -->
+    <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[250x]">
+        <thead>
+            <tr>
+                <th class="p-1 text-2xl">Appointment ID</th>
+                <th class="p-1 text-2xl">Queue Number</th>
+                <th class="p-1 text-2xl">Service</th>
+                <th class="p-1 text-2xl">Status</th>
+                <th class="p-1 text-2xl">Estimated Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+            // Define service and time mappings
+            $serviceTimes = [
+                'Counselling' => '30m to 1h',
+                'Family Planning' => '20m to 30m',
+                'Ear Piercing' => '5m to 10m',
+                'Immunization' => '10m to 15m',
+                'Acid Wash' => '20m to 30m'
+            ];
 
-                    // Loop through appointments
-                    foreach ($_SESSION['appointments'] as $appointment) {
-                        $service = $appointment['Service'];
-                        $estimatedTime = $serviceTimes[$service] ?? 'Unknown'; // Handle unknown services
-                ?>  
-                    <tr data-id="<?= $appointment['Id'] ?>">
-                        <td class="p-1 text-sm"><?= $appointment['Id'] ?></td>
-                        <td class="p-1 text-sm"><?= $appointment['queue_number'] ?></td>
-                        <td class="p-1 text-sm"><?= $appointment['Service'] ?></td>
-                        <td class="p-1 text-sm"><?= $appointment['status'] ?></td>
-                        <td class="p-1 text-sm"><?= $estimatedTime ?></td> 
-                    </tr>
-                <?php } ?>
-                </tbody>
-            </table>
-        
-    </main>
+            // Loop through appointments
+            foreach ($_SESSION['appointments'] as $appointment) {
+                $service = $appointment['Service'];
+                $estimatedTime = $serviceTimes[$service] ?? 'Unknown'; // Handle unknown services
+        ?>  
+            <tr data-id="<?= $appointment['Id'] ?>">
+                <td class="p-1 text-2x1"><?= $appointment['Id'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['queue_number'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['Service'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['status'] ?></td>
+                <td class="p-1 text-2x1"><?= $estimatedTime ?></td> 
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+</main>
 
     <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
     <main class="w-full flex-grow p-6">
-        <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
+        <h1 class="text-3xl text-black pb-6">Pending Appointments</h1>
 
         <div class="w-full mt-6">
             <p class="text-xl pb-3 flex items-center">
