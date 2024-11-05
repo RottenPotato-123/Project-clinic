@@ -51,13 +51,13 @@ if ($user_type !== 'Client' || $status !== 'active') {
                     <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
                 <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
+                    <i class="fas fa-sticky-note mr-3"></i> Appointments
                 </a>
                
                
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-table mr-3"></i> Appointments
+                    <i class="fas fa-table mr-3"></i> records
                 </a>
             </nav>
            
@@ -181,7 +181,7 @@ $conn->close();
 
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
+                <h1 class="text-3xl text-black pb-6">Your Appointments History Records</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">

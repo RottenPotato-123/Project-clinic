@@ -71,13 +71,13 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
                     <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
                 <a href="blank.php" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
+                    <i class="fas fa-sticky-note mr-3"></i> Appointments
                 </a>
                
                
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-table mr-3"></i> Appointments
+                    <i class="fas fa-table mr-3"></i> records
                 </a>
             </nav>
           
@@ -132,11 +132,11 @@ $_SESSION['name'] = $first_name; // assuming you want to store the name in sessi
                         <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                     </a>
                     <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                        <i class="fas fa-calendar mr-3"></i> Calendar
+                        <i class="fas fa-table mr-3"></i> Appointments
                     </a>
                    
                     <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                        <i class="fas fa-table mr-3"></i> Appointments
+                        <i class="fas fa-table mr-3"></i> records
                     </a>
                     
                     <a href="userSetting.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
