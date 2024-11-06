@@ -18,7 +18,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <meta name="author" content="David Grzyb">
+    
     <meta name="description" content="">
   <!-- Tailwind -->
      
