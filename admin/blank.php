@@ -333,13 +333,13 @@ $conn->close();
             </div>
              <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Birthplace:</label>
-        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
+        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <!-- Select Field -->
       <div class="mb-4">
         <label for="service" class="block mb-2 text-gray-700">Service:</label>
-        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-          <option value="Post Partum Care Post Partum">Post Partum Care Post Partum</option>
+        <select id="service" name="service" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+          <option value="Post Partum Care Post Partum">Post Partum Care</option>
           <option value="Normal Spontaneous Delivery">Normal Spontaneous Delivery</option>
           <option value="New Born Screening">New Born Screening</option>
           <option value="New Born Care">New Born Care</option>
