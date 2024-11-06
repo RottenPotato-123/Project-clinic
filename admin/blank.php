@@ -308,7 +308,7 @@ $conn->close();
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
-        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="MiddleName" placeholder="Optional" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
