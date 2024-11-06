@@ -304,15 +304,15 @@ $conn->close();
 
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2  text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
-        <input type="text" id="MiddleName" placeholder="Optional" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="MiddleName" placeholder="Optional" name="MiddleName" class="w-full p-2  text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
     <label for="Age" class="block mb-2 text-gray-700"></label>
