@@ -19,7 +19,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dasboard</title>
+    <title>Admin Panel</title>
     <link rel="icon" href="/image/logo.png" type="image/png">
     <meta name="description" content="">
 

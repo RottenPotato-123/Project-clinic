@@ -159,7 +159,7 @@ while ($row = $result->fetch_assoc()) {
 
 // Check if appointments were found
 if (empty($appointments)) {
-    echo "No appointments found for User ID: $user_id";
+    
 }
 
 // Store the appointments in the session

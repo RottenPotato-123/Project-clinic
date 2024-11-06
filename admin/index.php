@@ -36,7 +36,7 @@ $doneAppointments = $doneResult->fetch_assoc()['done_appointments'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Panel</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
