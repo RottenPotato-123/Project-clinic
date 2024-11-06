@@ -766,7 +766,7 @@ $.ajax({
 function markAsDone(id) {
   $.ajax({
         type: "POST",
-        url: "function/update.php", // Replace with your server-side script URL
+        url: "function/update1.php", // Replace with your server-side script URL
         data: { id: id, status: "Confirmed" },
         success: function(response) {
             console.log("Status updated successfully!");

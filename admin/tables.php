@@ -30,7 +30,22 @@ if ($user_type !== 'Admin' || $status !== 'active') {
     <!-- Include DataTables library -->
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+<script>
+  const colors = require('tailwindcss/colors')
 
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        emerald: colors.emerald,  // Explicitly include the emerald color palette
+      },
+    },
+  },
+  content: [
+    './src/**/*.{html,js}', // Update paths to include all files where you use Tailwind classes
+  ],
+}
+</script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 <!-- Tailwind CSS -->
@@ -205,46 +220,149 @@ if ($user_type !== 'Admin' || $status !== 'active') {
             </maisn>
     
             
+            <div id="loading" class="hidden fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+  <div class="w-16 h-16 border-4 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+</div>
+    <!-- Modal Container -->
+    <div id="appointmentModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center overflow-y-auto z-50 min-h-screen p-4 pt-20">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-auto">
+    <!-- Modal Header -->
+    <div class="flex justify-between p-6 text-white rounded-t-lg" style="background-color: #2AAA8A;">
+  <h5 class="text-xl font-semibold">Appointment Details</h5>
+  <button type="button" id="closeModal" class="text-2xl leading-none hover:text-emerald-300">&times;</button>
+</div>
 
-            <div id="appointmentModal" class="flex items-center justify-center min-h-screen absolute inset-0 bg-gray-800/30 backdrop-blur-md w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2">
-  <div class="bg-white rounded shadow-md w-4/5 h-4/5 max-w-2xl max-h-screen overflow-hidden flex center flex-col overflow-y-auto">
-    <div class="flex justify-between items-center p-4 border-b">
-      <h5 class="text-lg font-semibold" id="appointmentModalLabel">Appointment Details</h5>
-      <button type="button" id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
-    </div>
-    <div class="modal-body p-4">
-      <h4 class="font-semibold">Appointment Information:</h4>
-      <table id="appointment-details" class="min-w-full border-collapse border border-gray-300 mb-4">
-        <thead>
-          <tr class="bg-gray-100">
-            <th class="border border-gray-300 p-2">Field</th>
-            <th class="border border-gray-300 p-2">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Appointment data will be inserted here -->
-        </tbody>
-      </table>
+    
+    <!-- Modal Body -->
+    <div class="p-6 space-y-6">
+      <!-- Patient Information -->
+      <div class="max-w-2xl mx-auto p-8 bg-white shadow-md border border-gray-300">
+        <h2 class="text-lg font-semibold mb-4">Patient Information</h2>
+        <div class="mb-4 grid grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <label class="block font-medium">Patient Name:</label>
+            <p id="patientName" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Date:</label>
+            <p id="appointmentDate" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-2">
+            <label class="block font-medium">Address:</label>
+            <p id="address" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-2">
+            <label class="block font-medium">Service:</label>
+            <p id="service" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Age:</label>
+            <p id="age" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Civil Status:</label>
+            <p id="civilStatus" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Birthday:</label>
+            <p id="birthday" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+        </div>
 
-      <h4 class="font-semibold mt-4">Result:</h4>
-      <table id="result-details" class="min-w-full border-collapse border border-gray-300">
-        <thead>
-          <tr class="bg-gray-100">
-            <th class="border border-gray-300 p-2">Field</th>
-            <th class="border border-gray-300 p-2">Result</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Result data will be inserted here -->
-        </tbody>
-      </table>
+        <!-- OB Report -->
+        <h3 class="text-lg font-semibold mt-6 mb-4">OB Report</h3>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="col-span-1">
+            <label class="block font-medium">BP (Blood Pressure):</label>
+            <p id="bp" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Pulse Rate (PR):</label>
+            <p id="pr" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">RR (Respiratory Rate):</label>
+            <p id="rr" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Temp (Temperature):</label>
+            <p id="temp" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">FH (Fundal Height):</label>
+            <p id="fh" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">FHT (Fetal Heart Tone):</label>
+            <p id="fht" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">IE (Internal Exam):</label>
+            <p id="ie" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">AOG (Age of Gestation):</label>
+            <p id="aog" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">LMP (Last Menstrual Period):</label>
+            <p id="lmp" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">EDC (Expected Date of Confinement):</label>
+            <p id="edc" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">OB HX (Obstetric History):</label>
+            <p id="obHx" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">OB Score:</label>
+            <p id="obScore" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Admitting Diagnosis:</label>
+            <p id="ad" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+          <div class="col-span-1">
+            <label class="block font-medium">Remarks:</label>
+            <p id="remarks" class="border-b border-gray-400 w-full py-1"></p>
+          </div>
+        </div>
+
+        <h3 class="text-lg font-semibold mt-6 mb-4">Additional Notes</h3>
+        <div class="border border-gray-300 h-24 p-4" id="notes"></div>
+
+        <div class="flex justify-between mt-8">
+          <div class="text-center">
+            <p>Authorized Personnel Signature</p>
+            <p class="mt-8 border-t border-gray-400 w-48 mx-auto"></p>
+            <p class="mt-2">Date: _______________</p>
+          </div>
+          <div class="text-center">
+            <p>Head of Clinic Signature</p>
+            <p class="mt-8 border-t border-gray-400 w-48 mx-auto"></p>
+            <p class="mt-2">PACITA R. DULAY</p>
+          </div>
+        </div>
+      </div>
 
       <!-- Print Button -->
-      <button type="button" id="printModal" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Print</button>
+      <div class="flex justify-end mt-6">
+        <button type="button" id="printModal" class="px-6 py-2 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none"style="background-color: #2AAA8A;" >
+          Print
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
+
+
+</div>
+
     <script>
+      
       document.getElementById('printModal').addEventListener('click', function() {
     const printContent = document.getElementById('appointmentModal').innerHTML;
     const printWindow = window.open('', '', 'height=800,width=800');
@@ -317,72 +435,73 @@ $(document).ready(function() {
 });
 
 function viewAppointment(id) {
-    $.ajax({
-      type: 'POST',
-      url: 'function/viewdata.php',
-      data: { id: id, display: 'both' }, // Fetch both appointment and result
-      dataType: 'json',
-      success: function (response) {
-        // Clear existing data
-        $('#appointment-details tbody').empty();
-        $('#result-details tbody').empty();
+  // Show loading spinner
+  $('#loading').removeClass('hidden');
 
-        // Check if appointment data exists
-        if (response.appointment) {
-          $.each(response.appointment, function (key, value) {
-            $('#appointment-details tbody').append(`
-              <tr>
-                <td class="border border-gray-300 p-2">${key}</td>
-                <td class="border border-gray-300 p-2">${value}</td>
-              </tr>
-            `);
-          });
-        } else {
-          $('#appointment-details tbody').append(`
-            <tr>
-              <td colspan="2" class="border border-gray-300 p-2 text-center">No appointment data found</td>
-            </tr>
-          `);
-        }
+  $.ajax({
+    type: 'POST',
+    url: 'function/viewdata.php',
+    data: { id: id, display: 'both' },
+    dataType: 'json',
+    success: function (response) {
+      // Hide loading spinner once data is fetched
+      $('#loading').addClass('hidden');
 
-        // Check if result data exists
-        if (response.result) {
-          $.each(response.result, function (key, value) {
-            $('#result-details tbody').append(`
-              <tr>
-                <td class="border border-gray-300 p-2">${key}</td>
-                <td class="border border-gray-300 p-2">${value}</td>
-              </tr>
-            `);
-          });
-        } else {
-          $('#result-details tbody').append(`
-            <tr>
-              <td colspan="2" class="border border-gray-300 p-2 text-center">No result data found</td>
-            </tr>
-          `);
-        }
-
-        // Show the modal
-        $('#appointmentModal').removeClass('hidden');
-      },
-      error: function () {
-        alert('Error fetching data.');
+      // Check if appointment data exists
+      if (response.appointment && Object.keys(response.appointment).length > 0) {
+        // Populate the modal fields with appointment data
+        $('#patientName').text(`${response.appointment.FirstName} ${response.appointment.MiddleName} ${response.appointment.LastName}`);
+        $('#appointmentDate').text(response.appointment.appointment_date);
+        $('#address').text(response.result.address);
+        $('#service').text(response.appointment.Service);
+        $('#age').text(response.appointment.Age);
+        $('#civilStatus').text(response.appointment.civil_status);
+        $('#birthday').text(response.appointment.birth_date);
+        $('#bp').text(response.result.bp);  // This will set the BP value from the result data
+        $('#pr').text(response.result.pr);
+        $('#rr').text(response.result.rr);
+        $('#temp').text(response.result.temp);
+        $('#fh').text(response.result.fh);
+        $('#fht').text(response.result.fht);
+        $('#aog').text(response.result.aog);
+        $('#lmp').text(response.result.lmp);
+        $('#edc').text(response.result.edc);
+        $('#obHx').text(response.result.ob_hx);
+        $('#obScore').text(response.result.ob_score);
+        $('#remarks').text(response.result.remarks);
+        $('#ad').text(response.result.ad);
+        // Add more fields as necessary
       }
-    });
-  }
 
-  // Close modal event
-  $('#closeModal').click(function () {
-    $('#appointmentModal').addClass('hidden');
+      // Check if result data exists
+      if (response.result && Object.keys(response.result).length > 0) {
+       
+      }
+
+      // Show the modal
+      $('#appointmentModal').removeClass('hidden');
+    },
+    error: function (xhr, status, error) {
+      // Hide loading spinner on error
+      $('#loading').addClass('hidden');
+      console.log(xhr.responseText); // Log any error response
+      alert('Error fetching data.');
+    }
   });
+}
 
-  // Example trigger to open the modal (replace this with your own logic)
-  // Assuming you have a button with class 'open-modal' and data-id attribute
-  $('.open-modal').click(function () {
-    const id = $(this).data('id'); // Get the ID from button attribute
-    openAppointmentModal(id); // Open modal with appointment ID
-  });   
+
+
+// Close modal event
+$('#closeModal').click(function () {
+  $('#appointmentModal').addClass('hidden');
+});
+
+// Example trigger to open the modal
+$('.open-modal').click(function () {
+  const id = $(this).data('id'); // Get the ID from button attribute
+  viewAppointment(id); // Open modal with appointment ID
+});
 
 
     </script>

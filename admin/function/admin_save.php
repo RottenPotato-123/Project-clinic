@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phoneNumber = $_POST['phone'];
     $userType = "Admin"; 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $Status = 'active';
 
     // Validate input
     if (empty($email) || empty($password) || empty($passwordConfirmation) || empty($name) || empty($address) || empty($phoneNumber)) {
@@ -52,8 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert the new user into the database
-    $stmt = $conn->prepare("INSERT INTO user (Email, Password, Fname, Address, Phone, UserType) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $email, $hashedPassword, $name, $address, $phoneNumber, $userType);
+    $stmt = $conn->prepare("INSERT INTO user (Email, Password, Fname, Address, Phone, UserType ,Status) VALUES (?, ?, ?, ?, ?, ?,?)");
+    $stmt->bind_param("sssssss", $email, $hashedPassword, $name, $address, $phoneNumber, $userType,$Status);
 
     if ($stmt->execute()) {
         echo "User data saved successfully. Redirecting...";
