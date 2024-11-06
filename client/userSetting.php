@@ -8,13 +8,13 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Client' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 
 if (!isset($_SESSION['user_id'])) {
     // Redirect to login if session is not set
-    header("Location: login.php");
+    header("Location: ../404.html");
     exit;
 }
 
