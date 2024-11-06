@@ -1,15 +1,1 @@
-  <?php
-session_start();
-include 'db.php';
-// Determine the user type
-$user_type = $_GET['role'] ?? $_SESSION['userType'] ?? null; 
-$status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
-
-// Function to check if user is a client and status is active
-if ($user_type !== 'Admin' || $status !== 'active') {
-    // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
-    exit; // Ensure no further code is executed
-}
-
-?>  errorDOCUMENT 404  http://localhost/project-clinic/404.html
+ errorDOCUMENT 404  http://localhost/project-clinic/404.html
