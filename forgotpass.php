@@ -31,9 +31,18 @@
                 >
                     Send
                 </button>
+                
             </form>
+            <p class="mt-4 text-lg text-center text-sm leading-5 text-black max-w">
+
+                <a href="#" class="font-bold hover:underline" onclick="redirectToMain()">Back to menu</a>
+                </p>
         </section>
     </main>
-
+<script>
+    function redirectToMain() {
+            window.location.href = "landingPage.html";
+        }
+</script>
 </body>
 </html>
