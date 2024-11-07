@@ -8,13 +8,13 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Client' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 
 if (!isset($_SESSION['user_id'])) {
     // Redirect to login if session is not set
-    header("Location: login.php");
+    header("Location: ../404.html");
     exit;
 }
 
@@ -59,21 +59,21 @@ $user = $result->fetch_assoc();
             <div class="p-6">
                 <a href="index.php" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Client</a>
                 <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                    <i class="fas fa-plus mr-3"></i> New Report
+                    <i ></i> Chit's Clinic
                 </button>
             </div>
             <nav class="text-white text-base font-semibold pt-3">
                 <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                    <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
                 <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i>Appointments
+                    <i class="fas fa-sticky-note mr-3"></i> Appointments
                 </a>
                
                
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
+                    <i class="fas fa-table mr-3"></i> records
                 </a>
             </nav>
            
@@ -111,7 +111,6 @@ $user = $result->fetch_assoc();
                     <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                     <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                         <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
-                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
                         <a href="logout.php" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                     </div>
                 </div>

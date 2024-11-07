@@ -8,7 +8,7 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Client' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 
@@ -51,13 +51,13 @@ if ($user_type !== 'Client' || $status !== 'active') {
                     <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
                 <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
+                    <i class="fas fa-sticky-note mr-3"></i> Appointments
                 </a>
                
                
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-table mr-3"></i> Appointments
+                    <i class="fas fa-table mr-3"></i> records
                 </a>
             </nav>
            
@@ -92,7 +92,6 @@ if ($user_type !== 'Client' || $status !== 'active') {
                     <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                     <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                         <a href="userSetting.php" class="block px-4 py-2 account-link hover:text-white">Account</a>
-                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
                         <a href="logout.php" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                     </div>
                 </div>
@@ -160,7 +159,7 @@ while ($row = $result->fetch_assoc()) {
 
 // Check if appointments were found
 if (empty($appointments)) {
-    echo "No appointments found for User ID: $user_id";
+    
 }
 
 // Store the appointments in the session
@@ -182,7 +181,7 @@ $conn->close();
 
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
+                <h1 class="text-3xl text-black pb-6">Appointments History Records</h1>
 
                 <div class="w-full mt-6">
                     <p class="text-xl pb-3 flex items-center">

@@ -8,7 +8,7 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Admin' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 ?>
@@ -17,8 +17,8 @@ if ($user_type !== 'Admin' || $status !== 'active') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <meta name="author" content="David Grzyb">
+    <title>Admin Panel</title>
+  
     <meta name="description" content="">
 
     <!-- Tailwind -->
@@ -89,7 +89,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
 </button>
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                 <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
-                    <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
+                    <a href="userSetting" class="block px-4 py-2 account-link hover:text-white">Account</a>
                     
                     <a href="logout.php" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                 </div>
@@ -126,7 +126,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
                     <a href="userSetting.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-user mr-3"></i> My Account
                     </a>
-                    <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <a href="logout.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-sign-out-alt mr-3"></i> Sign Out
                     </a>
                    
@@ -390,14 +390,57 @@ $conn->close();
         <input id="phone" name="phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11" class="mt-1 block w-full p-2 border border-gray-300 rounded" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
     </div>
-    <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="password" name="password" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+    <div class="mb-6 pt-3 rounded  relative">
+    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class=" rounded w-full text-gray-700   border border-gray-300   transition duration-500 px-3 pb-3 pr-10 py-2"
+            placeholder="Enter your password"
+        >
+        <button 
+            type="button" 
+            id="toggle-password" 
+            class="absolute inset-y-1 right-0 flex items-center pr-3 text-gray-500"
+            onclick="togglePasswordVisibility('password', 'icon-password')"
+        >
+        <svg id="icon-password" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        </button>
     </div>
-    <div class="mb-4">
-        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="password_confirmation" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+</div>
+
+<div class="mb-6 pt-3 rounded  relative">
+    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password_confirmation">Confirm Password</label>
+    <div class="relative">
+        <input 
+            type="password" 
+            id="password_confirmation" 
+            name="password_confirmation" 
+            class=" rounded w-full text-gray-700   border border-gray-300  transition duration-500 px-3 pb-3 pr-10 py-2"
+            placeholder="Confirm your password"
+        >
+        <button 
+            type="button" 
+            id="toggle-confirm-password" 
+            class="absolute inset-y-1 right-0 flex items-center pr-3 text-gray-500"
+            onclick="togglePasswordVisibility('password_confirmation', 'icon-confirm-password')"
+        >
+        <svg id="icon-confirm-password" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        </button>
     </div>
+</div>
+
+
     <div class="flex justify-end">
         <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 mr-2">Cancel</button>
         <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Submit</button>
@@ -426,6 +469,19 @@ $conn->close();
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 <script>
+      function togglePasswordVisibility(passwordFieldId, iconId) {
+        const passwordField = document.getElementById(passwordFieldId);
+        const icon = document.getElementById(iconId);
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.innerHTML =  `<path stroke-linecap="round" stroke-linejoin="round" 
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.978 9.978 0 012.442-3.487m4.673-.757a3 3 0 014.05 4.05m1.664 1.664A9.953 9.953 0 0112 17c-1.02 0-2.007-.15-2.925-.427m8.15 3.252l-12-12" />`        ; // Eye icon
+        } else {
+            passwordField.type = "password";
+            icon.innerHTML = '<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />'; // Original icon
+        }
+    }
    const passwordInput = document.getElementById('edit-password');
     const togglePasswordButton = document.getElementById('toggle-password');
     const eyeIcon = document.getElementById('eye-icon');

@@ -8,7 +8,7 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Client'|| $status !== 'active' ) {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 
@@ -52,13 +52,13 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                     <i class="fas fa-hashtag mr-3"></i> Queuing
                 </a>
                 <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-calendar mr-3"></i> Calendar
+                    <i class="fas fa-sticky-note mr-3"></i> Appointments
                 </a>
                
               
                
                 <a href="calendar.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-table mr-3"></i> Appointments
+                    <i class="fas fa-table mr-3"></i> records
                 </a>
             </nav>
            
@@ -93,7 +93,6 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                     <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
                     <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
                         <a href="userSetting.php" class="block px-4 py-2 account-link hover:text-white">Account</a>
-                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
                         <a href="logout.php" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
                     </div>
                 </div>
@@ -129,6 +128,8 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                    
                 </nav>
             </header>
+
+            
             <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
     <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black pb-6">Calendar</h1>
@@ -189,19 +190,24 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                                     <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">	
                                         <div style="width: 14.28%; height: 120px" class="px-4 pt-2 border-r border-b relative">
                                             <div
-                                                @click="showEventModal(date)"
+                                                @click="isWithinBookingRange(date) ? showEventModal(date) : null"
                                                 x-text="date"
                                                 class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100"
                                                 :class="{
                                                     'bg-blue-500 text-white': isToday(date),
-                                                    'text-gray-700 hover:bg-blue-200': !isToday(date),
-                                                    'bg-green-200': isWithinBookingRange(date) // New condition for booking days
+                                                    'text-gray-700 hover:bg-blue-200': !isToday(date) && isWithinBookingRange(date),
+                                                    'text-gray-400 cursor-not-allowed hover:bg-gray-200': !isWithinBookingRange(date), 
+                                                    'bg-green-200': isWithinBookingRange(date) // Highlight booking range days
+                                                    
                                                 }"
+                                                :title="!isWithinBookingRange(date) ? 'You can only add appointments from tomorrow and up to four days from now.' : ''"
+
                                             ></div>
                                             <div style="height: 80px;" class="overflow-y-auto mt-1">
                                                 <template x-if="isWithinBookingRange(date)">
                                                     <p class="text-green-800 text-sm text-center">You Can Book This Day</p> <!-- Booking text -->
                                                 </template>
+                                                
                                                 <template x-for="event in events.filter(e => new Date(e.event_date).toDateString() ===  new Date(year, month, date).toDateString() )">	
                                                     <div
                                                         class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
@@ -224,8 +230,6 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
                         </div>
                     </div>
                     <div class="fixed top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50" x-show.transition.opacity="openEventModal">
-                   
-
 
 
 
@@ -243,7 +247,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
             </div>
             <div class="mb-4">
                 <label for="MiddleName" class="block mb-2 text-gray-700">Middle Name:</label>
-                <input type="text" id="MiddleName"  placeholder="optional" name="MiddleName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded">
+                <input type="text" id="MiddleName"  placeholder="Optional" name="MiddleName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded">
             </div>
             <div class="mb-4">
                 <label for="LastName" class="block mb-2 text-gray-700">Last Name:</label>
@@ -298,6 +302,7 @@ if ($user_type !== 'Client'|| $status !== 'active' ) {
             
     </body>
 <script>
+    
     
      document.getElementById('date').addEventListener('change', function () {
     const birthDate = new Date(this.value); // Get the selected birthdate
@@ -371,6 +376,8 @@ function app() {
             this.datepickerValue = today.toDateString();
             this.getNoOfDays();
         },
+
+        // Check if the selected date is within tomorrow and four days from now
         isWithinBookingRange(date) {
             const today = new Date();
             const bookingStart = new Date();
@@ -397,8 +404,7 @@ function app() {
 
             const isoDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
 
-  console.log("ISO date:", isoDate);
-
+            console.log("ISO date:", isoDate);
 
             document.getElementById("appointment_date").value = isoDate; // Ensure this is set correctly
 
@@ -437,9 +443,15 @@ function app() {
 
             this.blankdays = Array.from({ length: firstDayOfMonth }, (_, i) => i + 1);
             this.no_of_days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+        },
+
+        // Add the condition to highlight dates within tomorrow to four days range
+        isSelectable(date) {
+            return this.isWithinBookingRange(date);
         }
     };
 }
+
 </script>
  <!-- AlpineJS -->
  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>

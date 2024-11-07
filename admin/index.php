@@ -8,7 +8,7 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Admin' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 include 'db.php'; // Correct the path to include db.php
@@ -36,8 +36,8 @@ $doneAppointments = $doneResult->fetch_assoc()['done_appointments'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <meta name="author" content="David Grzyb">
+    <title>Admin Panel</title>
+   
     <meta name="description" content="">
 
     <!-- Tailwind -->

@@ -7,20 +7,20 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 
 // Function to check if user is a client and status is active
 if ($user_type !== 'Admin' || $status !== 'active') {
-  // Redirect to an unauthorized access page or display an error message
-  header('Location: ../login.php');
-  exit; // Ensure no further code is executed
+    // Redirect to an unauthorized access page or display an error message
+    header('Location: ../login.php');
+    exit; // Ensure no further code is executed
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <meta name="author" content="David Grzyb">
-  <meta name="description" content="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <meta name="author" content="David Grzyb">
+    <meta name="description" content="">
   <!-- Tailwind -->
 
   <!-- Include jQuery library -->
@@ -28,9 +28,9 @@ if ($user_type !== 'Admin' || $status !== 'active') {
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Include DataTables library -->
-  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <!-- Include DataTables library -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
@@ -204,270 +204,211 @@ if ($user_type !== 'Admin' || $status !== 'active') {
           <main class="w-full flex-grow p-6">
             <h1 class="text-3xl text-black pb-6">Online Appointments</h1>
 
-            <div class="w-full mt-6">
-              <p class="text-xl pb-3 flex items-center">
-                <i class="fas fa-list mr-3"></i>
-              </p>
-              <table id="Online" class="display" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Age</th>
-                    <th>Civil Status</th>
-                    <th>Birth Date</th>
-                    <th>Birth Place</th>
-                    <th>appointment_date</th>
-                    <th>Status</th>
-                    <th>Services</th>
+                <div class="w-full mt-6">
+                    <p class="text-xl pb-3 flex items-center">
+                        <i class="fas fa-list mr-3"></i>
+                    </p>
+                    <table id="Online" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Age</th>
+                <th>Civil Status</th>
+                <th>Birth Date</th>
+                <th>Birth Place</th>
+                <th>appointment_date</th>
+                <th>Status</th>
+                <th>Services</th>
+                
+            </tr>
+        </thead>
+    </table>
+                
+            </maisn>
+    
+            
 
-                  </tr>
-                </thead>
-              </table>
+            <div id="appointmentModal" class="flex items-center justify-center min-h-screen absolute inset-0 bg-gray-800/30 backdrop-blur-md w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2">
+  <div class="bg-white rounded shadow-md w-4/5 h-4/5 max-w-2xl max-h-screen overflow-hidden flex center flex-col overflow-y-auto">
+    <div class="flex justify-between items-center p-4 border-b">
+      <h5 class="text-lg font-semibold" id="appointmentModalLabel">Appointment Details</h5>
+      <button type="button" id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+    </div>
+    <div class="modal-body p-4">
+      <h4 class="font-semibold">Appointment Information:</h4>
+      <table id="appointment-details" class="min-w-full border-collapse border border-gray-300 mb-4">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 p-2">Field</th>
+            <th class="border border-gray-300 p-2">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Appointment data will be inserted here -->
+        </tbody>
+      </table>
 
-              </maisn>
+      <h4 class="font-semibold mt-4">Result:</h4>
+      <table id="result-details" class="min-w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 p-2">Field</th>
+            <th class="border border-gray-300 p-2">Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Result data will be inserted here -->
+        </tbody>
+      </table>
 
-
-
-              <div id="appointmentModal" class="flex items-center justify-center min-h-screen absolute inset-0 bg-gray-800/30 backdrop-blur-md w-full h-full top-0 left-0 bg-gray-200 bg-opacity-50 hidden" id="modal-overlay2">
-                <div class="bg-white rounded shadow-md w-4/5 h-4/5 max-w-2xl max-h-screen overflow-hidden flex center flex-col overflow-y-auto">
-                  <div class="flex justify-between items-center p-4 border-b">
-                    <h5 class="text-lg font-semibold" id="appointmentModalLabel">Appointment Details</h5>
-                    <button type="button" id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
-                  </div>
-                  <div class="modal-body p-4">
-                    <h4 class="font-semibold">Appointment Information:</h4>
-                    <table id="appointment-details" class="min-w-full border-collapse border border-gray-300 mb-4">
-                      <thead>
-                        <tr class="bg-gray-100">
-                          <th class="border border-gray-300 p-2">Field</th>
-                          <th class="border border-gray-300 p-2">Details</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!-- Appointment data will be inserted here -->
-                      </tbody>
-                    </table>
-
-                    <h4 class="font-semibold mt-4">Result:</h4>
-                    <table id="result-details" class="min-w-full border-collapse border border-gray-300">
-                      <thead>
-                        <tr class="bg-gray-100">
-                          <th class="border border-gray-300 p-2">Field</th>
-                          <th class="border border-gray-300 p-2">Result</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!-- Result data will be inserted here -->
-                      </tbody>
-                    </table>
-
-                    <!-- Print Button -->
-                    <button type="button" id="printModal" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Print</button>
-                  </div>
-
-
-                </div>
-              </div>
-              
-              <script>
-                document.getElementById('printModal').addEventListener('click', function() {
-                  const printContent = document.getElementById('appointmentModal').innerHTML;
-                  const printWindow = window.open('', '', 'height=800,width=800');
-
-                  printWindow.document.write('<html><head><title>Print Appointment</title>');
-                  printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">'); // Optional: Tailwind CSS
-                  printWindow.document.write('<style>body { margin: 0; padding: 20px; }</style>'); // Custom print styles
-                  printWindow.document.write('</head><body>');
-                  printWindow.document.write('<h5 class="text-lg font-semibold">Appointment Details</h5>'); // Title for printed document
-                  printWindow.document.write(printContent);
-                  printWindow.document.write('</body></html>');
-                  printWindow.document.close();
-                  printWindow.print();
-                });
-                $(document).ready(function() {
-                  $('#appointments').DataTable({
-                    "ajax": {
-                      "url": "function/data.php",
-                      "dataSrc": function(json) {
-                        return json.filter(item => item.status.trim() === 'Confirmed' && item.Service.trim() === 'New Born Care' || item.Service.trim() === 'New Born Screening' || item.Service.trim() === 'Post Partum Care Post Partum' || item.Service.trim() === 'Normal Spontaneous Delivery');
-                      }
-                    },
-                    "columns": [{
-                        "title": "ID",
-                        "data": "id"
-                      },
-                      {
-                        "title": "Full Name",
-                        "data": "FullName"
-                      },
-                      {
-                        "title": "Age",
-                        "data": "Age"
-                      },
-                      {
-                        "title": "Civil Status",
-                        "data": "civil_status"
-                      },
-                      {
-                        "title": "Birth Date",
-                        "data": "birth_date"
-                      },
-                      {
-                        "title": "Birth Place",
-                        "data": "birth_place"
-                      },
-                      {
-                        "title": "Appointment Date",
-                        "data": "appointment_date"
-                      },
-                      {
-                        "title": "Status",
-                        "data": "status",
-                        "visible": false
-                      },
-                      {
-                        "title": "Services",
-                        "data": "Service",
-                        "visible": false
-                      },
-                      {
-                        "title": "View",
-                        "data": null,
-                        "render": function(data, type, row) {
-                          return `<button class='btn btn-primary' onclick='viewAppointment(${row.id})'>View</button>`;
-                        }
-                      }
-                    ],
-                    "processing": true,
-                    "serverSide": false
-                  });
-                  $('#Online').DataTable({
-                    "ajax": {
-                      "url": "function/data.php",
-                      "dataSrc": function(json) {
-                        return json.filter(item => item.status.trim() === 'Confirmed' && item.Service.trim() === 'Counselling' || item.Service.trim() === 'Family Planning' || item.Service.trim() === 'Ear Piercing' || item.Service.trim() === 'Immunization' || item.Service.trim() === 'Acid Wash');
-                      }
-                    },
-                    "columns": [{
-                        "title": "ID",
-                        "data": "id"
-                      },
-                      {
-                        "title": "Full Name",
-                        "data": "FullName"
-                      },
-                      {
-                        "title": "Age",
-                        "data": "Age"
-                      },
-                      {
-                        "title": "Civil Status",
-                        "data": "civil_status"
-                      },
-                      {
-                        "title": "Birth Date",
-                        "data": "birth_date"
-                      },
-                      {
-                        "title": "Birth Place",
-                        "data": "birth_place"
-                      },
-                      {
-                        "title": "Appointment Date",
-                        "data": "appointment_date"
-                      },
-                      {
-                        "title": "Status",
-                        "data": "status",
-                        "visible": false
-                      },
-                      {
-                        "title": "Services",
-                        "data": "Service"
-                      }
-
-                    ],
-                    "processing": true,
-                    "serverSide": false
-                  });
+      <!-- Print Button -->
+      <button type="button" id="printModal" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Print</button>
+    </div>
+  </div>
+</div>
+    <script>
+      document.getElementById('printModal').addEventListener('click', function() {
+    const printContent = document.getElementById('appointmentModal').innerHTML;
+    const printWindow = window.open('', '', 'height=800,width=800');
+    
+    printWindow.document.write('<html><head><title>Print Appointment</title>');
+    printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">'); // Optional: Tailwind CSS
+    printWindow.document.write('<style>body { margin: 0; padding: 20px; }</style>'); // Custom print styles
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<h5 class="text-lg font-semibold">Appointment Details</h5>'); // Title for printed document
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+  });
+$(document).ready(function() {
+  $('#appointments').DataTable({
+    "ajax": {   
+      "url": "function/data.php",
+      "dataSrc": function(json) {
+        return json.filter(item =>  item.status.trim() === 'Confirmed' &&  item.Service.trim() === 'New Born Care'|| item.Service.trim() === 'New Born Screening'|| item.Service.trim()=== 'Post Partum Care Post Partum' || item.Service.trim() === 'Normal Spontaneous Delivery');
+      }
+    },
+    "columns": [
+      { "title": "ID", "data": "id" },
+      { "title": "Full Name", "data": "FullName" },
+      { "title": "Age", "data": "Age" },
+      { "title": "Civil Status", "data": "civil_status" },
+      { "title": "Birth Date", "data": "birth_date" },
+      { "title": "Birth Place", "data": "birth_place" },
+      { "title": "Appointment Date", "data": "appointment_date" },
+      { "title": "Status", "data": "status", "visible": false },
+      { "title": "Services", "data": "Service", "visible": false },
+      {
+        "title": "View",
+        "data": null,
+        "render": function(data, type, row) {
+          return `<button class='btn btn-primary' onclick='viewAppointment(${row.id})'>View</button>`;
+        }
+      }
+    ],
+    "processing": true,
+    "serverSide": false
+  });
+  $('#Online').DataTable({
+    "ajax": {   
+      "url": "function/data.php",
+      "dataSrc": function(json) {
+        return json.filter(item =>  item.status.trim() === 'Confirmed' &&  item.Service.trim() === 'Counselling'|| item.Service.trim() === 'Family Planning'||item.Service.trim() === 'Ear Piercing'||item.Service.trim() === 'Immunization'||item.Service.trim() === 'Acid Wash');
+      }
+    },
+    "columns": [
+      { "title": "ID", "data": "id" },
+      { "title": "Full Name", "data": "FullName" },
+      { "title": "Age", "data": "Age" },
+      { "title": "Civil Status", "data": "civil_status" },
+      { "title": "Birth Date", "data": "birth_date" },
+      { "title": "Birth Place", "data": "birth_place" },
+      { "title": "Appointment Date", "data": "appointment_date" },
+      { "title": "Status", "data": "status", "visible": false },
+      { "title": "Services", "data": "Service"}
+      
+    ],
+    "processing": true,
+    "serverSide": false
+  });
 
 
 
 
                 });
 
-                function viewAppointment(id) {
-                  $.ajax({
-                    type: 'POST',
-                    url: 'function/viewdata.php',
-                    data: {
-                      id: id,
-                      display: 'both'
-                    }, // Fetch both appointment and result
-                    dataType: 'json',
-                    success: function(response) {
-                      // Clear existing data
-                      $('#appointment-details tbody').empty();
-                      $('#result-details tbody').empty();
+function viewAppointment(id) {
+    $.ajax({
+      type: 'POST',
+      url: 'function/viewdata.php',
+      data: { id: id, display: 'both' }, // Fetch both appointment and result
+      dataType: 'json',
+      success: function (response) {
+        // Clear existing data
+        $('#appointment-details tbody').empty();
+        $('#result-details tbody').empty();
 
-                      // Check if appointment data exists
-                      if (response.appointment) {
-                        $.each(response.appointment, function(key, value) {
-                          $('#appointment-details tbody').append(`
+        // Check if appointment data exists
+        if (response.appointment) {
+          $.each(response.appointment, function (key, value) {
+            $('#appointment-details tbody').append(`
               <tr>
                 <td class="border border-gray-300 p-2">${key}</td>
                 <td class="border border-gray-300 p-2">${value}</td>
               </tr>
             `);
-                        });
-                      } else {
-                        $('#appointment-details tbody').append(`
+          });
+        } else {
+          $('#appointment-details tbody').append(`
             <tr>
               <td colspan="2" class="border border-gray-300 p-2 text-center">No appointment data found</td>
             </tr>
           `);
-                      }
+        }
 
-                      // Check if result data exists
-                      if (response.result) {
-                        $.each(response.result, function(key, value) {
-                          $('#result-details tbody').append(`
+        // Check if result data exists
+        if (response.result) {
+          $.each(response.result, function (key, value) {
+            $('#result-details tbody').append(`
               <tr>
                 <td class="border border-gray-300 p-2">${key}</td>
                 <td class="border border-gray-300 p-2">${value}</td>
               </tr>
             `);
-                        });
-                      } else {
-                        $('#result-details tbody').append(`
+          });
+        } else {
+          $('#result-details tbody').append(`
             <tr>
               <td colspan="2" class="border border-gray-300 p-2 text-center">No result data found</td>
             </tr>
           `);
-                      }
+        }
 
-                      // Show the modal
-                      $('#appointmentModal').removeClass('hidden');
-                    },
-                    error: function() {
-                      alert('Error fetching data.');
-                    }
-                  });
-                }
+        // Show the modal
+        $('#appointmentModal').removeClass('hidden');
+      },
+      error: function () {
+        alert('Error fetching data.');
+      }
+    });
+  }
 
-                // Close modal event
-                $('#closeModal').click(function() {
-                  $('#appointmentModal').addClass('hidden');
-                });
+  // Close modal event
+  $('#closeModal').click(function () {
+    $('#appointmentModal').addClass('hidden');
+  });
 
-                // Example trigger to open the modal (replace this with your own logic)
-                // Assuming you have a button with class 'open-modal' and data-id attribute
-                $('.open-modal').click(function() {
-                  const id = $(this).data('id'); // Get the ID from button attribute
-                  openAppointmentModal(id); // Open modal with appointment ID
-                });
-              </script>
+  // Example trigger to open the modal (replace this with your own logic)
+  // Assuming you have a button with class 'open-modal' and data-id attribute
+  $('.open-modal').click(function () {
+    const id = $(this).data('id'); // Get the ID from button attribute
+    openAppointmentModal(id); // Open modal with appointment ID
+  });   
+
+
+    </script>
 
               <!-- jQuery -->
 

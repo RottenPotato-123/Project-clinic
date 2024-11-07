@@ -35,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email_token'] = $token;
         $_SESSION['pending_email'] = $newEmail;
 
-        $confirm = "http://localhost/Project-clinic/admin/verify_email.php?token=$token";
+        $confirm="http://localhost/Project-clinic/client/verify_email.php?token=$token";
         // Send the verification email with the token link
-        $mail = require __DIR__ . "../../mailer.php";
+        $mail = require __DIR__ . "/../mailer.php";
 
         $mail = getMailer(); // Call the function to get the mailer instance
 
@@ -60,7 +60,7 @@ END;
         if ($mail->send()) {
             echo "<script>
                 alert('A verification link has been sent to your new email. Please check your email to verify.');
-                window.location.href = 'userSetting.php';
+                window.location.href = '../userSetting.php';
             </script>";
             exit;
         } else {

@@ -8,13 +8,13 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Admin' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 
 if (!isset($_SESSION['user_id'])) {
     // Redirect to login if session is not set
-    header("Location: login.php");
+    header("Location: ../404.html");
     exit;
 }
 
@@ -37,7 +37,7 @@ $user = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Panel</title>
     <!-- Tailwind CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -63,16 +63,18 @@ $user = $result->fetch_assoc();
                 </button>
             </div>
             <nav class="text-white text-base font-semibold pt-3">
-                <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-chart-line  mr-3"></i> Dashboard
+            <a href="index.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    <i class="fas fa-chart-line  mr-3"></i> Statistics
                 </a>
                 <a href="blank.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                    <i class="fas fa-sticky-note mr-3"></i>Appointments
+                <i class="fas fa-calendar mr-3"></i> Appointments
+                </a>
+                <a href="tables.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    <i class="fas fa-table mr-3"></i> Records
                 </a>
                 <a href="forms.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     <i class="fas fa-align-left mr-3"></i> Users
                 </a>
-               
                
                
                
@@ -145,10 +147,7 @@ $user = $result->fetch_assoc();
                     </a>
                     <a href="forms.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-align-left mr-3"></i> users
-                    </a>
-                    
-                   
-                    
+                    </a>            
                     <a href="userSetting.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                         <i class="fas fa-user mr-3"></i> My Account
                     </a>
@@ -163,33 +162,30 @@ $user = $result->fetch_assoc();
         <div class="w-full max-w-lg p-6 bg-white shadow-lg rounded-lg">
             <form action="function/update.php" method="POST">
 
-                <!-- First Name -->
-                <div class="mb-4">
-                    <label for="FName" class="block text-sm font-medium text-indigo-900">Full name</label>
-                    <input type="text" id="FName" name="FName" 
-                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value="<?php echo htmlspecialchars($user['FName']); ?>" required>
-                </div>
+            <div class="mb-4">
+    <label for="FName" class="block text-sm font-medium text-indigo-900">Full name</label>
+    <input type="text" id="FName" name="FName" 
+        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="<?php echo htmlspecialchars($user['FName']); ?>" required>
+</div>
 
-                
-                
+<!-- Email -->
+<div class="mb-4">
+    <label for="Email" class="block text-sm font-medium text-indigo-900">Email</label>
+    <input type="email" id="Email" name="Email" 
+        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value="<?php echo htmlspecialchars($user['Email']); ?>" required>
+</div>
 
-                <!-- Email -->
-                <div class="mb-4">
-                    <label for="Email" class="block text-sm font-medium text-indigo-900">Email</label>
-                    <input type="email" id="Email" name="Email" 
-                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value="<?php echo htmlspecialchars($user['Email']); ?>" required>
-                </div>
-                
 
-                <!-- Phone Number -->
-                <div class="mb-4">
-                    <label for="Phone" class="block text-sm font-medium text-indigo-900">Phone Number</label>
-                    <input type="number" id="Phone" name="Phone" 
-                        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
-                </div>
+<!-- Phone Number -->
+<div class="mb-4">
+    <label for="Phone" class="block text-sm font-medium text-indigo-900">Phone Number</label>
+    <input id="Phone" name="Phone" placeholder="09xxxxxxxxx" type="tel" required maxlength="11" 
+        class="w-full p-2.5 mt-1 border rounded-lg bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+        value="<?php echo htmlspecialchars($user['Phone']); ?>" required>
+</div>
 
                 <!-- Submit Button -->
                 <div class="flex justify-end">
@@ -200,7 +196,7 @@ $user = $result->fetch_assoc();
                     
                 </div>
                 </form>
-                <form action="change_password.php"id="passwordForm" method="POST">
+                <form action="function/change_password.php"id="passwordForm" method="POST">
 
                 <!-- Password Section -->
                 <div class="mb-6">

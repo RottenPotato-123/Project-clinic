@@ -8,7 +8,7 @@ $status = $_GET['stats'] ?? $_SESSION['status'] ?? null;
 // Function to check if user is a client and status is active
 if ($user_type !== 'Admin' || $status !== 'active') {
     // Redirect to an unauthorized access page or display an error message
-    header('Location: ../login.php');
+    header('Location: ../404.html');
     exit; // Ensure no further code is executed
 }
 
@@ -19,7 +19,7 @@ if ($user_type !== 'Admin' || $status !== 'active') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dasboard</title>
+    <title>Admin Panel</title>
     <link rel="icon" href="/image/logo.png" type="image/png">
     <meta name="description" content="">
 
@@ -304,15 +304,15 @@ $conn->close();
 
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <input type="text" id="FirstName" name="FirstName" class="w-full p-2  text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Middle Name:</label>
-        <input type="text" id="MiddleName" name="MiddleName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded">
+        <input type="text" id="MiddleName" placeholder="Optional" name="MiddleName" class="w-full p-2  text-sm text-gray-700 border border-gray-300 rounded">
       </div>
       <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Last Name:</label>
-        <input type="text" id="LastName" name="LastName" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded"required>
+        <input type="text" id="LastName" name="LastName" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded"required>
       </div>
       <div class="mb-4">
     <label for="Age" class="block mb-2 text-gray-700"></label>
@@ -333,13 +333,13 @@ $conn->close();
             </div>
              <div class="mb-4">
         <label for="title" class="block mb-2 text-gray-700">Birthplace:</label>
-        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
+        <input type="text" id="Birthplace" name="Birthplace" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
       </div>
       <!-- Select Field -->
       <div class="mb-4">
         <label for="service" class="block mb-2 text-gray-700">Service:</label>
-        <select id="service" name="service" class="w-full p-2 pl-10 text-sm text-gray-700 border border-gray-300 rounded" required>
-          <option value="Post Partum Care Post Partum">Post Partum Care Post Partum</option>
+        <select id="service" name="service" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded" required>
+          <option value="Post Partum Care Post Partum">Post Partum Care</option>
           <option value="Normal Spontaneous Delivery">Normal Spontaneous Delivery</option>
           <option value="New Born Screening">New Born Screening</option>
           <option value="New Born Care">New Born Care</option>
@@ -765,7 +765,7 @@ $.ajax({
 function markAsDone(id) {
   $.ajax({
         type: "POST",
-        url: "function/update.php", // Replace with your server-side script URL
+        url: "function/update1.php", // Replace with your server-side script URL
         data: { id: id, status: "Confirmed" },
         success: function(response) {
             console.log("Status updated successfully!");

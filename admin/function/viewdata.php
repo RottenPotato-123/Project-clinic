@@ -1,11 +1,10 @@
 <?php
 include '../db.php'; 
 
-header('Content-Type: application/json'); // Set header to JSON
+header('Content-Type: application/json');
 
-$id = mysqli_real_escape_string($conn, $_POST['id']); // Prevent SQL Injection
+$id = mysqli_real_escape_string($conn, $_POST['id']);
 
-// Fetch appointment details
 $appointmentQuery = "SELECT id, FirstName, MiddleName, LastName, Age, civil_status, birth_date, 
                      birth_place, Service, appointment_date 
                      FROM appointments WHERE id = '$id'";
@@ -18,7 +17,11 @@ if (!$appointmentResult) {
 
 $appointmentData = mysqli_fetch_assoc($appointmentResult);
 
-// Fetch result details
+if (!$appointmentData) {
+    echo json_encode(array("error" => "No appointment data found for id: $id"));
+    exit;
+}
+
 $resultQuery = "SELECT id, bp, pr, rr, temp, fh, fht, ie, aog, lmp, edc, ob_hx, ob_score, ad, 
                 address, remarks FROM result WHERE id = '$id'";
 $resultResult = mysqli_query($conn, $resultQuery);
@@ -30,7 +33,11 @@ if (!$resultResult) {
 
 $resultData = mysqli_fetch_assoc($resultResult);
 
-// Combine appointment and result data
+if (!$resultData) {
+    echo json_encode(array("error" => "No result data found for id: $id"));
+    exit;
+}
+
 $response = array(
     "appointment" => $appointmentData,
     "result" => $resultData
