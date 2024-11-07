@@ -558,7 +558,7 @@ $conn->close();
         $('#modal-overlay2').removeClass('hidden');
     } else if (markAsDoneServices.includes(service)) {
         // If the service is in the "Mark as Done" list, proceed directly
-        console.log(`Marking Appointment ID: ${id} as done.`);
+        console.log(`Marking Appointment ID: ${id} as done.`);  
         markAsDone(id);  // Call the function to mark as done
     } else {
         console.log(`Service "${service}" is not recognized.`);
@@ -570,8 +570,7 @@ $conn->close();
           function(settings, data, dataIndex) {
               if (settings.nTable.id === 'appointments-table') {
                   const status = data[6]; // Assuming status is in the 7th column (index 6)
-                  console.log('Appointments Row data:', data);
-                  console.log('Appointments Status:', status);
+                 
                   return status && status.trim().toLowerCase() === "ongoing"; // Filter condition
               }
               return true; // Don't filter for other tables

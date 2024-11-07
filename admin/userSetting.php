@@ -161,7 +161,7 @@ $user = $result->fetch_assoc();
 
             <div class="w-full h-screen flex items-center justify-center bg-gray-50">
         <div class="w-full max-w-lg p-6 bg-white shadow-lg rounded-lg">
-            <form action="update.php" method="POST">
+            <form action="function/update.php" method="POST">
 
                 <!-- First Name -->
                 <div class="mb-4">

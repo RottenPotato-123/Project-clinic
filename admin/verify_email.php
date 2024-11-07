@@ -11,7 +11,6 @@ if (isset($_GET['token']) && $_GET['token'] === $_SESSION['email_token']) {
     $stmt = $conn->prepare($query);
     $stmt->bind_param('si', $newEmail, $userId);
 
-
     if ($stmt->execute()) {
         echo "<script>
             alert('Email updated successfully!');
