@@ -24,21 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Check if the email already exists in the database
-    $query = "SELECT * FROM user WHERE Email = '$email'";
-    $result = mysqli_query($mysqli, $query);
-    if (mysqli_num_rows($result) > 0) {
-        echo "<script>alert('Email already exists. Please use a different email address.'); window.location.href = 'register.php';</script>";
-        exit;
-    }
+   
 
-    // Check if the phone number already exists in the database
-    $query = "SELECT * FROM user WHERE Phone = '$phoneNumber'";
-    $result = mysqli_query($mysqli, $query);
-    if (mysqli_num_rows($result) > 0) {
-        echo "<script>alert('Phone number already exists. Please use a different phone number.'); window.location.href = 'register.php';</script>";
-        exit;
-    }
+   
 
     if (strlen($phoneNumber) != 11) {
         echo "Invalid phone number. Please enter an 11-digit number.";
@@ -246,6 +234,33 @@ $mysqli->close();
         function redirectToMain() {
             window.location.href = "landingPage.html";
         }
+        document.getElementById('email').addEventListener('blur', function() {
+        const email = this.value;
+        checkEmailAndPhone(email, document.getElementById('phone_number').value);
+    });
+
+    document.getElementById('phone_number').addEventListener('blur', function() {
+        const phoneNumber = this.value;
+        checkEmailAndPhone(document.getElementById('email').value, phoneNumber);
+    });
+
+    function checkEmailAndPhone(email, phoneNumber) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'validate.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.email) {
+                    alert(response.email);
+                }
+                if (response.phone) {
+                    alert(response.phone);
+                }
+            }
+        };
+        xhr.send('email=' + encodeURIComponent(email) + '&phone_number=' + encodeURIComponent(phoneNumber));
+    }
     </script>
 </body>
 </html>
