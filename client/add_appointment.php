@@ -67,7 +67,7 @@ if (isset($_POST['add_appointment'])) {
     $row = $result->fetch_assoc();
     if ($row['client_appointment_count'] >= 2) {
         echo "<script>
-            alert('Error: You can only book a maximum of 2 appointments on the same day.');
+            alert('Error: You can only book a maximum of 2 appointments per account on the same day.');
             window.location.href = 'blank.php';
           </script>";
         exit;
