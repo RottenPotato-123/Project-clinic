@@ -213,7 +213,8 @@ while ($row = $result->fetch_assoc()) {
             'Service' => $row['Service'],
             'appointment_date' => $row['appointment_date'],
             'queue_number' => $row['queue_number'],
-            'status' => $row['status']
+            'status' => $row['status'],
+            'Time' => $row['updated_at']
         );
     
         $appointments[] = $appointment;
@@ -246,6 +247,7 @@ $conn->close();
                 <th class="p-1 text-2xl">Queue Number</th>
                 <th class="p-1 text-2xl">Service</th>
                 <th class="p-1 text-2xl">Status</th>
+                <th class="p-1 text-2xl"> Time Admit</th>
                 <th class="p-1 text-2xl">Estimated Time</th>
             </tr>
         </thead>
@@ -270,6 +272,7 @@ $conn->close();
                 <td class="p-1 text-2x1"><?= $appointment['queue_number'] ?></td>
                 <td class="p-1 text-2x1"><?= $appointment['Service'] ?></td>
                 <td class="p-1 text-2x1"><?= $appointment['status'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['Time'] ?></td>
                 <td class="p-1 text-2x1"><?= $estimatedTime ?></td> 
             </tr>
         <?php } ?>
@@ -369,6 +372,7 @@ $conn->close();
         },
         columnDefs: 
         [
+            { targets: 3, visible: false },
             { targets: 0, visible: false }, // Hide the Appointment ID column
             { width: "30%", targets: 4 }] // Adjust column width
     });
@@ -382,7 +386,7 @@ $conn->close();
         // Filter for 'appointments-table' (Assuming status is in the 7th column)
         if (settings.nTable.id === 'appointments-table') {
             const clientIdToFilter = '<?php echo $user_id; ?>';
-            status = data[7]?.trim().toLowerCase(); // Status in column index 6
+            status = data[7]?.trim(); // Status in column index 6
             clientId = data[1]?.trim(); // Assuming client ID is in column index 1
             console.log('Client ID:', clientId);
             console.log(' ID:', clientIdToFilter)
@@ -390,7 +394,7 @@ $conn->close();
 
             console.log('Appointments Row Data:', data);
             console.log('Appointments Status:', status);
-            const isStatusMatch = status === 'ongoing' || status === 'pending'; // Check if status is ongoing or pending
+            const isStatusMatch = status  === 'Ongoing' || status  === 'Confirmed'; // Check if status is ongoing or pending
 
             const shouldDisplayRow = clientId === clientIdToFilter;
 
@@ -400,10 +404,10 @@ return shouldDisplayRow && isStatusMatch;
 
         // Filter for 'Ongoing_Que' (Assuming status is in the 5th column)
         if (settings.nTable.id === 'Ongoing_Que') {
-            status = data[3]?.trim().toLowerCase(); // Status in column index 4
+            status = data[3]?.trim(); // Status in column index 4
             console.log('Ongoing Queue Row Data:', data);
             console.log('Ongoing Queue Status:', status);
-            return status === 'ongoing'; // Filter condition
+            return status  === 'Confirmed'; // Filter condition
         }
 
         // Allow all rows for other tables

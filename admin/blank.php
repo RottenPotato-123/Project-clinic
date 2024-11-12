@@ -184,7 +184,8 @@ while ($row = $result->fetch_assoc()) {
         'Service' => $row['Service'],
         'appointment_date' => $row['appointment_date'],
         'queue_number' => $row['queue_number'],
-        'status' => $row['status']
+        'status' => $row['status'],
+        'Time' => $row['updated_at']
     );
 
     $appointments[] = $appointment;
@@ -226,6 +227,7 @@ $conn->close();
       <th>Appointment Date</th>
       <th>Queue Number</th>
       <th>Status</th> 
+      <th>Time</th> 
       <th>Actions</th>
     </tr>
   </thead>
@@ -239,6 +241,7 @@ $conn->close();
         <td><?= $appointment['appointment_date'] ?></td>
         <td><?= $appointment['queue_number'] ?></td>
         <td><?= $appointment['status'] ?></td>
+        <td><?= $appointment['Time'] ?></td>
         <td>
           <!-- Actions can be added here -->
         </td>
@@ -501,9 +504,9 @@ $conn->close();
             $(row).attr('data-id', data.Id); // Set the data-id attribute on the tr element
         },
         "columnDefs": [
-            { "width": "20%", "targets": 6 }, // Adjust column width for action buttons
+            { "width": "15%", "targets": 6 }, // Adjust column width for action buttons
             {
-                "targets": 7,
+                "targets": 8,
                 "render": function(data, type, row) {
                     console.log('Row:', row); // Log the row for debugging
                     console.log('Row ID:', row[0]); // Log the ID (first element of the row)
@@ -571,7 +574,7 @@ $conn->close();
               if (settings.nTable.id === 'appointments-table') {
                   const status = data[6]; // Assuming status is in the 7th column (index 6)
                  
-                  return status && status.trim().toLowerCase() === "ongoing"; // Filter condition
+                  return status && status.trim() === "Confirmed"; // Filter condition
               }
               return true; // Don't filter for other tables
           }
@@ -670,7 +673,7 @@ $conn->close();
                 const status = data[5]; // Assuming status is in the 6th column (index 5)
                 console.log('Pending Row data:', data); // Log the entire row for debugging
                 console.log('Pending Status:', status); // Log the status to see its value
-                return status && status.trim().toLowerCase() === "pending"; // Filter condition for pending appointments
+                return status && status.trim()=== "Ongoing"; // Filter condition for pending appointments
             }
             return true; // Don't filter for other tables
         }
@@ -688,7 +691,7 @@ function updateStatus(id) {
     $.ajax({
         type: "POST",
         url: "function/update_status.php", // Replace with your server-side script URL
-        data: { id: id, status: "ongoing" },
+        data: { id: id, status: "Confirmed" },
         success: function(response) {
             console.log("Status updated successfully!");
             window.location.reload(true);
@@ -766,7 +769,7 @@ function markAsDone(id) {
   $.ajax({
         type: "POST",
         url: "function/update1.php", // Replace with your server-side script URL
-        data: { id: id, status: "Confirmed" },
+        data: { id: id, status: "Done" },
         success: function(response) {
             console.log("Status updated successfully!");
             window.location.reload(true);

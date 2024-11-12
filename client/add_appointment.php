@@ -85,7 +85,7 @@ if (isset($_POST['add_appointment'])) {
     $sql = "INSERT INTO appointments VALUES (
         null, '$client_id', '$first_name', '$middle_name', '$last_name', '$age', 
         '$civilstatus', '$birth_date', '$birthplace', '$service', 
-        '$appointment_date', '$queue_number', 'pending'
+        '$appointment_date', '$queue_number', 'Ongoing'
     )";
 
     if ($conn->query($sql) === TRUE) {
