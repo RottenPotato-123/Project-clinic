@@ -22,6 +22,7 @@ if (!$appointmentData) {
     exit;
 }
 
+// Query for result data
 $resultQuery = "SELECT id, bp, pr, rr, temp, fh, fht, ie, aog, lmp, edc, ob_hx, ob_score, ad, 
                 address, remarks FROM result WHERE id = '$id'";
 $resultResult = mysqli_query($conn, $resultQuery);
@@ -33,14 +34,15 @@ if (!$resultResult) {
 
 $resultData = mysqli_fetch_assoc($resultResult);
 
+// If resultData is empty, set it to null
 if (!$resultData) {
-    echo json_encode(array("error" => "No result data found for id: $id"));
-    exit;
+    $resultData = null;
 }
 
+// Construct the response with appointment and result data
 $response = array(
     "appointment" => $appointmentData,
-    "result" => $resultData
+    "result" => $resultData // This will be null if no result data was found
 );
 
 echo json_encode($response);
