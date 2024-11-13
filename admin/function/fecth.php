@@ -3,7 +3,7 @@ session_start();
 include '../db.php'; 
 
 // Query to fetch appointment data by service where status is 'Confirmed'
-$sql = "SELECT service, COUNT(*) as count FROM appointments WHERE status = 'Confirmed' GROUP BY service";
+$sql = "SELECT service, COUNT(*) as count FROM appointments WHERE status = 'Done' GROUP BY service";
 $result = $conn->query($sql);
 
 $appointments = [];

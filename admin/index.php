@@ -20,8 +20,8 @@ include 'db.php'; // Correct the path to include db.php
 $userResult = $conn->query("SELECT COUNT(*) AS user_count FROM user WHERE UserType = 'Client'  AND Status = 'active'");
 
 $appointmentResult = $conn->query("SELECT COUNT(*) AS total_appointments FROM appointments");
-$pendingResult = $conn->query("SELECT COUNT(*) AS pending_appointments FROM appointments WHERE status = 'pending'");
-$doneResult = $conn->query("SELECT COUNT(*) AS done_appointments FROM appointments WHERE status = 'Confirmed'");
+$pendingResult = $conn->query("SELECT COUNT(*) AS pending_appointments FROM appointments WHERE status = 'Ongoing'");
+$doneResult = $conn->query("SELECT COUNT(*) AS done_appointments FROM appointments WHERE status = 'Done'");
 
 // Store results
 $userCount = $userResult->fetch_assoc()['user_count'];
