@@ -217,6 +217,7 @@ while ($row = $result->fetch_assoc()) {
     
         $appointment = array(
             'Id' => $row['id'],
+            'Client_id' => $row['client_id'],
             'FirstName' => $row['FirstName'],
             'LastName' => $row['LastName'],
             'Service' => $row['Service'],
@@ -259,7 +260,7 @@ $conn->close();
 
 
 <main class="w-min flex-grow p-10">
-    <h1 class="text-2xl text-black pb-6">ONGOING QUEUE</h1>
+    <h1 class="text-2xl text-black pb-6">ONGING QUEUE</h1>
 
     <!-- Adjusted class for table width and responsiveness -->
     <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[250x]">
@@ -269,14 +270,12 @@ $conn->close();
                 <th class="p-1 text-2xl">Queue Number</th>
                 <th class="p-1 text-2xl">Service</th>
                 <th class="p-1 text-2xl">Status</th>
-                <th class="p-1 text-2xl">Time Admit</th>
-                <th class="p-1 text-2xl">Your Appointment</th>
+                
+                <th class="p-1 text-2xl"></th> <!-- New column -->
             </tr>
         </thead>
         <tbody>
         <?php
-            // Assuming $user_id holds the ID of the current user
-        
             // Define service and time mappings
             $serviceTimess = [
                 'Counselling' => '30m to 1h',
@@ -286,21 +285,26 @@ $conn->close();
                 'Acid Wash' => '20m to 30m'
             ];
 
+            // Get the current client_id from the session
+            $currentClientId = $_SESSION['user_id']; // Adjust according to your session data
+
             // Loop through appointments
             foreach ($_SESSION['appointments'] as $appointment) {
-                // Check if the appointment is in the queue, confirmed, and belongs to the current user
-                $appointmentMessage = ($appointment['status'] === 'confirmed' && 
-                                       $appointment['queue_number'] === 'queue' &&
-                                       $appointment['user_id'] === $user_id ) ? 
-                    "Your appointment is going to be admitted" : "";
-        ?>
+                // Check if the status is "Confirm" and the client_id matches
+                $message = '';
+                if ($appointment['status'] === 'Confirmed' && $appointment['Client_id'] == $currentClientId) {
+                    $message = 'Your appointment is going to be admitted';
+                }
+                
+                
+        ?>  
             <tr data-id="<?= $appointment['Id'] ?>">
-                <td class="p-1 text-2xl"><?= $appointment['Id'] ?></td>
-                <td class="p-1 text-2xl"><?= $appointment['queue_number'] ?></td>
-                <td class="p-1 text-2xl"><?= $appointment['Service'] ?></td>
-                <td class="p-1 text-2xl"><?= $appointment['status'] ?></td>
-                <td class="p-1 text-2xl"><?= $appointment['Time'] ?></td>
-                <td class="p-1 text-2xl"><?= $appointmentMessage ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['Id'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['queue_number'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['Service'] ?></td>
+                <td class="p-1 text-2x1"><?= $appointment['status'] ?></td>
+                
+                <td class="p-1 text-2x1"><?= $message ?></td> <!-- Display the message -->
             </tr>
         <?php } ?>
         </tbody>
@@ -325,9 +329,10 @@ $conn->close();
                         <th>Last Name</th>
                         <th>Service</th>
                         <th>Appointment Date</th>
+                        <th>Estimated Admission Time</th> <!-- New Column -->
                         <th>Queue Number</th>
                         <th>Status</th>
-                        <th>Estimated Admission Time</th> <!-- New Column -->
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -352,9 +357,10 @@ $conn->close();
                         <td><?= $appointment['LastName'] ?></td>
                         <td><?= $appointment['Service'] ?></td>
                         <td><?= $appointment['appointment_date'] ?></td>
+                        <td><?= $estimatedTime ?></td> <!-- Display Estimated Time -->
                         <td><?= $appointment['queue_number'] ?></td>
                         <td><?= $appointment['status'] ?></td>
-                        <td><?= $estimatedTime ?></td> <!-- Display Estimated Time -->
+                        
                     </tr>
                     <?php } ?>
                 </tbody>
@@ -424,7 +430,7 @@ $conn->close();
         // Filter for 'appointments-table' (Assuming status is in the 7th column)
         if (settings.nTable.id === 'appointments-table') {
             const clientIdToFilter = '<?php echo $user_id; ?>';
-            status = data[7]?.trim(); // Status in column index 6
+            status = data[8]?.trim(); // Status in column index 6
             clientId = data[1]?.trim(); // Assuming client ID is in column index 1
             console.log('Client ID:', clientId);
             console.log(' ID:', clientIdToFilter)
@@ -432,7 +438,7 @@ $conn->close();
 
             console.log('Appointments Row Data:', data);
             console.log('Appointments Status:', status);
-            const isStatusMatch = status  === 'Ongoing' || status  === 'Confirmed'; // Check if status is ongoing or pending
+            const isStatusMatch = status  === 'Ongoing' ; // Check if status is ongoing or pending
 
             const shouldDisplayRow = clientId === clientIdToFilter;
 
