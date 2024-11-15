@@ -260,7 +260,7 @@ $conn->close();
 
 
 <main class="w-min flex-grow p-10">
-    <h1 class="text-2xl text-black pb-6">ONGING QUEUE</h1>
+    <h1 class="text-2xl text-black pb-6">ONGOING QUEUE</h1>
 
     <!-- Adjusted class for table width and responsiveness -->
     <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[250x]">
