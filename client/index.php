@@ -171,6 +171,15 @@ if ($result === false) {
 $_SESSION['appointments_today'] = [];
 $user_id = $_SESSION['user_id']; // Ensure you set this when the user logs in
 
+$sql = "SELECT updated_at FROM appointments WHERE status = 'Confirmed'";
+$result = $conn->query($sql);
+
+$time = array();
+while ($row = $result->fetch_assoc()) {
+    $time[] = $row['updated_at'];
+}
+
+
 // Get appointments for the logged-in user
 // Get appointments for the logged-in user
 $sql = "SELECT * FROM appointments WHERE client_id = ?"; // Changed Id to user_id
@@ -222,7 +231,20 @@ while ($row = $result->fetch_assoc()) {
     
     // Store the appointments in the session
     $_SESSION['appointments'] = $appointments;
+    $serviceTimes = [
+        'Counselling' => 45,         // in minutes
+        'Family Planning' => 25,
+        'Ear Piercing' => 8,
+        'Immunization' => 12,
+        'Acid Wash' => 25
+    ];
+    $totalAppointmentsToday = count($_SESSION['appointments_today']);
+    usort($_SESSION['appointments_today'], function ($a, $b) {
+        return $a['queue_number'] - $b['queue_number'];
+    });
     
+    // Initialize the last appointment time to the first `updated_at` if it exists
+    $lastAppointmentTime = isset($time[0]) ? new DateTime($time[0]) : null;
 
 // Close the database connection
 $conn->close();
@@ -236,8 +258,8 @@ $conn->close();
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 
-   <main class="w-min flex-grow p-10">
-    <h1 class="text-2xl text-black pb-6">ONGING QUEUE</h1>
+<main class="w-min flex-grow p-10">
+    <h1 class="text-2xl text-black pb-6">ONGOING QUEUE</h1>
 
     <!-- Adjusted class for table width and responsiveness -->
     <table id="Ongoing_Que" class="display nowrap max-w-xs text-left table-auto min-w-[250x]">
@@ -247,14 +269,16 @@ $conn->close();
                 <th class="p-1 text-2xl">Queue Number</th>
                 <th class="p-1 text-2xl">Service</th>
                 <th class="p-1 text-2xl">Status</th>
-                <th class="p-1 text-2xl"> Time Admit</th>
-                <th class="p-1 text-2xl">Estimated Time</th>
+                <th class="p-1 text-2xl">Time Admit</th>
+                <th class="p-1 text-2xl">Your Appointment</th>
             </tr>
         </thead>
         <tbody>
         <?php
+            // Assuming $user_id holds the ID of the current user
+        
             // Define service and time mappings
-            $serviceTimes = [
+            $serviceTimess = [
                 'Counselling' => '30m to 1h',
                 'Family Planning' => '20m to 30m',
                 'Ear Piercing' => '5m to 10m',
@@ -264,25 +288,29 @@ $conn->close();
 
             // Loop through appointments
             foreach ($_SESSION['appointments'] as $appointment) {
-                $service = $appointment['Service'];
-                $estimatedTime = $serviceTimes[$service] ?? 'Unknown'; // Handle unknown services
-        ?>  
+                // Check if the appointment is in the queue, confirmed, and belongs to the current user
+                $appointmentMessage = ($appointment['status'] === 'confirmed' && 
+                                       $appointment['queue_number'] === 'queue' &&
+                                       $appointment['user_id'] === $user_id ) ? 
+                    "Your appointment is going to be admitted" : "";
+        ?>
             <tr data-id="<?= $appointment['Id'] ?>">
-                <td class="p-1 text-2x1"><?= $appointment['Id'] ?></td>
-                <td class="p-1 text-2x1"><?= $appointment['queue_number'] ?></td>
-                <td class="p-1 text-2x1"><?= $appointment['Service'] ?></td>
-                <td class="p-1 text-2x1"><?= $appointment['status'] ?></td>
-                <td class="p-1 text-2x1"><?= $appointment['Time'] ?></td>
-                <td class="p-1 text-2x1"><?= $estimatedTime ?></td> 
+                <td class="p-1 text-2xl"><?= $appointment['Id'] ?></td>
+                <td class="p-1 text-2xl"><?= $appointment['queue_number'] ?></td>
+                <td class="p-1 text-2xl"><?= $appointment['Service'] ?></td>
+                <td class="p-1 text-2xl"><?= $appointment['status'] ?></td>
+                <td class="p-1 text-2xl"><?= $appointment['Time'] ?></td>
+                <td class="p-1 text-2xl"><?= $appointmentMessage ?></td>
             </tr>
         <?php } ?>
         </tbody>
     </table>
 </main>
 
-    <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
     <main class="w-full flex-grow p-6">
-        <h1 class="text-3xl text-black pb-6">Pending Appointments</h1>
+        <h1 class="text-3xl text-black pb-6">Your Appointments</h1>
 
         <div class="w-full mt-6">
             <p class="text-xl pb-3 flex items-center">
@@ -299,14 +327,23 @@ $conn->close();
                         <th>Appointment Date</th>
                         <th>Queue Number</th>
                         <th>Status</th>
+                        <th>Estimated Admission Time</th> <!-- New Column -->
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $totalAppointmentsToday = count($_SESSION['appointments_today']);
-                    foreach ($_SESSION['appointments_today'] as $index => $appointment) {
-                        // Calculate remaining appointments dynamically
-                        $remaining = $totalAppointmentsToday - $index - 1;
+                    foreach ($_SESSION['appointments_today'] as $appointment) {
+                        // Calculate estimated admission time based on the last appointment's time
+                        if ($lastAppointmentTime) {
+                            $serviceDuration = isset($serviceTimes[$appointment['Service']]) ? $serviceTimes[$appointment['Service']] : 0;
+                            $lastAppointmentTime->modify("+{$serviceDuration} minutes");
+                            $estimatedTime = $lastAppointmentTime->format('H:i');
+                        } else {
+                            $estimatedTime = "N/A";
+                        }
+
+                        // Update the last appointment time to the current calculated time
+                        $lastAppointmentTime = new DateTime($lastAppointmentTime->format('Y-m-d H:i'));
                     ?>
                     <tr data-id="<?= $appointment['Id'] ?>">
                         <td><?= $appointment['Id'] ?></td>
@@ -317,7 +354,7 @@ $conn->close();
                         <td><?= $appointment['appointment_date'] ?></td>
                         <td><?= $appointment['queue_number'] ?></td>
                         <td><?= $appointment['status'] ?></td>
-                       
+                        <td><?= $estimatedTime ?></td> <!-- Display Estimated Time -->
                     </tr>
                     <?php } ?>
                 </tbody>
@@ -325,6 +362,7 @@ $conn->close();
         </div>
     </main>
 </div>
+
 
 
         <!-- AlpineJS -->
